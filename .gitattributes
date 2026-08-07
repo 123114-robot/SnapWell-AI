@@ -1,0 +1,5 @@
+* text=auto
+*.wasm binary
+*.onnx binary
+*.png binary
+*.jpg binary
