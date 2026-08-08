@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { createSession } from './detector.js'
+import { createSession, warmUp } from './detector.js'
 
 const ModelCtx = createContext(null)
 
@@ -12,7 +12,13 @@ export function ModelProvider({ children }) {
   useEffect(() => {
     let cancelled = false
     createSession('/models/yolov8n.onnx', (p) => !cancelled && setProgress(p))
-      .then((s) => { if (!cancelled) { sessionRef.current = s; setStatus('ready') } })
+      .then(async (s) => {
+        if (cancelled) return
+        sessionRef.current = s
+        setStatus('warming')
+        await warmUp(s)
+        if (!cancelled) setStatus('ready')
+      })
       .catch((e) => { if (!cancelled) { setError(e); setStatus('error') } })
     return () => { cancelled = true }
   }, [])

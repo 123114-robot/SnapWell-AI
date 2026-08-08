@@ -18,6 +18,7 @@ function ModelBadge() {
   const { status, progress } = useModel()
   const text = status === 'ready' ? 'AI model ready'
     : status === 'error' ? 'Model failed to load'
+    : status === 'warming' ? 'Warming up model...'
     : 'Loading model... ' + Math.round(progress * 100) + '%'
   return <div style={{ fontSize: 12, color: '#666', padding: '4px 16px' }}>{text}</div>
 }
