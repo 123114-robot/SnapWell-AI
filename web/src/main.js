@@ -12,6 +12,8 @@ const IOU_THRES = 0.45
 const NAMES = ['person','bicycle','car','motorcycle','airplane','bus','train','truck','boat','traffic light','fire hydrant','stop sign','parking meter','bench','bird','cat','dog','horse','sheep','cow','elephant','bear','zebra','giraffe','backpack','umbrella','handbag','tie','suitcase','frisbee','skis','snowboard','sports ball','kite','baseball bat','baseball glove','skateboard','surfboard','tennis racket','bottle','wine glass','cup','fork','knife','spoon','bowl','banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake','chair','couch','potted plant','bed','dining table','toilet','tv','laptop','mouse','remote','keyboard','cell phone','microwave','oven','toaster','sink','refrigerator','book','clock','vase','scissors','teddy bear','hair drier','toothbrush']
 
 const statusEl = document.getElementById('status')
+const pickEl = document.getElementById('pick')
+const filenameEl = document.getElementById('filename')
 const statsEl = document.getElementById('stats')
 const fileEl = document.getElementById('file')
 const canvas = document.getElementById('canvas')
@@ -24,11 +26,12 @@ async function init() {
     const t0 = performance.now()
     session = await ort.InferenceSession.create(MODEL, { executionProviders: ['wasm'] })
     const t1 = performance.now()
-    statusEl.textContent = '模型加载完成（' + (t1 - t0).toFixed(0) + ' ms）。选一张食材照片试试。'
+    statusEl.textContent = 'Model loaded in ' + (t1 - t0).toFixed(0) + ' ms. Pick a photo to run detection.'
     fileEl.disabled = false
+    pickEl.setAttribute('aria-disabled', 'false')
   } catch (err) {
     statusEl.style.color = 'red'
-    statusEl.textContent = '模型加载失败: ' + err.message
+    statusEl.textContent = 'Model failed to load: ' + err.message
     console.error(err)
   }
 }
@@ -36,6 +39,7 @@ async function init() {
 fileEl.addEventListener('change', (e) => {
   const file = e.target.files[0]
   if (!file) return
+  filenameEl.textContent = file.name
   const img = new Image()
   img.onload = () => runDetect(img)
   img.src = URL.createObjectURL(file)
@@ -104,13 +108,13 @@ function runDetect(img) {
     }
 
     statsEl.textContent =
-      '预处理: ' + (tPre1 - tPre0).toFixed(0) + ' ms\n' +
-      '推理:   ' + (tInf1 - tInf0).toFixed(0) + ' ms\n' +
-      '后处理: ' + (tPost1 - tPost0).toFixed(0) + ' ms\n' +
-      '总计:   ' + (tPost1 - tPre0).toFixed(0) + ' ms\n' +
-      '检出 ' + boxes.length + ' 个目标'
+      'Preprocess:  ' + (tPre1 - tPre0).toFixed(0) + ' ms\n' +
+      'Inference:   ' + (tInf1 - tInf0).toFixed(0) + ' ms\n' +
+      'Postprocess: ' + (tPost1 - tPost0).toFixed(0) + ' ms\n' +
+      'Total:       ' + (tPost1 - tPre0).toFixed(0) + ' ms\n' +
+      'Detected ' + boxes.length + ' object(s)'
   }).catch((err) => {
-    statsEl.textContent = '推理失败: ' + err.message
+    statsEl.textContent = 'Inference failed: ' + err.message
     console.error(err)
   })
 }

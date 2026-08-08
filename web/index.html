@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SnapWell Spike A</title>
   <style>
-    body { font-family: -apple-system, sans-serif; margin: 16px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 16px; }
     #canvas { max-width: 100%; border: 1px solid #ccc; }
-    #stats { white-space: pre-line; font-family: monospace; background: #f5f5f5; padding: 8px; }
+    #stats { white-space: pre-line; font-family: ui-monospace, Menlo, Consolas, monospace; background: #f5f5f5; padding: 8px; }
     #status { color: #666; }
+    #file { display: none; }
+    #pick {
+      display: inline-block; padding: 8px 16px; border: 1px solid #888;
+      border-radius: 6px; background: #fff; cursor: pointer; font-size: 15px;
+    }
+    #pick[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
+    #filename { margin-left: 10px; color: #666; font-size: 14px; }
   </style>
 </head>
 <body>
   <h3>Spike A: YOLOv8n × ONNX Runtime Web</h3>
-  <p id="status">正在加载模型…</p>
+  <p id="status">Loading model…</p>
+  <label id="pick" for="file" aria-disabled="true">Choose Image</label>
+  <span id="filename">No file selected</span>
   <input type="file" id="file" accept="image/*" capture="environment" disabled>
   <p id="stats"></p>
   <canvas id="canvas"></canvas>
