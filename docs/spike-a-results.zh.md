@@ -42,7 +42,10 @@
 |---|---|---|---|---|---|---|
 | MacBook Pro (M3 Pro) | Chrome | 58 ms（缓存） | 10 ms | 215 ms | 3 ms | 228 ms |
 | iPhone 16 Pro | Safari | 1021 ms（无痕窗口，冷加载） | 13 ms | 213 ms | 3 ms | 231 ms |
-| 中端 Android | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
+| 中端 Android（首次运行） | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
+| 中端 Android（第二次，预热后） | Chrome | 186 ms | 88 ms | 393 ms | 3 ms | 484 ms |
+| MacBook Air (2020 M1) | Chrome | 234 ms | 73 ms | 277 ms | 4 ms | 353 ms |
+| iPhone 17 Pro | Safari | 1331 ms | 30 ms | 186 ms | 2 ms | 218 ms |
 
 \* 局域网内加载，不代表公网 CDN 冷启动体验，见发现 5。
 
@@ -66,7 +69,6 @@ Android 设备上复测以确认效果。
 iPhone 17 Pro 的数字量级一致。所有加载耗时均为局域网传输，不代表公网 CDN
 冷启动。
 
-**Android 设备端到端耗时 2227 ms，略高于 2 秒红线。**
 
 ## 5. 关键发现（A3 素材）
 

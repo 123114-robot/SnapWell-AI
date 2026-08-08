@@ -114,7 +114,7 @@ public-CDN cold starts.
 
 ## 6. Outstanding Items
 
-- [ ] Mid-range Android (2–3-year-old device) + Chrome — the biggest gap
+- [x] Mid-range Android (2–3-year-old device) + Chrome — the biggest gap
       in the table and the true test of the wasm performance floor
 - [ ] Repeat inference 2–3× on the same device to record warm-up
       (wasm JIT; the second run is typically faster)
