@@ -48,6 +48,7 @@ the user's device; all inference is local.
 | MacBook Pro (M3 Pro) | Chrome | 58 ms (cached) | 10 ms | 215 ms | 3 ms | 228 ms |
 | iPhone 16 Pro | Safari | ~250 ms | 71 ms | 219 ms | 4 ms | 296 ms |
 | Mid-range Android | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
+| Mid-range Android | Chrome | 186 ms | 88 ms | 393 ms | 3 ms | 484 ms |
 
 \* LAN load times do not represent public-CDN cold starts; see Finding 5.
 
