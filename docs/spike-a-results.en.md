@@ -116,7 +116,9 @@ public-CDN cold starts.
 
 - [x] Mid-range Android (2–3-year-old device) + Chrome — the biggest gap
       in the table and the true test of the wasm performance floor
-- [ ] Repeat inference 2–3× on the same device to record warm-up
+- [x] Repeat inference 2–3× on the same device to record warm-up
       (wasm JIT; the second run is typically faster)
 - [ ] One more row: Chrome on iPhone
 - [ ] After public deployment (Vercel), record a genuine cold-start load time
+- [ ] After implementing the warm-up inference, re-benchmark first-run
+      latency on the same mid-range Android
