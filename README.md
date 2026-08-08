@@ -1,6 +1,7 @@
 # SnapWell-AI
 
-**Spike A**
+## Spike A:
+**Overview**
 Completed Spike A validation for in-browser ONNX inference (YOLOv8n × ONNX Runtime Web). This PR sets up the foundational web demo, configurations, and baseline documentation.
 
 **Instructions for Team Members (Windows / All Platforms)**
