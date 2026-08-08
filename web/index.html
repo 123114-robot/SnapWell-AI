@@ -3,11 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SnapWell Spike A</title>
+  <title>SnapWell: Spikes A and B</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 16px; }
-    #canvas { max-width: 100%; border: 1px solid #ccc; }
-    #stats { white-space: pre-line; font-family: ui-monospace, Menlo, Consolas, monospace; background: #f5f5f5; padding: 8px; }
+    h1 { margin-bottom: 4px; }
+    #spikeSummary { margin: 0 0 24px; color: #111; line-height: 1.5; }
+    #canvas { max-width: 100%; border: 1px solid #ccc; cursor: crosshair; touch-action: none; }
+    #stats {
+      box-sizing: border-box; width: 100%; max-width: 700px; white-space: pre-line;
+      font-family: ui-monospace, Menlo, Consolas, monospace; background: #f5f5f5; padding: 8px;
+    }
     #status { color: #666; }
     #file { display: none; }
     #pick {
@@ -16,16 +21,39 @@
     }
     #pick[aria-disabled="true"] { opacity: .5; cursor: not-allowed; }
     #filename { margin-left: 10px; color: #666; font-size: 14px; }
+    #dropZone {
+      box-sizing: border-box; width: 100%; max-width: 700px; padding: 16px; border: 2px dashed #9aa0a6;
+      border-radius: 8px; background: #fafafa; transition: .15s ease;
+    }
+    #dropZone.is-dragging { border-color: #0066cc; background: #eaf3ff; }
+    #dropHint { margin: 10px 0 0; color: #666; font-size: 14px; }
+    #ocrButton { margin-top: 12px; padding: 8px 16px; font-size: 15px; }
+    #ocrStatus { color: #666; }
+    #ocrHint { color: #666; }
+    #ocrOutput { max-width: 700px; }
+    #ocrOutput label { display: block; margin-top: 12px; font-weight: 600; }
+    #ocrOutput textarea { box-sizing: border-box; display: block; width: 100%; margin-top: 6px; }
   </style>
 </head>
 <body>
-  <h3>Spike A: YOLOv8n × ONNX Runtime Web</h3>
+  <h1>SnapWell</h1>
+  <p id="spikeSummary">Spike A: YOLOv8n detection<br>Spike B: local package OCR</p>
   <p id="status">Loading model…</p>
-  <label id="pick" for="file" aria-disabled="true">Choose Image</label>
-  <span id="filename">No file selected</span>
-  <input type="file" id="file" accept="image/*" capture="environment" disabled>
+  <div id="dropZone">
+    <label id="pick" for="file" aria-disabled="true">Choose Image</label>
+    <span id="filename">No file selected</span>
+    <p id="dropHint">Or drag and drop a photo here.</p>
+  </div>
+  <input type="file" id="file" accept="image/*" disabled>
   <p id="stats"></p>
   <canvas id="canvas"></canvas>
+  <p id="ocrHint">Choose a package photo, then drag a box around any text you want to read.</p>
+  <button id="ocrButton" type="button" disabled>Read selected text locally</button>
+  <p id="ocrStatus"></p>
+  <section id="ocrOutput" hidden>
+    <label for="packageText">Recognised package text (editable)</label>
+    <textarea id="packageText" rows="8" placeholder="Recognised package text will appear here"></textarea>
+  </section>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

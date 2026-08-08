@@ -1,4 +1,5 @@
 import * as ort from 'onnxruntime-web'
+import { recognizePackageText } from './ocr.js'
 
 ort.env.wasm.wasmPaths = { wasm: '/ort/ort-wasm-simd-threaded.wasm' }
 ort.env.wasm.numThreads = 1
@@ -16,10 +17,22 @@ const pickEl = document.getElementById('pick')
 const filenameEl = document.getElementById('filename')
 const statsEl = document.getElementById('stats')
 const fileEl = document.getElementById('file')
+const dropZoneEl = document.getElementById('dropZone')
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
+const ocrButton = document.getElementById('ocrButton')
+const ocrStatusEl = document.getElementById('ocrStatus')
+const ocrHintEl = document.getElementById('ocrHint')
+const ocrOutputEl = document.getElementById('ocrOutput')
+const packageTextEl = document.getElementById('packageText')
 
 let session
+let selectedImage
+let detections = []
+let dragDepth = 0
+let cropRect
+let cropStart
+let selectingCrop = false
 
 async function init() {
   try {
@@ -36,14 +49,189 @@ async function init() {
   }
 }
 
-fileEl.addEventListener('change', (e) => {
-  const file = e.target.files[0]
-  if (!file) return
-  filenameEl.textContent = file.name
-  const img = new Image()
-  img.onload = () => runDetect(img)
-  img.src = URL.createObjectURL(file)
+fileEl.addEventListener('change', (event) => {
+  const file = event.target.files[0]
+  if (file) loadImageFile(file)
 })
+
+for (const eventName of ['dragenter', 'dragover']) {
+  dropZoneEl.addEventListener(eventName, (event) => {
+    event.preventDefault()
+    if (fileEl.disabled) return
+    if (eventName === 'dragenter') dragDepth += 1
+    dropZoneEl.classList.add('is-dragging')
+  })
+}
+
+dropZoneEl.addEventListener('dragleave', (event) => {
+  event.preventDefault()
+  dragDepth = Math.max(0, dragDepth - 1)
+  if (dragDepth === 0) dropZoneEl.classList.remove('is-dragging')
+})
+
+dropZoneEl.addEventListener('drop', (event) => {
+  event.preventDefault()
+  dragDepth = 0
+  dropZoneEl.classList.remove('is-dragging')
+  if (fileEl.disabled) return
+
+  const file = event.dataTransfer.files[0]
+  if (file) loadImageFile(file)
+})
+
+function loadImageFile(file) {
+  if (!file.type.startsWith('image/')) {
+    ocrHintEl.textContent = 'Please choose or drop an image file.'
+    return
+  }
+
+  filenameEl.textContent = file.name
+  packageTextEl.value = ''
+  ocrOutputEl.hidden = true
+  ocrStatusEl.textContent = ''
+  ocrHintEl.textContent = 'Loading image…'
+  detections = []
+  cropRect = undefined
+  ocrButton.disabled = true
+
+  const img = new Image()
+  const imageUrl = URL.createObjectURL(file)
+  img.onload = () => {
+    URL.revokeObjectURL(imageUrl)
+    selectedImage = img
+    renderCanvas()
+    ocrHintEl.textContent = 'Drag a box around any package text, then read the selected text locally.'
+    runDetect(img)
+  }
+  img.src = imageUrl
+}
+
+ocrButton.addEventListener('click', async () => {
+  if (!selectedImage || !cropRect) return
+
+  ocrButton.disabled = true
+  ocrStatusEl.textContent = 'Preparing local OCR…'
+
+  try {
+    const result = await recognizePackageText(createCropCanvas(), (message) => {
+      const progress = Number.isFinite(message.progress)
+        ? ` ${Math.round(message.progress * 100)}%`
+        : ''
+      ocrStatusEl.textContent = `OCR: ${message.status}${progress}`
+    })
+
+    if (result.text) {
+      packageTextEl.value = packageTextEl.value
+        ? `${packageTextEl.value}\n\n---\n\n${result.text}`
+        : result.text
+      ocrOutputEl.hidden = false
+    }
+    const confidence = Number.isFinite(result.confidence)
+      ? `confidence: ${result.confidence.toFixed(1)}%`
+      : 'confidence not reported'
+    ocrStatusEl.textContent =
+      `OCR completed locally - ${result.text ? confidence : 'no text detected'}, ` +
+      `total time: ${result.metrics.totalMs.toFixed(0)} ms`
+    ocrHintEl.textContent = 'Text added. Drag another box to add more package text, or edit the result below.'
+  } catch (error) {
+    ocrStatusEl.textContent = `OCR failed: ${error.message}`
+    console.error(error)
+  } finally {
+    ocrButton.disabled = !cropRect
+  }
+})
+
+function renderCanvas() {
+  if (!selectedImage) return
+
+  canvas.width = selectedImage.width
+  canvas.height = selectedImage.height
+  ctx.drawImage(selectedImage, 0, 0)
+
+  ctx.lineWidth = Math.max(2, selectedImage.width / 250)
+  ctx.font = Math.max(14, selectedImage.width / 40) + 'px sans-serif'
+  for (const detection of detections) drawDetection(detection)
+  if (cropRect) drawCropOverlay(cropRect)
+}
+
+function drawCropOverlay(rectangle) {
+  ctx.fillStyle = 'rgba(0, 90, 180, 0.28)'
+  ctx.fillRect(0, 0, canvas.width, rectangle.y)
+  ctx.fillRect(0, rectangle.y + rectangle.height, canvas.width, canvas.height - (rectangle.y + rectangle.height))
+  ctx.fillRect(0, rectangle.y, rectangle.x, rectangle.height)
+  ctx.fillRect(rectangle.x + rectangle.width, rectangle.y, canvas.width - (rectangle.x + rectangle.width), rectangle.height)
+  ctx.strokeStyle = '#0066cc'
+  ctx.lineWidth = Math.max(3, selectedImage.width / 180)
+  ctx.strokeRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height)
+}
+
+function getCanvasPoint(event) {
+  const bounds = canvas.getBoundingClientRect()
+  return {
+    x: Math.max(0, Math.min(canvas.width, (event.clientX - bounds.left) * canvas.width / bounds.width)),
+    y: Math.max(0, Math.min(canvas.height, (event.clientY - bounds.top) * canvas.height / bounds.height)),
+  }
+}
+
+function rectangleFromPoints(start, end) {
+  const x = Math.min(start.x, end.x)
+  const y = Math.min(start.y, end.y)
+  return { x, y, width: Math.abs(end.x - start.x), height: Math.abs(end.y - start.y) }
+}
+
+function createCropCanvas() {
+  const crop = document.createElement('canvas')
+  crop.width = Math.round(cropRect.width)
+  crop.height = Math.round(cropRect.height)
+  crop.getContext('2d').drawImage(
+    selectedImage,
+    cropRect.x, cropRect.y, cropRect.width, cropRect.height,
+    0, 0, crop.width, crop.height,
+  )
+  return crop
+}
+
+canvas.addEventListener('pointerdown', (event) => {
+  if (!selectedImage) return
+  event.preventDefault()
+  cropStart = getCanvasPoint(event)
+  cropRect = { x: cropStart.x, y: cropStart.y, width: 0, height: 0 }
+  selectingCrop = true
+  ocrButton.disabled = true
+  canvas.setPointerCapture(event.pointerId)
+  renderCanvas()
+})
+
+canvas.addEventListener('pointermove', (event) => {
+  if (!selectingCrop) return
+  cropRect = rectangleFromPoints(cropStart, getCanvasPoint(event))
+  renderCanvas()
+})
+
+canvas.addEventListener('pointerup', (event) => {
+  if (!selectingCrop) return
+  selectingCrop = false
+  if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId)
+  if (cropRect.width < 20 || cropRect.height < 20) {
+    cropRect = undefined
+    ocrButton.disabled = true
+    ocrHintEl.textContent = 'Please drag a larger box around the text you want to read.'
+  } else {
+    ocrButton.disabled = false
+    ocrHintEl.textContent = 'Area selected. Read the selected text locally, or drag again to change it.'
+  }
+  renderCanvas()
+})
+
+function drawDetection(detection) {
+  ctx.strokeStyle = '#00c853'
+  ctx.strokeRect(detection.x, detection.y, detection.width, detection.height)
+  ctx.fillStyle = '#00c853'
+  const textWidth = ctx.measureText(detection.label).width
+  ctx.fillRect(detection.x, Math.max(0, detection.y - 22), textWidth + 8, 22)
+  ctx.fillStyle = '#fff'
+  ctx.fillText(detection.label, detection.x + 4, Math.max(16, detection.y - 5))
+}
 
 function runDetect(img) {
   const tPre0 = performance.now()
@@ -90,22 +278,13 @@ function runDetect(img) {
     boxes = nms(boxes, IOU_THRES)
     const tPost1 = performance.now()
 
-    canvas.width = img.width; canvas.height = img.height
-    ctx.drawImage(img, 0, 0)
-    ctx.lineWidth = Math.max(2, img.width / 250)
-    ctx.font = Math.max(14, img.width / 40) + 'px sans-serif'
-    for (const b of boxes) {
+    detections = boxes.map((b) => {
       const x = (b.x1 - padX) / scale, y = (b.y1 - padY) / scale
       const w = (b.x2 - b.x1) / scale, h = (b.y2 - b.y1) / scale
-      ctx.strokeStyle = '#00c853'
-      ctx.strokeRect(x, y, w, h)
       const label = NAMES[b.cls] + ' ' + (b.score * 100).toFixed(0) + '%'
-      ctx.fillStyle = '#00c853'
-      const tw = ctx.measureText(label).width
-      ctx.fillRect(x, Math.max(0, y - 22), tw + 8, 22)
-      ctx.fillStyle = '#fff'
-      ctx.fillText(label, x + 4, Math.max(16, y - 5))
-    }
+      return { x, y, width: w, height: h, label }
+    })
+    renderCanvas()
 
     statsEl.textContent =
       'Preprocess:  ' + (tPre1 - tPre0).toFixed(0) + ' ms\n' +
