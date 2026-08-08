@@ -75,6 +75,11 @@ text were usable in 85–206 ms; artistic brand lettering and curved/reflective
 labels needed correction. See `docs/spike-b-results.en.md` for the linked
 evidence and full observations.
 
+<img width="1179" height="2109" alt="1-a" src="https://github.com/user-attachments/assets/f941c32b-d395-4ee4-a870-cc9090587183" />
+
+
+<img width="1179" height="1764" alt="1-b" src="https://github.com/user-attachments/assets/4f9cd174-6af6-452e-9566-81c1cb062fab" />
+
 **Next steps, aligned with the timeline**
 
 1. **Sprint 1 (10–23 August) — make a minimum end-to-end flow.** Move the
