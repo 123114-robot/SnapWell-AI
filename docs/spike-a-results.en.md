@@ -46,9 +46,9 @@ the user's device; all inference is local.
 | Device | Browser | Model load (cold / LAN*) | Preproc | Inference | Postproc | Total |
 |---|---|---|---|---|---|---|
 | MacBook Pro (M3 Pro) | Chrome | 58 ms (cached) | 10 ms | 215 ms | 3 ms | 228 ms |
-| iPhone 16 Pro | Safari | ~250 ms | 71 ms | 219 ms | 4 ms | 296 ms |
-| Mid-range Android | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
-| Mid-range Android | Chrome | 186 ms | 88 ms | 393 ms | 3 ms | 484 ms |
+| iPhone 16 Pro | Safari | 1021 ms (private window, cold) | 13 ms | 213 ms | 3 ms | 231 ms |
+| Mid-range Android (1st run) | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
+| Mid-range Android (2nd run, warm) | Chrome | 186 ms | 88 ms | 393 ms | 3 ms | 484 ms |
 | MacBook Air (2020 M1) | Chrome | 234 ms  | 73 ms | 277 ms | 4 ms | 353 ms |
 | iPhone 17 Pro | Safari | 1331 ms | 30 ms | 186 ms | 2 ms | 218 ms |
 
@@ -57,8 +57,28 @@ the user's device; all inference is local.
 **Headline: 296 ms end-to-end on iPhone 16 Pro — roughly 7× margin
 below the 2 s red line.**
 
-**The Android result reached 2227 ms end-to-end, slightly above the 2 s red
-line.**
+**The mid-range Android's *first* run reached 2227 ms end-to-end, just above
+the 2 s red line; its *second* run dropped to 484 ms — a 5x difference on the
+same device.** This is wasm JIT warm-up: the first `session.run()` pays the
+cost of compiling the wasm module, which later runs reuse. The iPhone 16 Pro
+shows no comparable penalty (213 ms on a cold private-window session), so the
+warm-up cost scales inversely with device capability — it is precisely the
+low-end devices that suffer it.
+
+The red line is therefore not breached in steady-state use, but the first
+detection a user performs on a low-end Android would be unacceptably slow
+without mitigation.
+
+**Mitigation (scheduled for Sprint 1):** run a throwaway inference on a blank
+640x640 tensor immediately after the model loads, shifting the compilation
+cost into the startup window before the user has taken a photo. This must be
+re-benchmarked on the same Android device to confirm the effect.
+
+**Note on model-load figures:** early iPhone 16 Pro measurements (~250 ms)
+were taken with a warm HTTP cache and are not comparable. The 1021 ms above
+was measured in a Safari private window with no cached assets, which aligns
+with the iPhone 17 Pro figure. All load times are LAN transfers, not
+public-CDN cold starts.
 
 ## 5. Key Findings (A3 material)
 
