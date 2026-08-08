@@ -103,3 +103,16 @@ function iou(a, b) {
   const inter = Math.max(0, x2 - x1) * Math.max(0, y2 - y1)
   return inter / ((a.x2 - a.x1) * (a.y2 - a.y1) + (b.x2 - b.x1) * (b.y2 - b.y1) - inter + 1e-6)
 }
+
+/**
+ * Run one throwaway inference on a blank tensor so the wasm module is
+ * JIT-compiled before the user's first real detection. On low-end Android
+ * this moves ~1.6 s of compilation cost out of the user-facing path
+ * (see docs/spike-a-results.en.md, section 4).
+ */
+export async function warmUp(session) {
+  const blank = new Float32Array(3 * SIZE * SIZE)
+  const t0 = performance.now()
+  await session.run({ images: new ort.Tensor('float32', blank, [1, 3, SIZE, SIZE]) })
+  return performance.now() - t0
+}
