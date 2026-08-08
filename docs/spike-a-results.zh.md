@@ -42,11 +42,13 @@
 |---|---|---|---|---|---|---|
 | MacBook Pro (M3 Pro) | Chrome | 58 ms（缓存） | 10 ms | 215 ms | 3 ms | 228 ms |
 | iPhone 16 Pro | Safari | ~250 ms | 71 ms | 219 ms | 4 ms | 296 ms |
-| 中端 Android | Chrome | **待测** | — | — | — | — |
+| 中端 Android | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
 
 \* 局域网内加载，不代表公网 CDN 冷启动体验，见发现 5。
 
 **核心结论：iPhone 16 Pro 端到端 296 ms，距 2 秒红线有约 7 倍余量。**
+
+**Android 设备端到端耗时 2227 ms，略高于 2 秒红线。**
 
 ## 5. 关键发现（A3 素材）
 

@@ -47,12 +47,15 @@ the user's device; all inference is local.
 |---|---|---|---|---|---|---|
 | MacBook Pro (M3 Pro) | Chrome | 58 ms (cached) | 10 ms | 215 ms | 3 ms | 228 ms |
 | iPhone 16 Pro | Safari | ~250 ms | 71 ms | 219 ms | 4 ms | 296 ms |
-| Mid-range Android | Chrome | **pending** | — | — | — | — |
+| Mid-range Android | Chrome | 898 ms | 208 ms | 2012 ms | 7 ms | 2227 ms |
 
 \* LAN load times do not represent public-CDN cold starts; see Finding 5.
 
 **Headline: 296 ms end-to-end on iPhone 16 Pro — roughly 7× margin
 below the 2 s red line.**
+
+**The Android result reached 2227 ms end-to-end, slightly above the 2 s red
+line.**
 
 ## 5. Key Findings (A3 material)
 
