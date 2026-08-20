@@ -1,158 +1,120 @@
-import { useEffect, useRef, useState } from 'react'
-import { useModel } from '../ai/ModelContext.jsx'
-import { detect } from '../ai/detector.js'
-import { readText } from '../ai/ocr.js'
+import { useNavigate } from 'react-router-dom'
+
+// 设计配色（桉树绿 + 金合欢黄 + 番茄红隐私标识）
+const T = {
+  paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
+  greenSoft: '#E7EFE9', greenLine: '#CBDDD0',
+  wattle: '#E9A824', tomato: '#D64525', tomatoSoft: '#F8E3DC',
+  muted: '#5E6E64', line: '#E4E0D6',
+}
+
+// On-device 隐私标识（番茄红，专用）
+function OnDeviceChip() {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      background: T.tomatoSoft, color: T.tomato, fontWeight: 600,
+      fontSize: 12, padding: '5px 10px', borderRadius: 999,
+    }}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+      On-device
+    </span>
+  )
+}
 
 export default function Home() {
-  const { session, status } = useModel()
-  const [img, setImg] = useState(null)
-  const [dets, setDets] = useState([])
-  const [timing, setTiming] = useState(null)
-  const [ocr, setOcr] = useState(null)
-  const [busy, setBusy] = useState(false)
-  const [sel, setSel] = useState(null)
-  const canvasRef = useRef(null)
-  const dragRef = useRef(null)
-  const selRef = useRef(null)
+  const navigate = useNavigate()
 
-  async function onFile(e) {
-    const file = e.target.files[0]
-    if (!file) return
-    const image = new Image()
-    image.onload = async () => {
-      selRef.current = null
-      setImg(image); setDets([]); setOcr(null); setSel(null); setBusy(true)
-      const r = await detect(session.current, image)
-      setDets(r.detections); setTiming(r.timing); setBusy(false)
-    }
-    image.src = URL.createObjectURL(file)
-  }
-
-  useEffect(() => {
-    if (img) draw(img, dets, sel)
-  }, [img, dets])
-
-  function draw(image, detections, selection) {
-    const c = canvasRef.current
-    if (!c || !image) return
-    c.width = image.width; c.height = image.height
-    const ctx = c.getContext('2d')
-    ctx.drawImage(image, 0, 0)
-    ctx.lineWidth = Math.max(2, image.width / 250)
-    ctx.font = Math.max(14, image.width / 40) + 'px sans-serif'
-    for (const d of detections) {
-      ctx.strokeStyle = '#00c853'
-      ctx.strokeRect(d.bbox.x, d.bbox.y, d.bbox.w, d.bbox.h)
-      const label = d.label + ' ' + Math.round(d.confidence * 100) + '%'
-      ctx.fillStyle = '#00c853'
-      const tw = ctx.measureText(label).width
-      ctx.fillRect(d.bbox.x, Math.max(0, d.bbox.y - 22), tw + 8, 22)
-      ctx.fillStyle = '#fff'
-      ctx.fillText(label, d.bbox.x + 4, Math.max(16, d.bbox.y - 5))
-    }
-    if (selection) {
-      ctx.strokeStyle = '#2979ff'
-      ctx.strokeRect(selection.x, selection.y, selection.w, selection.h)
-    }
-  }
-
-  function toImageCoords(e) {
-    const c = canvasRef.current
-    const r = c.getBoundingClientRect()
-    const p = e.touches ? e.touches[0] : e
-    return {
-      x: (p.clientX - r.left) * (c.width / r.width),
-      y: (p.clientY - r.top) * (c.height / r.height)
-    }
-  }
-
-  function onDown(e) {
-    if (!img) return
-    e.preventDefault()
-    dragRef.current = toImageCoords(e)
-  }
-
-  function onMove(e) {
-    if (!dragRef.current || !img) return
-    e.preventDefault()
-    const p = toImageCoords(e)
-    const s = dragRef.current
-    const box = {
-      x: Math.min(s.x, p.x), y: Math.min(s.y, p.y),
-      w: Math.abs(p.x - s.x), h: Math.abs(p.y - s.y)
-    }
-    selRef.current = box
-    setSel(box)
-    draw(img, dets, box)
-  }
-
-  function onUp() { dragRef.current = null }
-
-  async function runOcr() {
-    if (!img) return
-    const box = selRef.current
-    if (!box || box.w < 10 || box.h < 10) {
-      setOcr({ text: '', confidence: 0, elapsed: 0,
-               note: 'Drag a box over the text you want to read first.' })
-      return
-    }
-    setBusy(true)
-    const r = await readText(img, box)
-    setOcr(r); setBusy(false)
+  const btnBase = {
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    width: '100%', border: 'none', cursor: 'pointer', borderRadius: 14,
+    fontFamily: 'inherit', fontWeight: 600, fontSize: 15, padding: '14px 18px',
   }
 
   return (
-    <div style={{ padding: 16, maxWidth: 900, margin: '0 auto' }}>
-      <h2 style={{ marginBottom: 4 }}>SnapWell</h2>
-      <p style={{ color: '#666', fontSize: 14, marginTop: 0 }}>
-        Spike A: YOLOv8n detection &middot; Spike B: local package OCR
-      </p>
-
-      <input type="file" accept="image/*" capture="environment"
-             onChange={onFile} disabled={status !== 'ready' || busy} />
-
-      {timing && (
-        <pre style={{ background: '#f5f5f5', padding: 8, fontSize: 13 }}>
-{`Preprocess:  ${timing.preprocess.toFixed(0)} ms
-Inference:   ${timing.inference.toFixed(0)} ms
-Postprocess: ${timing.postprocess.toFixed(0)} ms
-Total:       ${timing.total.toFixed(0)} ms
-Detected ${dets.length} object(s)`}
-        </pre>
-      )}
-
-      {img && (
-        <>
-          <p style={{ fontSize: 13, color: '#666' }}>
-            Drag a box over package text, then read it locally.
-          </p>
-          <canvas ref={canvasRef}
-                  style={{ maxWidth: '100%', border: '1px solid #ccc', touchAction: 'none' }}
-                  onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp}
-                  onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onUp} />
-          <div style={{ marginTop: 8 }}>
-            <button onClick={runOcr} disabled={busy}>
-              {busy ? 'Working...' : 'Read selected text locally'}
-            </button>
-          </div>
-        </>
-      )}
-
-      {ocr && ocr.note && (
-        <p style={{ marginTop: 12, color: '#c62828', fontSize: 13 }}>{ocr.note}</p>
-      )}
-
-      {ocr && !ocr.note && (
-        <div style={{ marginTop: 12 }}>
-          <p style={{ fontSize: 13, color: '#666' }}>
-            OCR completed locally — confidence: {ocr.confidence.toFixed(1)}%,
-            total time: {ocr.elapsed.toFixed(0)} ms
-          </p>
-          <strong>Recognised package text (editable)</strong>
-          <textarea key={ocr.elapsed} defaultValue={ocr.text} rows={5}
-                    style={{ width: '100%', fontFamily: 'monospace', marginTop: 4 }} />
+    <div style={{
+      minHeight: '100vh', background: T.paper, fontFamily: 'system-ui, sans-serif',
+      maxWidth: 430, margin: '0 auto', paddingBottom: 30,
+    }}>
+      {/* 顶部品牌 */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '20px 20px 0' }}>
+        <div style={{
+          width: 28, height: 28, borderRadius: 8, background: T.green,
+          display: 'grid', placeItems: 'center', color: T.wattle,
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 3l1.9 5.8L20 10.7l-5.8 1.9L12 18l-1.9-5.4L4 10.7l6.1-1.9z" />
+          </svg>
         </div>
-      )}
+        <span style={{ fontWeight: 700, fontSize: 20, color: T.ink }}>SnapWell</span>
+      </div>
+
+      {/* 主视觉卡片 */}
+      <div style={{
+        margin: '18px 20px 0', background: T.green, borderRadius: 22,
+        padding: 24, color: '#fff', position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', right: -20, top: -20, fontSize: 120, opacity: 0.12 }}>🥗</div>
+        <div style={{ fontSize: 27, fontWeight: 700, lineHeight: 1.15, maxWidth: 250 }}>
+          Cook smarter with what you already have
+        </div>
+        <p style={{ fontSize: 13, opacity: 0.85, marginTop: 12, maxWidth: 260, lineHeight: 1.5 }}>
+          Snap your ingredients, check the results, and get recipes built for Australian kitchens.
+        </p>
+        <div style={{ marginTop: 14 }}><OnDeviceChip /></div>
+      </div>
+
+      {/* 按钮 */}
+      <div style={{ padding: '20px 20px 0', display: 'grid', gap: 12 }}>
+        <button style={{ ...btnBase, background: T.green, color: '#fff' }}
+          onClick={() => navigate('/capture')}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+            <circle cx="12" cy="13" r="4" />
+          </svg>
+          Open camera
+        </button>
+        <button style={{ ...btnBase, background: '#fff', color: T.green, border: `1.5px solid ${T.greenLine}` }}
+          onClick={() => navigate('/capture')}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <path d="M21 15l-5-5L5 21" />
+          </svg>
+          Upload image
+        </button>
+      </div>
+
+      {/* 底部说明 */}
+      <div style={{ padding: '24px 20px 0' }}>
+        <div style={{
+          fontWeight: 700, fontSize: 12, color: T.muted,
+          textTransform: 'uppercase', letterSpacing: 0.6,
+        }}>How it works</div>
+        <div style={{ marginTop: 12, display: 'grid', gap: 10 }}>
+          {[
+            ['1', 'Snap or upload a photo of your ingredients'],
+            ['2', 'Review what we detected — edit anything'],
+            ['3', 'Get recipes matched to what you have'],
+          ].map(([n, text]) => (
+            <div key={n} style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <div style={{
+                width: 26, height: 26, borderRadius: '50%', background: T.greenSoft,
+                color: T.green, fontWeight: 700, fontSize: 13,
+                display: 'grid', placeItems: 'center', flexShrink: 0,
+              }}>{n}</div>
+              <span style={{ fontSize: 14, color: T.ink }}>{text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
