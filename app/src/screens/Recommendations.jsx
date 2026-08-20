@@ -12,6 +12,7 @@ const T = {
 // 示例食谱库（Sprint 2 会换成真实食谱 + AUSNUT 营养数据，结构一样）
 export const RECIPES = [
   { id: 'tomato-pasta', name: 'Creamy Tomato Pasta', emoji: '🍝', time: 20, kcal: 420,
+    img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=80',
     tags: ['Vegetarian', 'Quick meal'],
     needs: ['pasta', 'tomato', 'milk', 'garlic'],
     nutrition: { protein: 18, carbs: 56, fat: 12, fibre: 4, sodium: 320 },
@@ -20,18 +21,21 @@ export const RECIPES = [
             'Stir in milk, simmer to a light sauce, season.',
             'Toss pasta through the sauce.'] },
   { id: 'tomato-soup', name: 'Tomato Soup', emoji: '🍲', time: 25, kcal: 210,
+    img: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80',
     tags: ['Low-calorie', 'Vegetarian'],
     needs: ['tomato', 'garlic', 'onion'],
     nutrition: { protein: 6, carbs: 28, fat: 7, fibre: 5, sodium: 290 },
     steps: ['Roast tomato, garlic and onion until soft.',
             'Blend until smooth, warm through and season.'] },
   { id: 'fruit-salad', name: 'Fresh Fruit Salad', emoji: '🥗', time: 10, kcal: 150,
+    img: 'https://images.unsplash.com/photo-1564093497595-593b96d80180?w=400&q=80',
     tags: ['Vegan', 'Low-calorie'],
     needs: ['apple', 'banana', 'orange'],
     nutrition: { protein: 2, carbs: 34, fat: 1, fibre: 6, sodium: 5 },
     steps: ['Chop all fruit into bite-size pieces.',
             'Toss together and chill before serving.'] },
   { id: 'veggie-stirfry', name: 'Veggie Stir-fry', emoji: '🥘', time: 18, kcal: 260,
+    img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',
     tags: ['Vegan', 'High-protein'],
     needs: ['broccoli', 'carrot', 'garlic', 'onion'],
     nutrition: { protein: 12, carbs: 30, fat: 9, fibre: 8, sodium: 340 },
@@ -39,12 +43,14 @@ export const RECIPES = [
             'Stir-fry garlic and onion, add veg, cook until tender-crisp.',
             'Season and serve.'] },
   { id: 'cheese-omelette', name: 'Cheese Omelette', emoji: '🍳', time: 12, kcal: 330,
+    img: 'https://images.unsplash.com/photo-1612240498936-65f5101365d2?w=400&q=80',
     tags: ['Vegetarian', 'High-protein'],
     needs: ['egg', 'cheese', 'milk'],
     nutrition: { protein: 22, carbs: 4, fat: 25, fibre: 0, sodium: 380 },
     steps: ['Whisk eggs with a splash of milk.',
             'Cook gently, add cheese, fold and serve.'] },
   { id: 'roast-potato', name: 'Garlic Roast Potatoes', emoji: '🥔', time: 40, kcal: 290,
+    img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',
     tags: ['Vegan'],
     needs: ['potato', 'garlic'],
     nutrition: { protein: 5, carbs: 48, fat: 9, fibre: 5, sodium: 220 },
@@ -117,7 +123,14 @@ export default function Recommendations() {
             <div style={{
               width: 72, height: 72, borderRadius: 14, background: T.greenSoft,
               display: 'grid', placeItems: 'center', fontSize: 34, flexShrink: 0,
-            }}>{r.emoji}</div>
+              overflow: 'hidden',
+            }}>
+              {r.img
+                ? <img src={r.img} alt={r.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => { e.target.style.display = 'none' }} />
+                : r.emoji}
+            </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>{r.name}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>

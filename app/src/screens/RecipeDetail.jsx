@@ -45,7 +45,11 @@ export default function RecipeDetail() {
         position: 'relative', height: 180, background: T.greenSoft,
         display: 'grid', placeItems: 'center', fontSize: 76,
       }}>
-        {recipe.emoji}
+        {recipe.img
+          ? <img src={recipe.img} alt={recipe.name}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: 180, objectFit: 'cover' }}
+              onError={(e) => { e.target.style.display = 'none' }} />
+          : recipe.emoji}
         <button onClick={() => navigate('/recommendations')} style={{
           position: 'absolute', left: 16, top: 16, width: 36, height: 36,
           borderRadius: '50%', background: 'rgba(255,255,255,.92)', border: 'none',
