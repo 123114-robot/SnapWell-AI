@@ -1,0 +1,8 @@
+{
+  "dataset": "AUSNUT 2023",
+  "provider": "Food Standards Australia New Zealand",
+  "usage": "Food names, food classification, measures, and nutrient values are derived from AUSNUT 2023.",
+  "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "url": "https://www.foodstandards.gov.au/science-data/monitoringnutrients/ausnut",
+  "generated_for": "SnapWell AI data layer MVP"
+}

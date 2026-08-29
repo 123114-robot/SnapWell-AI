@@ -1,0 +1,28 @@
+{
+  "version": "v1",
+  "description": "Search-link generation rules for missing ingredients in SnapWell AI.",
+  "providers": {
+    "coles": {
+      "name": "Coles",
+      "search_url_template": "https://www.coles.com.au/search/products?q={query}"
+    },
+    "woolworths": {
+      "name": "Woolworths",
+      "search_url_template": "https://www.woolworths.com.au/shop/search/products?searchTerm={query}"
+    }
+  },
+  "rule": {
+    "input": "missing ingredient label or display name",
+    "normalisation": [
+      "replace underscores with spaces",
+      "trim whitespace",
+      "URL encode the final query"
+    ],
+    "example": {
+      "missing_label": "coconut_milk",
+      "normalised_query": "coconut milk",
+      "coles_url": "https://www.coles.com.au/search/products?q=coconut%20milk",
+      "woolworths_url": "https://www.woolworths.com.au/shop/search/products?searchTerm=coconut%20milk"
+    }
+  }
+}

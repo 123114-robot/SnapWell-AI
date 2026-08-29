@@ -1,0 +1,2378 @@
+{
+  "version": "v1",
+  "description": "Recipe ingredient to AUSNUT food ID mapping for SnapWell AI.",
+  "recipe_count": 100,
+  "recipe_ingredient_rows": 434,
+  "recipes": {
+    "R001": [
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      }
+    ],
+    "R002": [
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "peanut_butter",
+        "ausnut_public_food_key": "F006577",
+        "ausnut_food_name": "Peanut butter, added sugar & salt"
+      }
+    ],
+    "R003": [
+      {
+        "ingredient_label": "apple",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      }
+    ],
+    "R004": [
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
+      },
+      {
+        "ingredient_label": "mango",
+        "ausnut_public_food_key": "F005299",
+        "ausnut_food_name": "Mango, peeled, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      }
+    ],
+    "R005": [
+      {
+        "ingredient_label": "bacon",
+        "ausnut_public_food_key": "F000192",
+        "ausnut_food_name": "Bacon, middle rasher, lean, raw"
+      },
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      }
+    ],
+    "R006": [
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R007": [
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R008": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R009": [
+      {
+        "ingredient_label": "mango",
+        "ausnut_public_food_key": "F005299",
+        "ausnut_food_name": "Mango, peeled, raw"
+      },
+      {
+        "ingredient_label": "orange",
+        "ausnut_public_food_key": "F006277",
+        "ausnut_food_name": "Orange, peeled, raw"
+      },
+      {
+        "ingredient_label": "grape",
+        "ausnut_public_food_key": "F004258",
+        "ausnut_food_name": "Grape, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R010": [
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R011": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R012": [
+      {
+        "ingredient_label": "apple",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined"
+      },
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      }
+    ],
+    "R013": [
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R014": [
+      {
+        "ingredient_label": "peanut_butter",
+        "ausnut_public_food_key": "F006577",
+        "ausnut_food_name": "Peanut butter, added sugar & salt"
+      },
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      }
+    ],
+    "R015": [
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R016": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      }
+    ],
+    "R017": [
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R018": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "tortilla",
+        "ausnut_public_food_key": "F001418",
+        "ausnut_food_name": "Bread, flat wrap or tortilla, commercial, not further defined"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "bacon",
+        "ausnut_public_food_key": "F000192",
+        "ausnut_food_name": "Bacon, middle rasher, lean, raw"
+      }
+    ],
+    "R019": [
+      {
+        "ingredient_label": "tortilla",
+        "ausnut_public_food_key": "F001418",
+        "ausnut_food_name": "Bread, flat wrap or tortilla, commercial, not further defined"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      }
+    ],
+    "R020": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R021": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      }
+    ],
+    "R022": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R023": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R024": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R025": [
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R026": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R027": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "tortilla",
+        "ausnut_public_food_key": "F001418",
+        "ausnut_food_name": "Bread, flat wrap or tortilla, commercial, not further defined"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R028": [
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R029": [
+      {
+        "ingredient_label": "sausage",
+        "ausnut_public_food_key": "F008112",
+        "ausnut_food_name": "Sausage, beef, raw"
+      },
+      {
+        "ingredient_label": "tortilla",
+        "ausnut_public_food_key": "F001418",
+        "ausnut_food_name": "Bread, flat wrap or tortilla, commercial, not further defined"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      }
+    ],
+    "R030": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      }
+    ],
+    "R031": [
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R032": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "pasta_sauce",
+        "ausnut_public_food_key": "F008050",
+        "ausnut_food_name": "Sauce, pasta, tomato based, commercial"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      }
+    ],
+    "R033": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "canned_tomatoes",
+        "ausnut_public_food_key": "F009222",
+        "ausnut_food_name": "Tomato, whole, canned in tomato juice, undrained"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R034": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R035": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "pasta_sauce",
+        "ausnut_public_food_key": "F008050",
+        "ausnut_food_name": "Sauce, pasta, tomato based, commercial"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      }
+    ],
+    "R036": [
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R037": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R038": [
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R039": [
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "zucchini",
+        "ausnut_public_food_key": "F009775",
+        "ausnut_food_name": "Zucchini, green skin, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R040": [
+      {
+        "ingredient_label": "sausage",
+        "ausnut_public_food_key": "F008112",
+        "ausnut_food_name": "Sausage, beef, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "pasta_sauce",
+        "ausnut_public_food_key": "F008050",
+        "ausnut_food_name": "Sauce, pasta, tomato based, commercial"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R041": [
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "pasta_sauce",
+        "ausnut_public_food_key": "F008050",
+        "ausnut_food_name": "Sauce, pasta, tomato based, commercial"
+      },
+      {
+        "ingredient_label": "zucchini",
+        "ausnut_public_food_key": "F009775",
+        "ausnut_food_name": "Zucchini, green skin, raw"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      }
+    ],
+    "R042": [
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      },
+      {
+        "ingredient_label": "canned_tomatoes",
+        "ausnut_public_food_key": "F009222",
+        "ausnut_food_name": "Tomato, whole, canned in tomato juice, undrained"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R043": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R044": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "peanut_butter",
+        "ausnut_public_food_key": "F006577",
+        "ausnut_food_name": "Peanut butter, added sugar & salt"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      }
+    ],
+    "R045": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R046": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R047": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R048": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R049": [
+      {
+        "ingredient_label": "pork",
+        "ausnut_public_food_key": "F007019",
+        "ausnut_food_name": "Pork, chop, lean, raw"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R050": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "canned_tomatoes",
+        "ausnut_public_food_key": "F009222",
+        "ausnut_food_name": "Tomato, whole, canned in tomato juice, undrained"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R051": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R052": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R053": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R054": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      }
+    ],
+    "R055": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      }
+    ],
+    "R056": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      }
+    ],
+    "R057": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R058": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      }
+    ],
+    "R059": [
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R060": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "coconut_milk",
+        "ausnut_public_food_key": "F002991",
+        "ausnut_food_name": "Coconut, milk, canned"
+      },
+      {
+        "ingredient_label": "noodles",
+        "ausnut_public_food_key": "F006068",
+        "ausnut_food_name": "Noodle, wheat, instant, unflavoured, uncooked"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      }
+    ],
+    "R061": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R062": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R063": [
+      {
+        "ingredient_label": "tofu",
+        "ausnut_public_food_key": "F009176",
+        "ausnut_food_name": "Tofu (soy bean curd), firm, as purchased"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R064": [
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R065": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      }
+    ],
+    "R066": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R067": [
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R068": [
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R069": [
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      }
+    ],
+    "R070": [
+      {
+        "ingredient_label": "prawn",
+        "ausnut_public_food_key": "F007433",
+        "ausnut_food_name": "Prawn, king or medium, flesh, raw (green)"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R071": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      }
+    ],
+    "R072": [
+      {
+        "ingredient_label": "salmon",
+        "ausnut_public_food_key": "F007827",
+        "ausnut_food_name": "Salmon, Atlantic, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R073": [
+      {
+        "ingredient_label": "beef_mince",
+        "ausnut_public_food_key": "F000655",
+        "ausnut_food_name": "Beef, mince, >10% fat, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      }
+    ],
+    "R074": [
+      {
+        "ingredient_label": "pork",
+        "ausnut_public_food_key": "F007019",
+        "ausnut_food_name": "Pork, chop, lean, raw"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      }
+    ],
+    "R075": [
+      {
+        "ingredient_label": "sausage",
+        "ausnut_public_food_key": "F008112",
+        "ausnut_food_name": "Sausage, beef, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      }
+    ],
+    "R076": [
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "pumpkin",
+        "ausnut_public_food_key": "F007555",
+        "ausnut_food_name": "Pumpkin, peeled, raw"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R077": [
+      {
+        "ingredient_label": "chicken_thigh",
+        "ausnut_public_food_key": "F002806",
+        "ausnut_food_name": "Chicken, thigh, lean, raw"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      }
+    ],
+    "R078": [
+      {
+        "ingredient_label": "pork",
+        "ausnut_public_food_key": "F007019",
+        "ausnut_food_name": "Pork, chop, lean, raw"
+      },
+      {
+        "ingredient_label": "sausage",
+        "ausnut_public_food_key": "F008112",
+        "ausnut_food_name": "Sausage, beef, raw"
+      },
+      {
+        "ingredient_label": "potato",
+        "ausnut_public_food_key": "F007399",
+        "ausnut_food_name": "Potato, unpeeled, raw"
+      },
+      {
+        "ingredient_label": "onion",
+        "ausnut_public_food_key": "F006225",
+        "ausnut_food_name": "Onion, mature, brown skinned, peeled, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      }
+    ],
+    "R079": [
+      {
+        "ingredient_label": "zucchini",
+        "ausnut_public_food_key": "F009775",
+        "ausnut_food_name": "Zucchini, green skin, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R080": [
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R081": [
+      {
+        "ingredient_label": "apple",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined"
+      },
+      {
+        "ingredient_label": "peanut_butter",
+        "ausnut_public_food_key": "F006577",
+        "ausnut_food_name": "Peanut butter, added sugar & salt"
+      }
+    ],
+    "R082": [
+      {
+        "ingredient_label": "orange",
+        "ausnut_public_food_key": "F006277",
+        "ausnut_food_name": "Orange, peeled, raw"
+      },
+      {
+        "ingredient_label": "grape",
+        "ausnut_public_food_key": "F004258",
+        "ausnut_food_name": "Grape, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R083": [
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R084": [
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      }
+    ],
+    "R085": [
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R086": [
+      {
+        "ingredient_label": "mango",
+        "ausnut_public_food_key": "F005299",
+        "ausnut_food_name": "Mango, peeled, raw"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R087": [
+      {
+        "ingredient_label": "flour",
+        "ausnut_public_food_key": "F004007",
+        "ausnut_food_name": "Flour, wheat, white, plain"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R088": [
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R089": [
+      {
+        "ingredient_label": "zucchini",
+        "ausnut_public_food_key": "F009775",
+        "ausnut_food_name": "Zucchini, green skin, raw"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "flour",
+        "ausnut_public_food_key": "F004007",
+        "ausnut_food_name": "Flour, wheat, white, plain"
+      },
+      {
+        "ingredient_label": "egg",
+        "ausnut_public_food_key": "F003729",
+        "ausnut_food_name": "Egg, chicken, whole, raw"
+      }
+    ],
+    "R090": [
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "olive_oil",
+        "ausnut_public_food_key": "F006177",
+        "ausnut_food_name": "Oil, olive"
+      }
+    ],
+    "R091": [
+      {
+        "ingredient_label": "broccoli",
+        "ausnut_public_food_key": "F001905",
+        "ausnut_food_name": "Broccoli, fresh or frozen, raw"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "milk",
+        "ausnut_public_food_key": "F005634",
+        "ausnut_food_name": "Milk, cow, fluid, regular fat (~3.5%)"
+      },
+      {
+        "ingredient_label": "butter",
+        "ausnut_public_food_key": "F001973",
+        "ausnut_food_name": "Butter, plain, salted"
+      }
+    ],
+    "R092": [
+      {
+        "ingredient_label": "apple",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined"
+      },
+      {
+        "ingredient_label": "grape",
+        "ausnut_public_food_key": "F004258",
+        "ausnut_food_name": "Grape, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R093": [
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "peanut_butter",
+        "ausnut_public_food_key": "F006577",
+        "ausnut_food_name": "Peanut butter, added sugar & salt"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R094": [
+      {
+        "ingredient_label": "carrot",
+        "ausnut_public_food_key": "F002276",
+        "ausnut_food_name": "Carrot, raw"
+      },
+      {
+        "ingredient_label": "capsicum",
+        "ausnut_public_food_key": "F002234",
+        "ausnut_food_name": "Capsicum, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R095": [
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R096": [
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      }
+    ],
+    "R097": [
+      {
+        "ingredient_label": "orange",
+        "ausnut_public_food_key": "F006277",
+        "ausnut_food_name": "Orange, peeled, raw"
+      },
+      {
+        "ingredient_label": "mango",
+        "ausnut_public_food_key": "F005299",
+        "ausnut_food_name": "Mango, peeled, raw"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R098": [
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
+      },
+      {
+        "ingredient_label": "banana",
+        "ausnut_public_food_key": "F000262",
+        "ausnut_food_name": "Banana, cavendish, peeled, raw"
+      },
+      {
+        "ingredient_label": "oats",
+        "ausnut_public_food_key": "F006143",
+        "ausnut_food_name": "Oats, rolled, uncooked"
+      },
+      {
+        "ingredient_label": "yoghurt",
+        "ausnut_public_food_key": "F009694",
+        "ausnut_food_name": "Yoghurt, natural, regular fat (~4%)"
+      }
+    ],
+    "R099": [
+      {
+        "ingredient_label": "apple",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined"
+      },
+      {
+        "ingredient_label": "orange",
+        "ausnut_public_food_key": "F006277",
+        "ausnut_food_name": "Orange, peeled, raw"
+      },
+      {
+        "ingredient_label": "grape",
+        "ausnut_public_food_key": "F004258",
+        "ausnut_food_name": "Grape, raw"
+      },
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
+      }
+    ],
+    "R100": [
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "bread",
+        "ausnut_public_food_key": "F001463",
+        "ausnut_food_name": "Bread, white, commercial"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ]
+  }
+}

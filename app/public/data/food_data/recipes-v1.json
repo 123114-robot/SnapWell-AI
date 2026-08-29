@@ -1,0 +1,2237 @@
+{
+  "version": "v1",
+  "description": "Australian-localised multicultural recipe dataset for SnapWell AI Step 4.",
+  "recipe_count": 100,
+  "recipes": [
+    {
+      "recipe_id": "R001",
+      "recipe_name": "Avocado toast with egg",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "avocado",
+        "bread",
+        "egg",
+        "tomato"
+      ],
+      "steps": [
+        "Toast bread",
+        "Mash avocado",
+        "Cook egg",
+        "Serve with tomato"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common Australian cafe breakfast"
+    },
+    {
+      "recipe_id": "R002",
+      "recipe_name": "Banana peanut oats",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "banana",
+        "oats",
+        "milk",
+        "peanut_butter"
+      ],
+      "steps": [
+        "Cook oats with milk",
+        "Slice banana",
+        "Top with peanut butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common home breakfast"
+    },
+    {
+      "recipe_id": "R003",
+      "recipe_name": "Apple yoghurt bowl",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "apple",
+        "yoghurt",
+        "oats"
+      ],
+      "steps": [
+        "Slice apple",
+        "Add yoghurt",
+        "Top with oats"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple breakfast"
+    },
+    {
+      "recipe_id": "R004",
+      "recipe_name": "Strawberry mango yoghurt bowl",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "strawberry",
+        "mango",
+        "yoghurt",
+        "oats"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Add yoghurt",
+        "Top with oats"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fruit breakfast bowl"
+    },
+    {
+      "recipe_id": "R005",
+      "recipe_name": "Bacon egg toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "bacon",
+        "egg",
+        "bread",
+        "tomato"
+      ],
+      "steps": [
+        "Cook bacon and egg",
+        "Toast bread",
+        "Serve with tomato"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Cafe-style breakfast plate"
+    },
+    {
+      "recipe_id": "R006",
+      "recipe_name": "Cheese mushroom toastie",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "cheese",
+        "mushroom",
+        "bread",
+        "butter"
+      ],
+      "steps": [
+        "Butter bread",
+        "Add cheese and mushroom",
+        "Toast until warm"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Toastie-style meal"
+    },
+    {
+      "recipe_id": "R007",
+      "recipe_name": "Banana strawberry smoothie",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "banana",
+        "strawberry",
+        "milk",
+        "yoghurt"
+      ],
+      "steps": [
+        "Blend banana strawberry milk and yoghurt",
+        "Serve cold"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick breakfast drink"
+    },
+    {
+      "recipe_id": "R008",
+      "recipe_name": "Egg spinach toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "egg",
+        "spinach",
+        "bread",
+        "butter"
+      ],
+      "steps": [
+        "Toast bread",
+        "Cook egg",
+        "Add spinach and butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple breakfast"
+    },
+    {
+      "recipe_id": "R009",
+      "recipe_name": "Mango orange fruit bowl",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "mango",
+        "orange",
+        "grape",
+        "yoghurt"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Add yoghurt",
+        "Serve cold"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fruit breakfast"
+    },
+    {
+      "recipe_id": "R010",
+      "recipe_name": "Avocado salmon toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "avocado",
+        "salmon",
+        "bread",
+        "lemon"
+      ],
+      "steps": [
+        "Toast bread",
+        "Add avocado and salmon",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Cafe-style breakfast"
+    },
+    {
+      "recipe_id": "R011",
+      "recipe_name": "Egg tomato toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "egg",
+        "tomato",
+        "bread",
+        "cheese"
+      ],
+      "steps": [
+        "Toast bread",
+        "Cook egg",
+        "Add tomato and cheese"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick cafe-style toast"
+    },
+    {
+      "recipe_id": "R012",
+      "recipe_name": "Apple banana oats",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "apple",
+        "banana",
+        "oats",
+        "milk"
+      ],
+      "steps": [
+        "Cook oats with milk",
+        "Add apple and banana"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Family breakfast"
+    },
+    {
+      "recipe_id": "R013",
+      "recipe_name": "Mushroom avocado toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "mushroom",
+        "avocado",
+        "bread",
+        "garlic"
+      ],
+      "steps": [
+        "Toast bread",
+        "Cook mushroom with garlic",
+        "Add avocado"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Cafe-style vegetarian breakfast"
+    },
+    {
+      "recipe_id": "R014",
+      "recipe_name": "Peanut butter banana toast",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "peanut_butter",
+        "banana",
+        "bread"
+      ],
+      "steps": [
+        "Toast bread",
+        "Add peanut butter and banana"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common quick breakfast"
+    },
+    {
+      "recipe_id": "R015",
+      "recipe_name": "Spinach cheese egg toastie",
+      "meal_type": "breakfast",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "spinach",
+        "cheese",
+        "egg",
+        "bread",
+        "butter"
+      ],
+      "steps": [
+        "Butter bread",
+        "Add spinach cheese and egg",
+        "Toast"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Hot breakfast toastie"
+    },
+    {
+      "recipe_id": "R016",
+      "recipe_name": "Chicken rice salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "chicken_breast",
+        "rice",
+        "lettuce",
+        "cucumber",
+        "tomato"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken",
+        "Slice vegetables",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Common lunch bowl"
+    },
+    {
+      "recipe_id": "R017",
+      "recipe_name": "Salmon avocado rice bowl",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "salmon",
+        "avocado",
+        "rice",
+        "cucumber",
+        "lemon"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook salmon",
+        "Add avocado and cucumber",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Balanced lunch"
+    },
+    {
+      "recipe_id": "R018",
+      "recipe_name": "Chicken Caesar-style wrap",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "chicken_breast",
+        "tortilla",
+        "lettuce",
+        "cheese",
+        "bacon"
+      ],
+      "steps": [
+        "Warm tortilla",
+        "Cook chicken and bacon",
+        "Add lettuce and cheese",
+        "Wrap"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Cafe-style wrap"
+    },
+    {
+      "recipe_id": "R019",
+      "recipe_name": "Vegetarian salad wrap",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "tortilla",
+        "lettuce",
+        "tomato",
+        "cucumber",
+        "cheese",
+        "avocado"
+      ],
+      "steps": [
+        "Warm tortilla",
+        "Add vegetables cheese and avocado",
+        "Wrap"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common takeaway-style lunch"
+    },
+    {
+      "recipe_id": "R020",
+      "recipe_name": "Beef mince rice bowl",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "beef_mince",
+        "rice",
+        "carrot",
+        "corn",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook beef mince with carrot and corn",
+        "Add soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Meal-prep bowl"
+    },
+    {
+      "recipe_id": "R021",
+      "recipe_name": "Tofu veggie rice bowl",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "tofu",
+        "rice",
+        "broccoli",
+        "capsicum",
+        "mushroom"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook tofu",
+        "Cook vegetables",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Plant-based lunch"
+    },
+    {
+      "recipe_id": "R022",
+      "recipe_name": "Prawn avocado salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "prawn",
+        "avocado",
+        "lettuce",
+        "cucumber",
+        "lemon"
+      ],
+      "steps": [
+        "Cook prawn",
+        "Slice vegetables and avocado",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh lunch salad"
+    },
+    {
+      "recipe_id": "R023",
+      "recipe_name": "Chicken pasta salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "chicken_breast",
+        "pasta",
+        "cucumber",
+        "tomato",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook chicken",
+        "Add vegetables and olive oil"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Cold pasta salad"
+    },
+    {
+      "recipe_id": "R024",
+      "recipe_name": "Egg salad sandwich",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "egg",
+        "bread",
+        "lettuce",
+        "butter"
+      ],
+      "steps": [
+        "Cook egg",
+        "Butter bread",
+        "Add lettuce",
+        "Assemble sandwich"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple sandwich"
+    },
+    {
+      "recipe_id": "R025",
+      "recipe_name": "Cheese tomato toastie",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "cheese",
+        "tomato",
+        "bread",
+        "butter"
+      ],
+      "steps": [
+        "Butter bread",
+        "Add cheese and tomato",
+        "Toast until melted"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common toastie"
+    },
+    {
+      "recipe_id": "R026",
+      "recipe_name": "Chicken lettuce sandwich",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "chicken_breast",
+        "bread",
+        "lettuce",
+        "tomato",
+        "butter"
+      ],
+      "steps": [
+        "Cook chicken",
+        "Butter bread",
+        "Add lettuce and tomato",
+        "Assemble"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Packed lunch"
+    },
+    {
+      "recipe_id": "R027",
+      "recipe_name": "Beef tortilla wrap",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "beef_mince",
+        "tortilla",
+        "lettuce",
+        "tomato",
+        "cheese"
+      ],
+      "steps": [
+        "Cook beef mince",
+        "Warm tortilla",
+        "Add lettuce tomato and cheese",
+        "Wrap"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Takeaway-style wrap"
+    },
+    {
+      "recipe_id": "R028",
+      "recipe_name": "Avocado cucumber sandwich",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "avocado",
+        "cucumber",
+        "bread",
+        "cheese"
+      ],
+      "steps": [
+        "Assemble avocado cucumber and cheese in bread"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Light cafe sandwich"
+    },
+    {
+      "recipe_id": "R029",
+      "recipe_name": "Sausage salad wrap",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "sausage",
+        "tortilla",
+        "lettuce",
+        "tomato",
+        "onion"
+      ],
+      "steps": [
+        "Cook sausage",
+        "Warm tortilla",
+        "Add vegetables",
+        "Wrap"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Barbecue-style wrap"
+    },
+    {
+      "recipe_id": "R030",
+      "recipe_name": "Prawn rice salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "prawn",
+        "rice",
+        "cucumber",
+        "carrot",
+        "lettuce"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook prawn",
+        "Add sliced vegetables"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh lunch bowl"
+    },
+    {
+      "recipe_id": "R031",
+      "recipe_name": "Tomato pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "pasta",
+        "tomato",
+        "garlic",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook tomato with garlic and olive oil",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple Italian-style pasta"
+    },
+    {
+      "recipe_id": "R032",
+      "recipe_name": "Beef pasta bake",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "beef_mince",
+        "pasta",
+        "pasta_sauce",
+        "cheese",
+        "onion"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook beef mince with onion and pasta sauce",
+        "Top with cheese"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Australian family dinner"
+    },
+    {
+      "recipe_id": "R033",
+      "recipe_name": "Prawn tomato pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "prawn",
+        "pasta",
+        "canned_tomatoes",
+        "garlic",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook prawn with canned tomatoes garlic and olive oil",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Seafood pasta"
+    },
+    {
+      "recipe_id": "R034",
+      "recipe_name": "Chicken mushroom pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "chicken_breast",
+        "mushroom",
+        "pasta",
+        "garlic",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook chicken and mushroom with garlic and olive oil",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Weeknight pasta"
+    },
+    {
+      "recipe_id": "R035",
+      "recipe_name": "Tofu tomato pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "tofu",
+        "pasta",
+        "pasta_sauce",
+        "spinach"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook tofu with pasta sauce and spinach",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Plant-based pasta"
+    },
+    {
+      "recipe_id": "R036",
+      "recipe_name": "Broccoli cheese pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "broccoli",
+        "cheese",
+        "pasta",
+        "milk",
+        "butter"
+      ],
+      "steps": [
+        "Cook pasta and broccoli",
+        "Make cheese sauce with milk butter and cheese",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Comfort dinner"
+    },
+    {
+      "recipe_id": "R037",
+      "recipe_name": "Chicken avocado pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "chicken_breast",
+        "avocado",
+        "pasta",
+        "lemon",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook chicken",
+        "Add avocado lemon and olive oil"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh pasta"
+    },
+    {
+      "recipe_id": "R038",
+      "recipe_name": "Pumpkin spinach pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "pumpkin",
+        "spinach",
+        "pasta",
+        "cheese"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook pumpkin and spinach",
+        "Add cheese",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetarian dinner"
+    },
+    {
+      "recipe_id": "R039",
+      "recipe_name": "Salmon zucchini pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "salmon",
+        "zucchini",
+        "pasta",
+        "lemon",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook salmon and zucchini",
+        "Add lemon and olive oil"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh pasta dinner"
+    },
+    {
+      "recipe_id": "R040",
+      "recipe_name": "Sausage tomato pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "sausage",
+        "pasta",
+        "pasta_sauce",
+        "onion",
+        "cheese"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook sausage with onion and pasta sauce",
+        "Top with cheese"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple pasta dinner"
+    },
+    {
+      "recipe_id": "R041",
+      "recipe_name": "Vegetable pasta bake",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "pasta",
+        "pasta_sauce",
+        "zucchini",
+        "mushroom",
+        "cheese"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Mix with pasta sauce zucchini and mushroom",
+        "Top with cheese"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Family pasta bake"
+    },
+    {
+      "recipe_id": "R042",
+      "recipe_name": "Salmon tomato pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "salmon",
+        "pasta",
+        "canned_tomatoes",
+        "spinach",
+        "garlic"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook salmon with canned tomatoes spinach and garlic",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Seafood pasta"
+    },
+    {
+      "recipe_id": "R043",
+      "recipe_name": "Chicken broccoli noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "chicken_breast",
+        "broccoli",
+        "noodles",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Cook chicken and broccoli",
+        "Add soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Asian-style quick meal"
+    },
+    {
+      "recipe_id": "R044",
+      "recipe_name": "Tofu peanut noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "tofu",
+        "noodles",
+        "peanut_butter",
+        "soy_sauce",
+        "capsicum"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Cook tofu and capsicum",
+        "Mix peanut butter and soy sauce",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Noodle bowl"
+    },
+    {
+      "recipe_id": "R045",
+      "recipe_name": "Prawn noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "prawn",
+        "noodles",
+        "capsicum",
+        "garlic",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Cook prawn with capsicum and garlic",
+        "Add soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick dinner"
+    },
+    {
+      "recipe_id": "R046",
+      "recipe_name": "Chicken corn noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "chicken_thigh",
+        "corn",
+        "noodles",
+        "soy_sauce",
+        "garlic"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Cook chicken thigh with corn and garlic",
+        "Add soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick noodle dinner"
+    },
+    {
+      "recipe_id": "R047",
+      "recipe_name": "Egg fried rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "egg",
+        "rice",
+        "carrot",
+        "corn",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook rice",
+        "Stir-fry egg carrot and corn",
+        "Add soy sauce"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Common home meal"
+    },
+    {
+      "recipe_id": "R048",
+      "recipe_name": "Beef tomato rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "beef_mince",
+        "tomato",
+        "rice",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook beef mince with tomato onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Rice dinner"
+    },
+    {
+      "recipe_id": "R049",
+      "recipe_name": "Pork broccoli rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "pork",
+        "broccoli",
+        "rice",
+        "soy_sauce",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook pork and broccoli with soy sauce and garlic"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Stir-fry dinner"
+    },
+    {
+      "recipe_id": "R050",
+      "recipe_name": "Tofu canned tomato rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "tofu",
+        "canned_tomatoes",
+        "rice",
+        "spinach",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook tofu with canned tomatoes spinach and garlic"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple rice meal"
+    },
+    {
+      "recipe_id": "R051",
+      "recipe_name": "Prawn tofu rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "prawn",
+        "tofu",
+        "rice",
+        "garlic",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook prawn and tofu with garlic and soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Protein rice bowl"
+    },
+    {
+      "recipe_id": "R052",
+      "recipe_name": "Tofu capsicum noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "tofu",
+        "capsicum",
+        "noodles",
+        "garlic",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Stir-fry tofu and capsicum with garlic and soy sauce"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetarian noodles"
+    },
+    {
+      "recipe_id": "R053",
+      "recipe_name": "Egg tomato rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "egg",
+        "tomato",
+        "rice",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook egg with tomato and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple home-style rice"
+    },
+    {
+      "recipe_id": "R054",
+      "recipe_name": "Chicken soy rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "chicken_thigh",
+        "rice",
+        "soy_sauce",
+        "garlic",
+        "broccoli"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken thigh with soy sauce and garlic",
+        "Serve with broccoli"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Soy chicken rice"
+    },
+    {
+      "recipe_id": "R055",
+      "recipe_name": "Chicken coconut pumpkin curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "chicken_thigh",
+        "coconut_milk",
+        "pumpkin",
+        "rice",
+        "onion"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken thigh pumpkin onion and coconut milk",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Mild coconut curry"
+    },
+    {
+      "recipe_id": "R056",
+      "recipe_name": "Tofu coconut curry rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "tofu",
+        "coconut_milk",
+        "rice",
+        "pumpkin",
+        "spinach"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook tofu pumpkin and spinach with coconut milk",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Plant-based curry"
+    },
+    {
+      "recipe_id": "R057",
+      "recipe_name": "Prawn coconut rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "prawn",
+        "coconut_milk",
+        "rice",
+        "capsicum",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook prawn with coconut milk capsicum and garlic"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Seafood coconut rice"
+    },
+    {
+      "recipe_id": "R058",
+      "recipe_name": "Chicken coconut rice",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "chicken_thigh",
+        "coconut_milk",
+        "rice",
+        "capsicum",
+        "onion"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken thigh with coconut milk capsicum and onion"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Mild curry-style dinner"
+    },
+    {
+      "recipe_id": "R059",
+      "recipe_name": "Coconut pumpkin soup",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "coconut_milk",
+        "pumpkin",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook pumpkin onion and garlic",
+        "Add coconut milk",
+        "Blend and serve"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Soup-style dinner"
+    },
+    {
+      "recipe_id": "R060",
+      "recipe_name": "Tofu coconut noodles",
+      "meal_type": "dinner",
+      "cuisine_style": "Thai-inspired",
+      "ingredients": [
+        "tofu",
+        "coconut_milk",
+        "noodles",
+        "spinach",
+        "capsicum"
+      ],
+      "steps": [
+        "Cook noodles",
+        "Cook tofu vegetables and coconut milk",
+        "Combine"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Coconut noodle bowl"
+    },
+    {
+      "recipe_id": "R061",
+      "recipe_name": "Chicken potato curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Indian-inspired",
+      "ingredients": [
+        "chicken_thigh",
+        "potato",
+        "rice",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken thigh potato onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Indian-inspired home curry"
+    },
+    {
+      "recipe_id": "R062",
+      "recipe_name": "Beef pumpkin curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Indian-inspired",
+      "ingredients": [
+        "beef_mince",
+        "pumpkin",
+        "rice",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook beef mince pumpkin onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Curry-style rice"
+    },
+    {
+      "recipe_id": "R063",
+      "recipe_name": "Tofu spinach curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Indian-inspired",
+      "ingredients": [
+        "tofu",
+        "spinach",
+        "rice",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook tofu spinach onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Plant-based curry"
+    },
+    {
+      "recipe_id": "R064",
+      "recipe_name": "Egg potato curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Indian-inspired",
+      "ingredients": [
+        "egg",
+        "potato",
+        "rice",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook egg potato onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Budget curry-style meal"
+    },
+    {
+      "recipe_id": "R065",
+      "recipe_name": "Prawn rice curry",
+      "meal_type": "dinner",
+      "cuisine_style": "Indian-inspired",
+      "ingredients": [
+        "prawn",
+        "rice",
+        "tomato",
+        "onion",
+        "garlic"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook prawn with tomato onion and garlic",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Seafood curry-style meal"
+    },
+    {
+      "recipe_id": "R066",
+      "recipe_name": "Chicken avocado salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Mediterranean-inspired",
+      "ingredients": [
+        "chicken_breast",
+        "avocado",
+        "lettuce",
+        "tomato",
+        "cucumber",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook chicken",
+        "Prepare salad vegetables",
+        "Add avocado and olive oil"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh salad"
+    },
+    {
+      "recipe_id": "R067",
+      "recipe_name": "Salmon cucumber salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Mediterranean-inspired",
+      "ingredients": [
+        "salmon",
+        "cucumber",
+        "lettuce",
+        "avocado",
+        "lemon"
+      ],
+      "steps": [
+        "Cook salmon",
+        "Prepare salad",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Light lunch"
+    },
+    {
+      "recipe_id": "R068",
+      "recipe_name": "Tomato cucumber salad",
+      "meal_type": "side",
+      "cuisine_style": "Mediterranean-inspired",
+      "ingredients": [
+        "tomato",
+        "cucumber",
+        "lettuce",
+        "olive_oil"
+      ],
+      "steps": [
+        "Slice vegetables",
+        "Add olive oil",
+        "Serve cold"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple salad"
+    },
+    {
+      "recipe_id": "R069",
+      "recipe_name": "Cheese tomato cucumber plate",
+      "meal_type": "snack",
+      "cuisine_style": "Mediterranean-inspired",
+      "ingredients": [
+        "cheese",
+        "tomato",
+        "cucumber"
+      ],
+      "steps": [
+        "Slice cheese tomato and cucumber",
+        "Serve cold"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Snack plate"
+    },
+    {
+      "recipe_id": "R070",
+      "recipe_name": "Prawn lemon salad",
+      "meal_type": "lunch",
+      "cuisine_style": "Mediterranean-inspired",
+      "ingredients": [
+        "prawn",
+        "lettuce",
+        "cucumber",
+        "tomato",
+        "lemon"
+      ],
+      "steps": [
+        "Cook prawn",
+        "Prepare salad",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Seafood salad"
+    },
+    {
+      "recipe_id": "R071",
+      "recipe_name": "Chicken pumpkin rice",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "chicken_thigh",
+        "pumpkin",
+        "rice",
+        "broccoli"
+      ],
+      "steps": [
+        "Cook rice",
+        "Cook chicken thigh",
+        "Cook pumpkin and broccoli",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Roast-style plate"
+    },
+    {
+      "recipe_id": "R072",
+      "recipe_name": "Salmon potato plate",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "salmon",
+        "potato",
+        "broccoli",
+        "lemon"
+      ],
+      "steps": [
+        "Cook salmon",
+        "Cook potato",
+        "Steam broccoli",
+        "Serve with lemon"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple dinner"
+    },
+    {
+      "recipe_id": "R073",
+      "recipe_name": "Beef potato skillet",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "beef_mince",
+        "potato",
+        "onion",
+        "carrot"
+      ],
+      "steps": [
+        "Cook potato",
+        "Cook beef mince with onion and carrot",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple dinner"
+    },
+    {
+      "recipe_id": "R074",
+      "recipe_name": "Pork pumpkin plate",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "pork",
+        "pumpkin",
+        "potato",
+        "spinach"
+      ],
+      "steps": [
+        "Cook pork",
+        "Cook pumpkin and potato",
+        "Serve with spinach"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Roast-style plate"
+    },
+    {
+      "recipe_id": "R075",
+      "recipe_name": "Sausage veggie tray bake",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "sausage",
+        "potato",
+        "pumpkin",
+        "onion",
+        "carrot"
+      ],
+      "steps": [
+        "Cook sausage with vegetables",
+        "Serve warm"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Australian tray bake"
+    },
+    {
+      "recipe_id": "R076",
+      "recipe_name": "Roast vegetable side",
+      "meal_type": "side",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "potato",
+        "pumpkin",
+        "carrot",
+        "onion",
+        "olive_oil"
+      ],
+      "steps": [
+        "Prepare vegetables",
+        "Add olive oil",
+        "Roast or bake until cooked"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Roast side dish"
+    },
+    {
+      "recipe_id": "R077",
+      "recipe_name": "Chicken corn tray bake",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "chicken_thigh",
+        "corn",
+        "potato",
+        "carrot"
+      ],
+      "steps": [
+        "Cook chicken thigh with corn potato and carrot",
+        "Serve warm"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Tray bake"
+    },
+    {
+      "recipe_id": "R078",
+      "recipe_name": "Pork sausage barbecue plate",
+      "meal_type": "dinner",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "pork",
+        "sausage",
+        "potato",
+        "onion",
+        "tomato"
+      ],
+      "steps": [
+        "Cook pork and sausage",
+        "Serve with potato onion and tomato"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "BBQ-style plate"
+    },
+    {
+      "recipe_id": "R079",
+      "recipe_name": "Garlic zucchini side",
+      "meal_type": "side",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "zucchini",
+        "garlic",
+        "olive_oil"
+      ],
+      "steps": [
+        "Slice zucchini",
+        "Cook with garlic and olive oil"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetable side"
+    },
+    {
+      "recipe_id": "R080",
+      "recipe_name": "Corn capsicum side",
+      "meal_type": "side",
+      "cuisine_style": "BBQ and roast",
+      "ingredients": [
+        "corn",
+        "capsicum",
+        "butter"
+      ],
+      "steps": [
+        "Cook corn and capsicum",
+        "Add butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetable side"
+    },
+    {
+      "recipe_id": "R081",
+      "recipe_name": "Apple peanut snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "apple",
+        "peanut_butter"
+      ],
+      "steps": [
+        "Slice apple",
+        "Serve with peanut butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple snack"
+    },
+    {
+      "recipe_id": "R082",
+      "recipe_name": "Orange grape yoghurt snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "orange",
+        "grape",
+        "yoghurt"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Serve with yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fruit snack"
+    },
+    {
+      "recipe_id": "R083",
+      "recipe_name": "Carrot cucumber sticks",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "carrot",
+        "cucumber",
+        "yoghurt"
+      ],
+      "steps": [
+        "Slice carrot and cucumber",
+        "Serve with yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple snack"
+    },
+    {
+      "recipe_id": "R084",
+      "recipe_name": "Banana yoghurt snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "banana",
+        "yoghurt",
+        "oats"
+      ],
+      "steps": [
+        "Slice banana",
+        "Add yoghurt and oats"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick snack"
+    },
+    {
+      "recipe_id": "R085",
+      "recipe_name": "Strawberry milk smoothie",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "strawberry",
+        "milk",
+        "yoghurt"
+      ],
+      "steps": [
+        "Blend strawberry milk and yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Smoothie"
+    },
+    {
+      "recipe_id": "R086",
+      "recipe_name": "Mango avocado salad",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "mango",
+        "avocado",
+        "lettuce",
+        "cucumber",
+        "lemon"
+      ],
+      "steps": [
+        "Slice ingredients",
+        "Combine and serve with lemon"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh snack salad"
+    },
+    {
+      "recipe_id": "R087",
+      "recipe_name": "Homemade flatbread",
+      "meal_type": "side",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "flour",
+        "milk",
+        "butter"
+      ],
+      "steps": [
+        "Mix flour and milk",
+        "Cook flatbread",
+        "Serve with butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Covers flour"
+    },
+    {
+      "recipe_id": "R088",
+      "recipe_name": "Garlic mushroom toast",
+      "meal_type": "side",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "mushroom",
+        "garlic",
+        "bread",
+        "butter"
+      ],
+      "steps": [
+        "Cook mushroom with garlic and butter",
+        "Serve on toast"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Side or light meal"
+    },
+    {
+      "recipe_id": "R089",
+      "recipe_name": "Zucchini corn fritter-style side",
+      "meal_type": "side",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "zucchini",
+        "corn",
+        "flour",
+        "egg"
+      ],
+      "steps": [
+        "Mix zucchini corn flour and egg",
+        "Cook as fritter-style patties"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Australian-style fritter"
+    },
+    {
+      "recipe_id": "R090",
+      "recipe_name": "Mushroom spinach side",
+      "meal_type": "side",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "mushroom",
+        "spinach",
+        "garlic",
+        "olive_oil"
+      ],
+      "steps": [
+        "Cook mushroom and spinach with garlic and olive oil"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetable side"
+    },
+    {
+      "recipe_id": "R091",
+      "recipe_name": "Broccoli cheese bake",
+      "meal_type": "side",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "broccoli",
+        "cheese",
+        "milk",
+        "butter"
+      ],
+      "steps": [
+        "Cook broccoli",
+        "Make cheese sauce with milk butter and cheese",
+        "Serve warm"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetable bake"
+    },
+    {
+      "recipe_id": "R092",
+      "recipe_name": "Apple grape yoghurt bowl",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "apple",
+        "grape",
+        "yoghurt"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Add yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh snack"
+    },
+    {
+      "recipe_id": "R093",
+      "recipe_name": "Banana peanut yoghurt snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "banana",
+        "peanut_butter",
+        "yoghurt"
+      ],
+      "steps": [
+        "Slice banana",
+        "Add yoghurt and peanut butter"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Snack"
+    },
+    {
+      "recipe_id": "R094",
+      "recipe_name": "Carrot capsicum sticks",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "carrot",
+        "capsicum",
+        "yoghurt"
+      ],
+      "steps": [
+        "Slice carrot and capsicum",
+        "Serve with yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Vegetable snack"
+    },
+    {
+      "recipe_id": "R095",
+      "recipe_name": "Cucumber tomato avocado snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "cucumber",
+        "tomato",
+        "avocado",
+        "lemon"
+      ],
+      "steps": [
+        "Slice vegetables",
+        "Add avocado and lemon"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh snack"
+    },
+    {
+      "recipe_id": "R096",
+      "recipe_name": "Cheese cucumber plate",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "cheese",
+        "cucumber",
+        "tomato"
+      ],
+      "steps": [
+        "Slice cheese cucumber and tomato",
+        "Serve cold"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple snack plate"
+    },
+    {
+      "recipe_id": "R097",
+      "recipe_name": "Orange mango yoghurt snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "orange",
+        "mango",
+        "yoghurt"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Add yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fruit snack"
+    },
+    {
+      "recipe_id": "R098",
+      "recipe_name": "Strawberry banana oats snack",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "strawberry",
+        "banana",
+        "oats",
+        "yoghurt"
+      ],
+      "steps": [
+        "Combine fruit oats and yoghurt"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Snack bowl"
+    },
+    {
+      "recipe_id": "R099",
+      "recipe_name": "Apple orange fruit plate",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "apple",
+        "orange",
+        "grape",
+        "strawberry"
+      ],
+      "steps": [
+        "Prepare fruit",
+        "Serve together"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Fresh fruit plate"
+    },
+    {
+      "recipe_id": "R100",
+      "recipe_name": "Tomato avocado toast",
+      "meal_type": "side",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "tomato",
+        "avocado",
+        "bread",
+        "lemon"
+      ],
+      "steps": [
+        "Toast bread",
+        "Add tomato avocado and lemon"
+      ],
+      "dietary_tags": [
+        "vegetarian",
+        "low-calorie"
+      ],
+      "missing_allowed": false,
+      "notes": "Light cafe-style meal"
+    }
+  ]
+}
