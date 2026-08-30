@@ -1,0 +1,58 @@
+{
+  "version": "v1",
+  "description": "Output schema for the AI-based recipe recommendation version of SnapWell AI.",
+  "output": {
+    "recommendations": [
+      {
+        "recipe_id": "AI001",
+        "recipe_name": "Apple Yoghurt Oat Bowl",
+        "meal_type": "breakfast",
+        "cuisine_style": "Australian everyday",
+        "used_ingredients": [
+          "apple"
+        ],
+        "missing_ingredients": [
+          {
+            "label": "yoghurt",
+            "display_name": "Yoghurt",
+            "optional": false,
+            "nutrition_available": true,
+            "reason": "Needed to make the yoghurt bowl.",
+            "shopping_links": {
+              "coles": "https://www.coles.com.au/search/products?q=yoghurt",
+              "woolworths": "https://www.woolworths.com.au/shop/search/products?searchTerm=yoghurt"
+            }
+          },
+          {
+            "label": "oats",
+            "display_name": "Oats",
+            "optional": false,
+            "nutrition_available": true,
+            "reason": "Needed as the grain base for the bowl.",
+            "shopping_links": {
+              "coles": "https://www.coles.com.au/search/products?q=oats",
+              "woolworths": "https://www.woolworths.com.au/shop/search/products?searchTerm=oats"
+            }
+          }
+        ],
+        "steps": [
+          "Slice the apple.",
+          "Add yoghurt to a bowl.",
+          "Top with oats and apple."
+        ],
+        "dietary_tags": [
+          "vegetarian"
+        ],
+        "nutrition_note": "Nutrition values should be calculated from AUSNUT data by the app, not invented by the AI.",
+        "recommendation_reason": "This recipe uses the confirmed apple and suggests two common missing ingredients for a simple Australian-style breakfast."
+      }
+    ],
+    "summary": {
+      "total_recommendations": 1,
+      "assumptions": [
+        "Only apple is currently confirmed by the user.",
+        "Yoghurt and oats are suggested missing ingredients and are available in the existing AUSNUT mapping."
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": "v1",
+  "description": "Input schema for the AI-based recipe recommendation version of SnapWell AI.",
+  "input": {
+    "confirmed_ingredients": [
+      {
+        "label": "apple",
+        "display_name": "Apple",
+        "source": "vision",
+        "ausnut_public_food_key": "F000114",
+        "ausnut_food_name": "Apple, unpeeled, raw, not further defined",
+        "quantity_g": 150,
+        "nutrition_per_100g": {
+          "energy_kcal": 53.8
+        },
+        "nutrition_for_quantity": {
+          "energy_kcal": 80.7
+        }
+      }
+    ],
+    "nutrition_summary": {
+      "total_energy_kcal": 80.7,
+      "ingredient_count": 1
+    },
+    "user_preferences": {
+      "dietary_pattern": "none",
+      "allergens": [],
+      "health_goal": "balanced",
+      "meal_type": "breakfast",
+      "cuisine_preference": "any",
+      "max_missing_ingredients": 3
+    },
+    "missing_ingredient_link_templates": {
+      "coles": "https://www.coles.com.au/search/products?q={query}",
+      "woolworths": "https://www.woolworths.com.au/shop/search/products?searchTerm={query}"
+    },
+    "constraints": {
+      "ai_generates_recipes": true,
+      "use_confirmed_ingredients_as_primary_inputs": true,
+      "do_not_invent_nutrition_values": true,
+      "return_json_only": true,
+      "australian_localisation": true
+    }
+  }
+}
