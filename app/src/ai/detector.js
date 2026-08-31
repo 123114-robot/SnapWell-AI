@@ -76,6 +76,9 @@ export async function detect(session, img) {
       id: idx,
       label: NAMES[b.cls],
       confidence: b.score,
+      quantity: 1,
+      unit: 'piece',
+      source: 'detected',
       bbox: {
         x: (b.x1 - padX) / scale,
         y: (b.y1 - padY) / scale,
@@ -85,6 +88,36 @@ export async function detect(session, img) {
     })),
     timing: { preprocess: t1 - t0, inference: t2 - t1, postprocess: t3 - t2, total: t3 - t0 }
   }
+}
+
+/**
+ * Collapse duplicate boxes into one ingredient row per label.
+ * Keeps max confidence and sets quantity to the number of boxes.
+ * Weak detections below minConfidence are dropped first.
+ */
+export function mergeDetectionsByLabel(detections, minConfidence = 0) {
+  const byLabel = new Map()
+  for (const d of detections) {
+    if (d.confidence != null && d.confidence < minConfidence) continue
+    const key = String(d.label).toLowerCase()
+    const prev = byLabel.get(key)
+    if (!prev) {
+      byLabel.set(key, {
+        ...d,
+        label: key,
+        quantity: d.quantity || 1,
+        unit: d.unit || 'piece',
+        source: d.source || 'detected',
+      })
+      continue
+    }
+    prev.quantity = (prev.quantity || 1) + (d.quantity || 1)
+    if ((d.confidence ?? 0) > (prev.confidence ?? 0)) {
+      prev.confidence = d.confidence
+      prev.bbox = d.bbox
+    }
+  }
+  return [...byLabel.values()].map((d, idx) => ({ ...d, id: idx }))
 }
 
 function nms(boxes, thres) {

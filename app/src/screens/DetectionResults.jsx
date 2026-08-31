@@ -79,6 +79,9 @@ export default function DetectionResults() {
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, fontSize: 15, color: T.ink, textTransform: 'capitalize' }}>
                 {it.label}
+                {(it.quantity || 1) > 1 && (
+                  <span style={{ color: T.muted, fontWeight: 600 }}> ×{it.quantity}</span>
+                )}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
                 <span style={{

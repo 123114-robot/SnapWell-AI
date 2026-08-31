@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useModel } from '../ai/ModelContext.jsx'
 import { useAppState } from '../state/AppState.jsx'
-import { detect } from '../ai/detector.js'
+import { detect, mergeDetectionsByLabel } from '../ai/detector.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -28,7 +28,7 @@ export default function Capture() {
       navigate('/processing')   // 先跳到处理动画屏
       // 在后台跑检测，结果存进仓库；Processing 屏跑完动画后会跳到 /results
       const r = await detect(session.current, image)
-      setIngredients(r.detections)
+      setIngredients(mergeDetectionsByLabel(r.detections))
     }
     image.src = URL.createObjectURL(file)
   }

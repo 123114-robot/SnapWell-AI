@@ -13,6 +13,7 @@ import Recommendations from './screens/Recommendations.jsx'
 import MissingIngredients from './screens/MissingIngredients.jsx'
 import RecipeDetail from './screens/RecipeDetail.jsx'
 import NutritionInfo from './screens/NutritionInfo.jsx'
+import BottomNav from './components/BottomNav.jsx'
 
 function ModelBadge() {
   const { status, progress } = useModel()
@@ -80,21 +81,24 @@ export default function App() {
     <ModelProvider>
       <AppStateProvider>
         <BrowserRouter>
-          <ModelBadge />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/preferences" element={<Preferences />} />
-            <Route path="/capture" element={<Capture />} />
-            <Route path="/processing" element={<Processing />} />
-            <Route path="/results" element={<DetectionResults />} />
-            <Route path="/confirm" element={<IngredientConfirm />} />
-            <Route path="/quantity" element={<QuantityAdjust />} />
-            <Route path="/recommendations" element={<Recommendations />} />
-            <Route path="/missing" element={<MissingIngredients />} />
-            <Route path="/recipe/:id" element={<RecipeDetail />} />
-            <Route path="/nutrition/:id" element={<NutritionInfo />} />
-          </Routes>
+          <div style={{ paddingBottom: 88, minHeight: '100vh', boxSizing: 'border-box' }}>
+            <ModelBadge />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/preferences" element={<Preferences />} />
+              <Route path="/capture" element={<Capture />} />
+              <Route path="/processing" element={<Processing />} />
+              <Route path="/results" element={<DetectionResults />} />
+              <Route path="/confirm" element={<IngredientConfirm />} />
+              <Route path="/quantity" element={<QuantityAdjust />} />
+              <Route path="/recommendations" element={<Recommendations />} />
+              <Route path="/missing" element={<MissingIngredients />} />
+              <Route path="/recipe/:id" element={<RecipeDetail />} />
+              <Route path="/nutrition/:id" element={<NutritionInfo />} />
+            </Routes>
+          </div>
+          <BottomNav />
         </BrowserRouter>
       </AppStateProvider>
     </ModelProvider>
