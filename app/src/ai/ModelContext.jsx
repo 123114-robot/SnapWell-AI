@@ -11,7 +11,7 @@ export function ModelProvider({ children }) {
 
   useEffect(() => {
     let cancelled = false
-    createSession('/models/yolov8n.onnx', (p) => !cancelled && setProgress(p))
+    createSession('/models/snapwell-v2.onnx', (p) => !cancelled && setProgress(p))
       .then(async (s) => {
         if (cancelled) return
         sessionRef.current = s

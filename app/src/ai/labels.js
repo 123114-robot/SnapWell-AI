@@ -1,5 +1,13 @@
-// COCO 80 classes — placeholder until the fine-tuned model lands in Sprint 2.
-// Only FOOD_CLASSES are treated as ingredients downstream.
-export const NAMES = ['person','bicycle','car','motorcycle','airplane','bus','train','truck','boat','traffic light','fire hydrant','stop sign','parking meter','bench','bird','cat','dog','horse','sheep','cow','elephant','bear','zebra','giraffe','backpack','umbrella','handbag','tie','suitcase','frisbee','skis','snowboard','sports ball','kite','baseball bat','baseball glove','skateboard','surfboard','tennis racket','bottle','wine glass','cup','fork','knife','spoon','bowl','banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake','chair','couch','potted plant','bed','dining table','toilet','tv','laptop','mouse','remote','keyboard','cell phone','microwave','oven','toaster','sink','refrigerator','book','clock','vase','scissors','teddy bear','hair drier','toothbrush']
+// SnapWell v2 fine-tuned model — 39 classes, must match /models/classes.json
+// and data/snapwell-v2/data.yaml exactly (alphabetical, underscore naming).
+export const NAMES = [
+  'apple', 'avocado', 'bacon', 'banana', 'beef_mince', 'bread', 'broccoli',
+  'butter', 'capsicum', 'carrot', 'cheese', 'chicken_breast', 'chicken_thigh',
+  'corn', 'cucumber', 'egg', 'garlic', 'grape', 'lemon', 'lettuce', 'mango',
+  'milk', 'mushroom', 'onion', 'orange', 'pasta', 'pork', 'potato', 'prawn',
+  'pumpkin', 'rice', 'salmon', 'sausage', 'spinach', 'strawberry', 'tofu',
+  'tomato', 'yoghurt', 'zucchini'
+]
 
-export const FOOD_CLASSES = new Set(['banana','apple','sandwich','orange','broccoli','carrot','hot dog','pizza','donut','cake'])
+// All 39 classes are ingredients now — no COCO non-food filtering needed.
+export const FOOD_CLASSES = new Set(NAMES)

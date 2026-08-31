@@ -8,6 +8,7 @@ ort.env.wasm.proxy = false
 const SIZE = 640
 const CONF_THRES = 0.25
 const IOU_THRES = 0.45
+const NUM_CLASSES = NAMES.length
 
 export async function createSession(modelUrl, onProgress) {
   const res = await fetch(modelUrl)
@@ -59,7 +60,7 @@ export async function detect(session, img) {
   let boxes = []
   for (let i = 0; i < N; i++) {
     let best = 0, cls = -1
-    for (let c = 0; c < 80; c++) {
+    for (let c = 0; c < NUM_CLASSES; c++) {
       const s = raw[(4 + c) * N + i]
       if (s > best) { best = s; cls = c }
     }
