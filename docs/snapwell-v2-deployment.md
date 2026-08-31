@@ -69,5 +69,9 @@ on at least M3 Pro and one mid-range Android.
 
 ## Out of repo (local only)
 
-Training datasets (`data/`), Ultralytics `runs/`, and `scripts/download_dataset.py`
-stay local and are not part of the deployed app bundle.
+Training datasets (`data/`), Ultralytics `runs/`, and large weight files stay local
+and are not part of the deployed app bundle. Reproducible download:
+`scripts/download_dataset.py`.
+
+Raw train / test terminal logs (commands + per-class tables) are archived under
+[`docs/training/`](training/README.md) for A3 and teammate review.
