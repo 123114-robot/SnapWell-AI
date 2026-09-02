@@ -40,6 +40,18 @@ This folder contains the data layer for SnapWell AI. It connects detected ingred
 
 The recipe dataset uses all 49 mapped ingredient labels and contains no unmapped ingredient labels.
 
+## Recommendation Logic
+
+The recommendation engine matches confirmed user ingredients against the local recipe dataset.
+
+Ingredient coverage is calculated as:
+
+`matched recipe ingredients / total recipe ingredients × 100`
+
+Recipes with a top coverage score of 70% or higher are returned using the local recommendation mode. If the best eligible recipe is below 70%, the system marks the result as requiring the Gemini AI fallback.
+
+Dietary restrictions and allergies are applied as hard filters before ranking. Meal type, cuisine preference, and health goals may influence ranking but do not change the ingredient coverage score.
+
 ## Nutrition Estimates
 
 Recipe nutrition is calculated from the standard quantities in `recipe-portions-v1.json`,
