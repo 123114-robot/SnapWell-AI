@@ -1,88 +1,68 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/AppState.jsx'
+import recommendationEngine from '../recommendation/recommendationEngine.js'
+import { adaptRecommendationResult, displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
-  greenSoft: '#E7EFE9', greenLine: '#CBDDD0',
+  greenSoft: '#E7EFE9',
   wattle: '#E9A824', wattleSoft: '#FBEECB',
   tomato: '#D64525', tomatoSoft: '#F8E3DC',
   muted: '#5E6E64', line: '#E4E0D6',
 }
 
-// 示例食谱库（Sprint 2 会换成真实食谱 + AUSNUT 营养数据，结构一样）
-export const RECIPES = [
-  { id: 'tomato-pasta', name: 'Creamy Tomato Pasta', emoji: '🍝', time: 20, kcal: 420,
-    img: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=80',
-    tags: ['Vegetarian', 'Quick meal'],
-    needs: ['pasta', 'tomato', 'milk', 'garlic'],
-    nutrition: { protein: 18, carbs: 56, fat: 12, fibre: 4, sodium: 320 },
-    steps: ['Boil pasta until al dente, then drain.',
-            'Soften garlic, add chopped tomato, cook down.',
-            'Stir in milk, simmer to a light sauce, season.',
-            'Toss pasta through the sauce.'] },
-  { id: 'tomato-soup', name: 'Tomato Soup', emoji: '🍲', time: 25, kcal: 210,
-    img: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80',
-    tags: ['Low-calorie', 'Vegetarian'],
-    needs: ['tomato', 'garlic', 'onion'],
-    nutrition: { protein: 6, carbs: 28, fat: 7, fibre: 5, sodium: 290 },
-    steps: ['Roast tomato, garlic and onion until soft.',
-            'Blend until smooth, warm through and season.'] },
-  { id: 'fruit-salad', name: 'Fresh Fruit Salad', emoji: '🥗', time: 10, kcal: 150,
-    img: 'https://images.unsplash.com/photo-1564093497595-593b96d80180?w=400&q=80',
-    tags: ['Vegan', 'Low-calorie'],
-    needs: ['apple', 'banana', 'orange'],
-    nutrition: { protein: 2, carbs: 34, fat: 1, fibre: 6, sodium: 5 },
-    steps: ['Chop all fruit into bite-size pieces.',
-            'Toss together and chill before serving.'] },
-  { id: 'veggie-stirfry', name: 'Veggie Stir-fry', emoji: '🥘', time: 18, kcal: 260,
-    img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',
-    tags: ['Vegan', 'High-protein'],
-    needs: ['broccoli', 'carrot', 'garlic', 'onion'],
-    nutrition: { protein: 12, carbs: 30, fat: 9, fibre: 8, sodium: 340 },
-    steps: ['Chop all vegetables.',
-            'Stir-fry garlic and onion, add veg, cook until tender-crisp.',
-            'Season and serve.'] },
-  { id: 'cheese-omelette', name: 'Cheese Omelette', emoji: '🍳', time: 12, kcal: 330,
-    img: 'https://images.unsplash.com/photo-1612240498936-65f5101365d2?w=400&q=80',
-    tags: ['Vegetarian', 'High-protein'],
-    needs: ['egg', 'cheese', 'milk'],
-    nutrition: { protein: 22, carbs: 4, fat: 25, fibre: 0, sodium: 380 },
-    steps: ['Whisk eggs with a splash of milk.',
-            'Cook gently, add cheese, fold and serve.'] },
-  { id: 'roast-potato', name: 'Garlic Roast Potatoes', emoji: '🥔', time: 40, kcal: 290,
-    img: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&q=80',
-    tags: ['Vegan'],
-    needs: ['potato', 'garlic'],
-    nutrition: { protein: 5, carbs: 48, fat: 9, fibre: 5, sodium: 220 },
-    steps: ['Cut potatoes into chunks.',
-            'Toss with oil and garlic, roast until golden.'] },
-]
-
-// 匹配计算：命中的食材数 / 食谱需要的食材数
-export function scoreRecipe(recipe, have) {
-  const haveSet = new Set(have.map(h => String(h.label).toLowerCase()))
-  const hit = recipe.needs.filter(n => haveSet.has(n))
-  const missing = recipe.needs.filter(n => !haveSet.has(n))
-  const score = Math.round((hit.length / recipe.needs.length) * 100)
-  return { score, hit, missing }
-}
-
 export default function Recommendations() {
   const navigate = useNavigate()
-  const { ingredients } = useAppState()
+  const {
+    ingredients,
+    preferences,
+    recommendationResult,
+    setRecommendationResult,
+    setSelectedRecipe,
+  } = useAppState()
+  const [status, setStatus] = useState('loading')
+  const [error, setError] = useState('')
 
-  // 给每道食谱打分，过滤掉完全不沾边的，按分数排序
-  const ranked = RECIPES
-    .map(r => ({ ...r, ...scoreRecipe(r, ingredients) }))
-    .filter(r => r.score > 0)
-    .sort((a, b) => b.score - a.score)
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadRecommendations() {
+      setStatus('loading')
+      setError('')
+
+      try {
+        const result = await recommendationEngine({ ingredients, preferences })
+        if (cancelled) return
+        setRecommendationResult(adaptRecommendationResult(result))
+        setSelectedRecipe(null)
+        setStatus('ready')
+      } catch (loadError) {
+        if (cancelled) return
+        setError(loadError instanceof Error ? loadError.message : 'Unable to load recommendations')
+        setStatus('error')
+      }
+    }
+
+    loadRecommendations()
+    return () => { cancelled = true }
+  }, [ingredients, preferences, setRecommendationResult, setSelectedRecipe])
+
+  const ranked = recommendationResult?.recommendations ?? []
+  const visibleRecipes = ranked.filter(recipe => recipe.coverageScore > 0)
+  const noConfirmedIngredients = (recommendationResult?.diagnostics?.confirmedIngredientCount ?? 0) === 0
+  const noEligibleRecipes = (recommendationResult?.diagnostics?.eligibleRecipeCount ?? 0) === 0
+
+  function openRecipe(recipe) {
+    setSelectedRecipe(recipe)
+    navigate('/recipe/' + encodeURIComponent(recipe.id))
+  }
 
   return (
     <div style={{
       minHeight: '100vh', background: T.paper, fontFamily: 'system-ui, sans-serif',
       maxWidth: 430, margin: '0 auto', paddingBottom: 30,
     }}>
-      {/* 顶部 */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '20px 20px 12px' }}>
         <button onClick={() => navigate('/quantity')} style={{
           background: '#fff', border: `1px solid ${T.line}`, borderRadius: 10,
@@ -97,70 +77,99 @@ export default function Recommendations() {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Recommended for you</div>
           <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
-            Based on what you have
+            Ranked by ingredient coverage
           </div>
         </div>
       </div>
 
-      {/* 食谱卡片列表 */}
       <div style={{ padding: '4px 20px 0', display: 'grid', gap: 14 }}>
-        {ranked.length === 0 && (
+        {status === 'loading' && (
+          <MessageCard>Loading the local recipe library…</MessageCard>
+        )}
+
+        {status === 'error' && (
+          <MessageCard tone={T.tomatoSoft} color={T.tomato}>
+            Recommendations could not be loaded. {error}
+          </MessageCard>
+        )}
+
+        {status === 'ready' && noConfirmedIngredients && (
+          <MessageCard>
+            Add at least one confirmed ingredient to calculate recipe coverage.
+          </MessageCard>
+        )}
+
+        {status === 'ready' && recommendationResult?.fallbackRequired
+          && !noConfirmedIngredients && !noEligibleRecipes && (
           <div style={{
-            background: '#fff', border: `1px dashed ${T.line}`, borderRadius: 14,
-            padding: 24, textAlign: 'center', color: T.muted, fontSize: 14,
+            background: T.wattleSoft, border: `1px solid ${T.wattle}`,
+            borderRadius: 14, padding: 14, color: T.ink, fontSize: 13, lineHeight: 1.5,
           }}>
-            No matching recipes yet. Go back and add a few common ingredients
-            like tomato, egg or pasta.
+            <strong>AI fallback required.</strong> The best eligible local recipe covers{' '}
+            {Math.round(recommendationResult.topCoverageScore)}% of its ingredients, below the{' '}
+            {recommendationResult.threshold}% threshold. Gemini is not connected in Part 4A;
+            local matches remain below for diagnostics.
           </div>
         )}
 
-        {ranked.map(r => (
-          <button key={r.id} onClick={() => navigate('/recipe/' + r.id)} style={{
+        {status === 'ready' && !noConfirmedIngredients && noEligibleRecipes && (
+          <MessageCard>
+            No eligible local recipes match the confirmed ingredients and hard preferences.
+          </MessageCard>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && visibleRecipes.map(recipe => (
+          <button key={recipe.id} onClick={() => openRecipe(recipe)} style={{
             textAlign: 'left', background: '#fff', border: `1px solid ${T.line}`,
-            borderRadius: 18, overflow: 'hidden', cursor: 'pointer', padding: 14,
+            borderRadius: 18, cursor: 'pointer', padding: 14,
             display: 'flex', gap: 14,
           }}>
             <div style={{
               width: 72, height: 72, borderRadius: 14, background: T.greenSoft,
               display: 'grid', placeItems: 'center', fontSize: 34, flexShrink: 0,
-              overflow: 'hidden',
-            }}>
-              {r.img
-                ? <img src={r.img} alt={r.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.target.style.display = 'none' }} />
-                : r.emoji}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>{r.name}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+            }}>🍽️</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>{recipe.name}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: 4,
                   fontFamily: 'monospace', fontSize: 12, color: T.green, fontWeight: 700,
                 }}>
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.wattle }} />
-                  {r.score}% match
+                  {recipe.displayCoverageScore}% coverage
                 </span>
-                <span style={{ fontSize: 12, color: T.muted }}>· {r.kcal} kcal · {r.time} min</span>
+                <span style={{ fontSize: 12, color: T.muted }}>
+                  {recipe.mealType} · {recipe.cuisineStyle}
+                </span>
               </div>
-              {/* 缺的食材提示 */}
-              {r.missing.length > 0 && (
+              {recipe.missingIngredients.length > 0 && (
                 <div style={{ fontSize: 12, color: T.tomato, marginTop: 6 }}>
-                  Missing: {r.missing.join(', ')}
+                  Missing: {recipe.missingIngredients.map(displayIngredientLabel).join(', ')}
                 </div>
               )}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
-                {r.tags.map(t => (
-                  <span key={t} style={{
+                {recipe.tags.map(tag => (
+                  <span key={tag} style={{
                     background: T.greenSoft, color: T.green, fontWeight: 600,
                     fontSize: 11, padding: '3px 8px', borderRadius: 999,
-                  }}>{t}</span>
+                  }}>{tag}</span>
                 ))}
               </div>
             </div>
           </button>
         ))}
       </div>
+    </div>
+  )
+}
+
+function MessageCard({ children, tone = '#fff', color = T.muted }) {
+  return (
+    <div style={{
+      background: tone, border: `1px dashed ${T.line}`, borderRadius: 14,
+      padding: 24, textAlign: 'center', color, fontSize: 14,
+    }}>
+      {children}
     </div>
   )
 }

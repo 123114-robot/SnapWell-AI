@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/AppState.jsx'
+import { CUISINE_OPTIONS, MEAL_TYPE_OPTIONS } from '../recommendation/preferenceRules.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -51,6 +52,10 @@ export default function Preferences() {
   const allergies = preferences.allergies || []
   const goals = preferences.goals || []
 
+  function setSinglePreference(key, value) {
+    setPreferences(prev => ({ ...prev, [key]: value || null }))
+  }
+
   // 通用切换函数：某项在数组里就移除，不在就加入
   function toggle(key, value) {
     setPreferences(prev => {
@@ -66,6 +71,11 @@ export default function Preferences() {
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     width: '100%', border: 'none', cursor: 'pointer', borderRadius: 14,
     fontFamily: 'inherit', fontWeight: 600, fontSize: 15, padding: '14px 18px',
+  }
+  const selectStyle = {
+    width: '100%', border: `1.5px solid ${T.line}`, background: '#fff',
+    color: T.ink, borderRadius: 12, padding: '11px 12px',
+    fontFamily: 'inherit', fontWeight: 600, fontSize: 13,
   }
 
   return (
@@ -114,6 +124,34 @@ export default function Preferences() {
             {GOALS.map(g => (
               <Chip key={g} label={g} active={goals.includes(g)} onClick={() => toggle('goals', g)} />
             ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 22 }}>
+          <SectionLabel>Meal and cuisine (optional)</SectionLabel>
+          <div style={{ display: 'grid', gap: 10 }}>
+            <select
+              aria-label="Meal type"
+              value={preferences.mealType || ''}
+              onChange={event => setSinglePreference('mealType', event.target.value)}
+              style={selectStyle}
+            >
+              <option value="">Any meal type</option>
+              {MEAL_TYPE_OPTIONS.map(mealType => (
+                <option key={mealType} value={mealType}>{mealType}</option>
+              ))}
+            </select>
+            <select
+              aria-label="Cuisine preference"
+              value={preferences.cuisinePreference || ''}
+              onChange={event => setSinglePreference('cuisinePreference', event.target.value)}
+              style={selectStyle}
+            >
+              <option value="">Any cuisine</option>
+              {CUISINE_OPTIONS.map(cuisine => (
+                <option key={cuisine} value={cuisine}>{cuisine}</option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
