@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
+
+// 检测还在跑时，进度环最多爬到这里。剩下的 10% 留给"真的跑完了"。
+const CREEP_CEILING = 90
+const TICK_MS = 50
+const TICK_STEP = 4
+// 进度环补满到 100% 后停留片刻，免得画面一闪而过。
+const SETTLE_MS = 350
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -12,32 +19,76 @@ const T = {
 
 export default function Processing() {
   const navigate = useNavigate()
-  const { ingredients } = useAppState()
-  const [pct, setPct] = useState(0)
+  const { detection } = useAppState()
+  const [creep, setCreep] = useState(0)
+  const { status } = detection
+  // 显示值直接由检测状态推出来：没跑完最多 CREEP_CEILING，跑完就是 100%。
+  const pct = status === 'done' ? 100 : creep
 
   const steps = [
-    { label: 'Loading AI model (YOLOv8-nano)', at: 25 },
-    { label: 'Detecting ingredients', at: 60 },
-    { label: 'Reading results', at: 90 },
-    { label: 'Done', at: 100 },
+    { label: 'Preparing your photo', at: 20 },
+    { label: 'Detecting ingredients', at: 95 },
+    { label: 'Building your ingredient list', at: 100 },
   ]
 
-  // 进度动画：跑满后跳到结果屏
+  // 没有正在跑的检测就说明是刷新或直接输网址进来的，退回拍照页。
   useEffect(() => {
+    if (status === 'idle') navigate('/capture', { replace: true })
+  }, [status, navigate])
+
+  // 检测期间进度环慢慢爬，但最多到 CREEP_CEILING —— 没跑完就不该显示 100%。
+  useEffect(() => {
+    if (status !== 'running') return
     const iv = setInterval(() => {
-      setPct(p => {
-        if (p >= 100) {
-          clearInterval(iv)
-          setTimeout(() => navigate('/confirm'), 350)
-          return 100
-        }
-        return p + 4
-      })
-    }, 50)
+      setCreep(p => (p >= CREEP_CEILING ? p : Math.min(CREEP_CEILING, p + TICK_STEP)))
+    }, TICK_MS)
     return () => clearInterval(iv)
-  }, [navigate])
+  }, [status])
+
+  // 检测真的完成后停留一下再放行。最后那 10% 由 pct 直接推出来、靠圆环的 CSS
+  // 过渡补满，不交给计时器慢慢爬：切到后台的标签页会被浏览器把 setInterval
+  // 压到每分钟一次，那样用户会永远卡在这一屏。
+  useEffect(() => {
+    if (status !== 'done') return
+    const t = setTimeout(() => navigate('/confirm', { replace: true }), SETTLE_MS)
+    return () => clearTimeout(t)
+  }, [status, navigate])
 
   const C = 2 * Math.PI * 64  // 圆环周长
+
+  if (status === 'error') {
+    return (
+      <div style={{
+        minHeight: '100vh', background: T.paper, fontFamily: 'system-ui, sans-serif',
+        maxWidth: 430, margin: '0 auto', padding: '28px 20px 30px',
+      }}>
+        <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>That photo didn't work</div>
+        <div style={{ fontSize: 14, color: T.muted, marginTop: 8, lineHeight: 1.5 }}>
+          {detection.error || 'Something went wrong while reading the photo.'}
+        </div>
+        <div style={{ display: 'grid', gap: 12, marginTop: 22 }}>
+          <button
+            onClick={() => navigate('/capture', { replace: true })}
+            style={{
+              width: '100%', border: 'none', borderRadius: 14, fontFamily: 'inherit',
+              fontWeight: 600, fontSize: 15, padding: '14px 18px',
+              background: T.green, color: '#fff', cursor: 'pointer',
+            }}>
+            Try another photo
+          </button>
+          <button
+            onClick={() => navigate('/scan-package')}
+            style={{
+              width: '100%', borderRadius: 14, fontFamily: 'inherit', fontWeight: 600,
+              fontSize: 15, padding: '14px 18px', cursor: 'pointer',
+              background: '#fff', color: T.green, border: `1.5px solid ${T.greenLine}`,
+            }}>
+            Scan a package label instead
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{
@@ -46,7 +97,9 @@ export default function Processing() {
     }}>
       <div style={{ padding: '28px 20px 8px', textAlign: 'center' }}>
         <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Processing locally</div>
-        <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>This only takes a moment</div>
+        <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
+          {status === 'done' ? 'Almost there' : 'Nothing leaves your phone'}
+        </div>
       </div>
 
       {/* 圆环进度 */}
@@ -56,7 +109,7 @@ export default function Processing() {
             <circle cx="75" cy="75" r="64" fill="none" stroke={T.greenSoft} strokeWidth="12" />
             <circle cx="75" cy="75" r="64" fill="none" stroke={T.green} strokeWidth="12"
               strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C * (1 - pct / 100)}
-              style={{ transition: 'stroke-dashoffset .1s linear' }} />
+              style={{ transition: 'stroke-dashoffset .25s ease-out' }} />
           </svg>
           <div style={{
             position: 'absolute', inset: 0, display: 'grid', placeItems: 'center',

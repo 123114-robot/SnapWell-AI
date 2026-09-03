@@ -22,6 +22,7 @@ export default function Privacy() {
   const bullets = [
     'SnapWell processes images on your device.',
     'Images are never uploaded for recognition.',
+    'For an online product lookup, only the barcode number is sent to Open Food Facts.',
     'You can delete captured images at any time.',
   ]
 

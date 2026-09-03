@@ -201,12 +201,14 @@ export function cropRegion(image, region) {
  * Recognise package text in an image or canvas.
  * onProgress receives Tesseract logger messages ({ status, progress }).
  */
-export async function recognizePackageText(image, onProgress = () => {}) {
+export async function recognizePackageText(image, onProgress = () => {}, { sparse = false } = {}) {
   const totalStart = performance.now()
   const workerInfo = await getWorker(onProgress)
   // The worker is shared with locateTextRegions, which uses a different page
   // segmentation mode, so set ours every time rather than once at cold start.
-  await workerInfo.worker.setParameters({ tessedit_pageseg_mode: PSM.SINGLE_BLOCK })
+  await workerInfo.worker.setParameters({
+    tessedit_pageseg_mode: sparse ? PSM.SPARSE_TEXT : PSM.SINGLE_BLOCK,
+  })
   const preprocessStart = performance.now()
   const preparedImages = prepareImagesForOcr(image)
   const preprocessMs = performance.now() - preprocessStart

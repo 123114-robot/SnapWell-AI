@@ -1,11 +1,14 @@
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
-import { ModelProvider, useModel } from './ai/ModelContext.jsx'
+import { ModelProvider } from './ai/ModelContext.jsx'
+import { useModel } from './ai/useModel.js'
 import { AppStateProvider } from './state/AppState.jsx'
 import Home from './screens/Home.jsx'
 import Privacy from './screens/Privacy.jsx'
 import Preferences from './screens/Preferences.jsx'
 import Capture from './screens/Capture.jsx'
+import ScanBarcode from './screens/ScanBarcode.jsx'
 import ScanPackage from './screens/ScanPackage.jsx'
+import ProductReport from './screens/ProductReport.jsx'
 import Processing from './screens/Processing.jsx'
 import IngredientConfirm from './screens/IngredientConfirm.jsx'
 import QuantityAdjust from './screens/QuantityAdjust.jsx'
@@ -88,7 +91,9 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/preferences" element={<Preferences />} />
               <Route path="/capture" element={<Capture />} />
-              <Route path="/scan-package" element={<ScanPackage />} />
+              <Route path="/scan-package" element={<ScanBarcode />} />
+              <Route path="/scan-package/label" element={<ScanPackage />} />
+              <Route path="/product/:barcode" element={<ProductReport />} />
               <Route path="/processing" element={<Processing />} />
               <Route path="/confirm" element={<IngredientConfirm />} />
               {/* 检测结果页已并入确认页；保留重定向，旧链接和浏览器历史不至于落到空白页 */}

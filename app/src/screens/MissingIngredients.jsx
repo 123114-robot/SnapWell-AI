@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 import {
   displayName, emojiForIngredient, rankRecipes, scoreRecipe, storeLinks, useFoodData,
 } from '../data/foodData.js'

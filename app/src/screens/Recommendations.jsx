@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 import { displayName, emojiForRecipe, rankRecipes, useFoodData } from '../data/foodData.js'
 
 const T = {

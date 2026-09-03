@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createSession, warmUp } from './detector.js'
-
-const ModelCtx = createContext(null)
+import { ModelCtx } from './useModel.js'
 
 export function ModelProvider({ children }) {
   const sessionRef = useRef(null)
@@ -29,5 +28,3 @@ export function ModelProvider({ children }) {
     </ModelCtx.Provider>
   )
 }
-
-export const useModel = () => useContext(ModelCtx)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 import {
   displayName, emojiForIngredient, emojiForRecipe, scoreRecipe, useFoodData,
 } from '../data/foodData.js'

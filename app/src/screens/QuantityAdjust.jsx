@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 import { displayName } from '../ai/ingredientMatch.js'
 
 const T = {

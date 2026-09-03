@@ -1,0 +1,35 @@
+{
+  "note": "Organic garlic pasta sauce, 500 g jar. Back-of-pack photo: the panel and ingredients are fully legible, but the product name on the front label is cut off at the left edge.",
+  "servingSizeG": 125,
+  "servingsPerPack": 4,
+  "nutritionPer100g": {
+    "energyKj": 168,
+    "proteinG": 1.5,
+    "fatG": 1.0,
+    "saturatedFatG": 1.0,
+    "carbohydrateG": 6.0,
+    "sugarsG": 4.9,
+    "fibreG": 1.3,
+    "sodiumMg": 284
+  },
+  "lessThan": [
+    "fatG",
+    "saturatedFatG"
+  ],
+  "allergens": {
+    "contains": [],
+    "traces": []
+  },
+  "ingredientMatch": {
+    "expected": null,
+    "observed": [
+      "olive_oil",
+      "garlic",
+      "tomato",
+      "lemon",
+      "onion",
+      "pasta"
+    ],
+    "note": "Known gap. The product's own identity is only printed on the front of the jar, which this photo cuts off, so the matcher falls back to the INGREDIENTS declaration and offers this jar's components. Identity matching should prefer text found outside the ingredients list; not covered by any test yet."
+  }
+}

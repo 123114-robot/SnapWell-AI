@@ -53,6 +53,12 @@ const EXCLUDED_LABELS = {
   'No nuts': ['peanut_butter'],
   'No eggs': ['egg'],
   'No soy': ['tofu', 'soy_sauce'],
+  'No milk': ['milk', 'cheese', 'butter', 'yoghurt'],
+  'No wheat': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
+  'No sesame': [],
+  'No fish': ['salmon'],
+  'No lupin': [],
+  'No sulphites': [],
 }
 
 /**

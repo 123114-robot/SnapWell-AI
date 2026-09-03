@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 import { cropRegion, locateTextRegions, recognizePackageText } from '../ai/ocr.js'
 import { allLabels, loadIngredientIndex, matchIngredients } from '../ai/ingredientMatch.js'
+import { assessProductSafety, parseAllergenStatements, parseNutritionPanel } from '../product/productData.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -29,6 +30,16 @@ const REGION_PAD = 8
  * product name from ever being read properly.
  */
 const PASS1_TRUSTED_SCORE = 0.95
+const DETAIL_HEADING = /nutrition\s+information|ingredients?|contains?|may\s+contain/i
+
+const STATUS = {
+  conflict: { icon: '!', label: 'Conflict', fg: '#A62F18', bg: '#F8E3DC' },
+  trace: { icon: '△', label: 'May contain', fg: '#7A5200', bg: '#FBEECB' },
+  clear: { icon: '✓', label: 'Not found', fg: '#1B4332', bg: '#E7EFE9' },
+  unknown: { icon: '?', label: 'Unknown', fg: '#5E6E64', bg: '#EEEAE1' },
+}
+
+const titleCase = (value) => String(value || '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
 let idCounter = 0
 const nextId = () => `ocr-${Date.now()}-${idCounter += 1}`
@@ -41,9 +52,11 @@ function rectangleFromPoints(start, end) {
 
 export default function ScanPackage() {
   const navigate = useNavigate()
+  const location = useLocation()
   // 从检测结果页进来时返回结果页，否则回拍照页
-  const backTo = useLocation().state?.from || '/capture'
-  const { ingredients, setIngredients } = useAppState()
+  const backTo = location.state?.from || '/capture'
+  const productReturn = location.state?.productReturn
+  const { ingredients, setIngredients, preferences } = useAppState()
 
   const fileRef = useRef(null)
   const canvasRef = useRef(null)
@@ -102,6 +115,22 @@ export default function ScanPackage() {
     const all = allLabels(index)
     return (q ? all.filter((l) => l.displayName.toLowerCase().includes(q)) : all).slice(0, 40)
   }, [index, query])
+  const packageDetails = useMemo(() => {
+    const statements = parseAllergenStatements(text)
+    const product = {
+      allergens: statements.contains,
+      traces: statements.traces,
+      completeness: {
+        allergens: statements.contains.length > 0,
+        traces: statements.traces.length > 0,
+      },
+    }
+    return {
+      statements,
+      safety: assessProductSafety(product, preferences),
+      nutrition: parseNutritionPanel(text),
+    }
+  }, [text, preferences])
 
   // 画面：底图 + 自动找到的区域框 + 手动选区遮罩
   useEffect(() => {
@@ -185,6 +214,29 @@ export default function ScanPackage() {
         // Union, not replacement: pass 1 may have read words that the
         // re-read regions do not cover, and both feed the matcher.
         if (parts.length) combined = [combined, ...parts].filter(Boolean).join('\n')
+      }
+
+      // A confident product-name match should not prevent smaller structured
+      // label text from being read. When a relevant heading has turned up in
+      // anything read so far, re-read the whole image at full resolution.
+      //
+      // This pass is deliberately NOT sparse. Sparse segmentation emits one
+      // table cell per line in column order, which shreds the row structure a
+      // nutrition panel is: "Energy / 209kJ / 2% / 168kJ" arrives as four
+      // separate lines, and the per-serving and per-100 g columns can no
+      // longer be told apart. Single-block segmentation keeps a printed row on
+      // one line, which is what parseNutritionPanel reads. Pass 1 already
+      // covers the scattered front-of-pack text in sparse mode.
+      if (DETAIL_HEADING.test(combined)) {
+        usedPass2 = true
+        setStatus('Reading nutrition and allergy details…')
+        const detailed = await recognizePackageText(image, (message) => {
+          if (!live()) return
+          const pct = Number.isFinite(message.progress) ? ` ${Math.round(message.progress * 100)}%` : ''
+          setStatus(`Reading package details… ${message.status}${pct}`)
+        })
+        if (!live()) return
+        if (detailed.text) combined = [combined, detailed.text].filter(Boolean).join('\n')
       }
 
       if (!live()) return
@@ -364,9 +416,28 @@ export default function ScanPackage() {
     background: 'none', border: 'none', padding: 0, cursor: 'pointer',
     fontFamily: 'inherit', fontWeight: 600, fontSize: 13, color: T.green,
   }
+  const card = { background: '#fff', border: `1px solid ${T.line}`, borderRadius: 16, padding: 16 }
+  const nutritionRows = [
+    ['Energy', 'energyKj', 'kJ'],
+    ['Protein', 'proteinG', 'g'],
+    ['Fat', 'fatG', 'g'],
+    ['— Saturated', 'saturatedFatG', 'g'],
+    ['Carbohydrate', 'carbohydrateG', 'g'],
+    ['— Sugars', 'sugarsG', 'g'],
+    ['Fibre', 'fibreG', 'g'],
+    ['Sodium', 'sodiumMg', 'mg'],
+  ].map(([name, key, unit]) => {
+    const value = packageDetails.nutrition?.[key]
+    if (value == null) return [name, 'Unknown']
+    // "< 1.0 g" on the package must not be shown as a flat "1 g".
+    const prefix = packageDetails.nutrition.lessThan?.[key] ? '< ' : ''
+    return [name, `${prefix}${Number(value.toFixed(1))} ${unit}`]
+  })
 
   const hint = !hasImage
-    ? 'Take a photo of the front of the package. The text is found and read for you.'
+    ? productReturn
+      ? 'Photograph the Contains or May contain statement. Nothing is uploaded.'
+      : 'Take a photo of the front of the package. The text is found and read for you.'
     : busy
       ? 'Reading the label on your device…'
       : manualMode
@@ -393,10 +464,22 @@ export default function ScanPackage() {
           </svg>
         </button>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Scan a package label</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>
+            {productReturn ? 'Scan allergen statement' : 'Read a package label'}
+          </div>
           <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>{hint}</div>
         </div>
       </div>
+
+      {!productReturn && (
+        <div style={{ padding: '0 20px 8px' }}>
+          <button type="button" onClick={() => navigate('/scan-package', { state: { from: backTo } })} style={{
+            width: '100%', border: `1.5px solid ${T.greenLine}`, borderRadius: 12,
+            padding: '10px 12px', background: '#fff', color: T.green,
+            fontFamily: 'inherit', fontWeight: 600, cursor: 'pointer',
+          }}>Scan a barcode instead</button>
+        </div>
+      )}
 
       {/* 图片区域 */}
       <div style={{ padding: '6px 20px 0' }}>
@@ -409,7 +492,7 @@ export default function ScanPackage() {
             <div style={{ color: 'rgba(255,255,255,.9)', textAlign: 'center', padding: 24 }}>
               <div style={{ fontSize: 56 }}>🥫</div>
               <div style={{ fontSize: 13, marginTop: 10, opacity: 0.85 }}>
-                Front label, flat and well lit
+                {productReturn ? 'Contains / May contain, flat and well lit' : 'Front label, flat and well lit'}
               </div>
             </div>
           )}
@@ -493,6 +576,15 @@ export default function ScanPackage() {
       {/* 匹配结果 */}
       {scanned && !busy && (
         <div style={{ padding: '18px 20px 0' }}>
+          {productReturn && text.trim() && (
+            <button type="button" onClick={() => navigate(`/product/${productReturn.barcode}`, {
+              state: { from: productReturn.from || '/capture', ocrText: text.trim() },
+            })} style={{
+              ...btnBase, marginBottom: 14, background: T.green, color: '#fff', cursor: 'pointer',
+            }}>
+              Use this text in the product report
+            </button>
+          )}
           <div style={sectionLabel}>Add to your list</div>
 
           {matches.length > 0 && (
@@ -526,7 +618,11 @@ export default function ScanPackage() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 700, fontSize: 15, color: T.ink }}>{m.displayName}</div>
                       <div style={{ fontSize: 12, color: T.muted, marginTop: 2 }}>
-                        {added ? 'Already in your list' : `matched “${m.matchedKeyword}”`}
+                        {added
+                          ? 'Already in your list'
+                          : m.genus
+                            ? `the label says “${m.genus}” — pick the cut`
+                            : `matched “${m.matchedKeyword}”`}
                       </div>
                     </div>
                     <span style={{ fontSize: 11, color: T.muted, fontFamily: 'monospace', flexShrink: 0 }}>
@@ -620,6 +716,53 @@ export default function ScanPackage() {
             </div>
           )}
 
+          {!productReturn && text.trim() && (
+            <div style={{ display: 'grid', gap: 12, marginTop: 18 }}>
+              <section style={card}>
+                <div style={sectionLabel}>Allergy check</div>
+                {packageDetails.safety.length === 0 ? (
+                  <div style={{ fontSize: 13, color: T.muted, lineHeight: 1.45 }}>
+                    No allergy preferences are selected in Settings.
+                  </div>
+                ) : (
+                  <div style={{ display: 'grid', gap: 8 }}>
+                    {packageDetails.safety.map((item) => {
+                      const visual = STATUS[item.status]
+                      return <div key={item.preference} style={{ background: visual.bg, color: visual.fg, borderRadius: 12, padding: '10px 11px', display: 'flex', gap: 9 }}>
+                        <strong>{visual.icon}</strong>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: 13 }}>
+                            {item.status === 'clear' ? item.preference : `${item.preference}: ${visual.label}`}
+                          </div>
+                          {item.status !== 'clear' && <div style={{ fontSize: 11, marginTop: 2 }}>{item.detail}</div>}
+                        </div>
+                      </div>
+                    })}
+                  </div>
+                )}
+                {packageDetails.statements.contains.length > 0 && <div style={{ fontSize: 12, color: T.muted, marginTop: 9 }}>Declared: {packageDetails.statements.contains.map(titleCase).join(', ')}</div>}
+                {packageDetails.statements.traces.length > 0 && <div style={{ fontSize: 12, color: T.muted, marginTop: 4 }}>May contain: {packageDetails.statements.traces.map(titleCase).join(', ')}</div>}
+              </section>
+
+              <section style={card}>
+                <div style={sectionLabel}>Nutrition per 100 g</div>
+                {nutritionRows.map(([name, display]) => <div key={name} style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: `1px solid ${T.line}` }}>
+                  <span style={{ flex: 1, color: T.ink, fontSize: 14 }}>{name}</span>
+                  <strong style={{ color: T.ink, fontSize: 14 }}>{display}</strong>
+                </div>)}
+                {!packageDetails.nutrition && <div style={{ color: T.muted, fontSize: 11, lineHeight: 1.45, marginTop: 9 }}>
+                  The nutrition panel was not clear enough to read. Try a closer photo or select the nutrition area yourself.
+                </div>}
+                {packageDetails.nutrition && packageDetails.nutrition.confirmedRows === 0 && (
+                  <div style={{ color: T.muted, fontSize: 11, lineHeight: 1.45, marginTop: 9 }}>
+                    These figures could not be checked against the label own
+                    %DI column, so treat them as approximate and compare with
+                    the package.
+                  </div>
+                )}
+              </section>
+            </div>
+          )}
           {addedLabels.size > 0 && (
             <button onClick={() => navigate('/confirm')} style={{
               ...btnBase, marginTop: 14, background: T.green, color: '#fff', cursor: 'pointer',

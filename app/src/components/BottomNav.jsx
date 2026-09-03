@@ -23,7 +23,7 @@ const TABS = [
     id: 'scan',
     label: 'Scan',
     to: '/capture',
-    match: (p) => ['/capture', '/processing', '/scan-package'].includes(p),
+    match: (p) => ['/capture', '/processing'].includes(p) || p.startsWith('/scan-package') || p.startsWith('/product/'),
     icon: (active) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth={active ? 2.4 : 2} strokeLinecap="round" strokeLinejoin="round">

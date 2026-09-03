@@ -101,3 +101,52 @@ The current OCR intentionally does not infer separate brand, product, or
 ingredient fields from noisy text. It preserves each user-selected text region
 in one editable field for confirmation. Product mapping and a more robust panel
 detector remain later work.
+
+## Barcode scanning and product report
+
+**Overview**
+Packaged food can be identified by its barcode instead of its picture. The user
+points the camera at a retail barcode and gets one screen answering the
+question they actually have in the aisle: can I eat this? The screen shows an
+allergy check against their saved preferences, dietary flags, the nutrition
+panel per 100 g, and the Australian daily-intake references to read it against.
+The product can then be added to the ingredient list like any other item.
+
+Three screens make up the flow: `/scan-package` reads the barcode,
+`/product/:barcode` shows the report, and `/scan-package/label` is the OCR
+channel described in Spike B, which the report borrows when the community data
+is incomplete.
+
+**How the barcode is read**
+Decoding uses ZXing, restricted to the four retail formats (EAN-13, EAN-8,
+UPC-A, UPC-E) so a QR code or a courier label cannot be mistaken for a product.
+A checksum-valid false positive is a real risk on a curved or poorly lit
+barcode, so nothing is trusted from a single read:
+
+- The live camera requires the *same* number from two separate frames.
+- A photo is decoded at four rotations and the readings must agree.
+- Every candidate is checked against the GTIN check digit, and the barcode GS1
+  uses in its own documentation is rejected by name, because mock packaging
+  often prints those bars with unrelated digits underneath.
+
+There is also a manual entry field, and on iOS or over plain HTTP the screen
+falls back to a rear-camera photo input, since `getUserMedia` is unavailable
+there.
+
+**How the report is built**
+The number is looked up in Open Food Facts, requesting only the fields the
+screen uses, and the normalised result is cached in `localStorage` for seven
+days. Only the barcode digits leave the device; the photo never does.
+
+Community data is often incomplete, and for an allergy question "no data" must
+not look like "safe". Each preference therefore resolves to one of four states
+— **conflict**, **may contain**, **not found**, or **unknown** — and *not
+found* is only reported when the record actually carries both an allergen and a
+traces declaration. When it does not, the report offers to scan the Contains /
+May contain statement off the package; the recognised text is merged back into
+the same report. Dietary flags are read the same way: gluten-free and
+dairy-free are confirmed only on positive evidence, never inferred from an
+absence.
+
+**Files:** `app/src/screens/ScanBarcode.jsx`,
+`app/src/screens/ProductReport.jsx`, `app/src/product/productData.js`

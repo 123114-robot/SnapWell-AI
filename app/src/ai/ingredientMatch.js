@@ -176,6 +176,53 @@ function scoreKeyword(entry, textTokens) {
   return { score, meanSim, at: Math.min(...hits.map((h) => h.at)) }
 }
 
+const genusCache = new WeakMap()
+
+/**
+ * Words that name a food only down to the animal or plant it came from, when
+ * the table has no entry for that word on its own: "chicken", where the only
+ * entries are "chicken breast" and "chicken thigh". A package printed
+ * ORGANIC AUSTRALIAN CHICKEN is genuinely ambiguous — no amount of reading
+ * tells a breast from a thigh — so both are offered and the user picks.
+ *
+ * Two conditions keep this from firing on words that are not a genus at all:
+ *
+ * - At least two labels must share the word. One label sharing it would make
+ *   every modifier qualify ("canned", "instant") and, worse, would turn
+ *   allergen declarations into shopping suggestions: "CONTAINS SOY" would
+ *   offer soy sauce, "MAY CONTAIN PEANUTS" peanut butter.
+ * - The word must LEAD every keyword it appears in. A shared leading noun
+ *   names the material ("chicken breast", "chicken thigh"); a shared trailing
+ *   one names the form, and those are not the same food — "sauce" is common
+ *   to pasta sauce and soy sauce, which no one wants offered together.
+ */
+function genusTerms(index) {
+  const cached = genusCache.get(index)
+  if (cached) return cached
+
+  const standalone = new Set()
+  const leads = new Map()
+  const disqualified = new Set()
+  for (const entry of index) {
+    if (entry.tokens.length === 1) {
+      standalone.add(entry.tokens[0])
+      continue
+    }
+    entry.tokens.slice(1).forEach((token) => disqualified.add(token))
+    const head = entry.tokens[0]
+    if (!leads.has(head)) leads.set(head, new Map())
+    leads.get(head).set(entry.label, entry)
+  }
+
+  const terms = new Map()
+  for (const [token, entries] of leads) {
+    if (standalone.has(token) || disqualified.has(token) || entries.size < 2) continue
+    terms.set(token, [...entries.values()])
+  }
+  genusCache.set(index, terms)
+  return terms
+}
+
 /**
  * Match recognised text against the index.
  * Returns one ranked entry per label, best keyword first.
@@ -202,6 +249,30 @@ export function matchIngredients(text, index, options = {}) {
       score: Number(scored.score.toFixed(3)),
       exact: scored.meanSim === 1,
     })
+  }
+
+  // Only once nothing specific has matched: a package that says CHICKEN and
+  // never says breast or thigh should offer both, not recognise nothing.
+  for (const [token, entries] of genusTerms(index)) {
+    if (!textTokens.includes(token)) continue
+    if (entries.some((entry) => bestByLabel.has(entry.label))) continue
+    // Scored as the single word it is, so a real multi-word match always
+    // outranks it and the user can see it is the weaker kind of evidence.
+    const score = Number((0.55 + 0.45 * Math.min(1, 0.6 + 0.02 * token.length)).toFixed(3))
+    if (score < minScore) continue
+    for (const entry of entries) {
+      bestByLabel.set(entry.label, {
+        label: entry.label,
+        displayName: displayName(entry.label),
+        source: entry.source,
+        ausnutKey: entry.ausnutKey,
+        ausnutName: entry.ausnutName,
+        matchedKeyword: token,
+        genus: token,
+        score,
+        exact: false,
+      })
+    }
   }
 
   return [...bestByLabel.values()]

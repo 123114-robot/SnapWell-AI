@@ -1,7 +1,9 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useModel } from '../ai/ModelContext.jsx'
-import { useAppState } from '../state/AppState.jsx'
+import { useModel } from '../ai/useModel.js'
+import {
+  DETECTION_DONE, DETECTION_RUNNING, useAppState,
+} from '../state/useAppState.js'
 import { detect, mergeDetectionsByLabel } from '../ai/detector.js'
 
 const T = {
@@ -14,26 +16,43 @@ const T = {
 export default function Capture() {
   const navigate = useNavigate()
   const { session, status } = useModel()
-  const { setPhoto, setIngredients } = useAppState()
-  const [busy, setBusy] = useState(false)
+  const { setPhoto, setIngredients, setDetection } = useAppState()
   const fileRef = useRef(null)
 
-  // 用户选好照片后：跑检测 → 存结果 → 跳转
-    async function onFile(e) {
+  // 用户选好照片后：跑检测 → 存结果 → 跳转。
+  // Processing 屏只看 detection.status，不再自己掐表，所以慢机器上也不会
+  // 在检测跑完之前就把用户送到确认页。
+  function onFile(e) {
     const file = e.target.files[0]
     if (!file) return
+
+    const fail = (message) => setDetection({ status: 'error', error: message })
+
     const image = new Image()
     image.onload = async () => {
       setPhoto(image)
-      navigate('/processing')   // 先跳到处理动画屏
-      // 在后台跑检测，结果存进仓库；Processing 屏跑完动画后会跳到 /confirm
-      const r = await detect(session.current, image)
-      setIngredients(mergeDetectionsByLabel(r.detections))
+      setIngredients([])
+      setDetection(DETECTION_RUNNING)
+      navigate('/processing')
+      try {
+        const r = await detect(session.current, image)
+        setIngredients(mergeDetectionsByLabel(r.detections))
+        setDetection(DETECTION_DONE)
+      } catch (err) {
+        console.error('detection failed', err)
+        fail('The detector could not finish reading this photo.')
+      }
+    }
+    image.onerror = () => {
+      fail('That file could not be opened as a photo.')
+      navigate('/processing')
     }
     image.src = URL.createObjectURL(file)
+    // 允许连续选同一张照片：不清空的话 change 事件不会再触发。
+    e.target.value = ''
   }
 
-  const ready = status === 'ready' && !busy
+  const ready = status === 'ready'
 
   return (
     <div style={{
@@ -63,19 +82,12 @@ export default function Capture() {
           display: 'grid', placeItems: 'center',
         }}>
           <div style={{ position: 'absolute', inset: 24, border: '2px dashed rgba(255,255,255,.5)', borderRadius: 16 }} />
-          {busy ? (
-            <div style={{ color: '#fff', textAlign: 'center', position: 'relative' }}>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>Detecting on your device…</div>
-              <div style={{ fontSize: 13, opacity: 0.8, marginTop: 6 }}>This runs locally, no upload</div>
+          <div style={{ color: 'rgba(255,255,255,.9)', textAlign: 'center', position: 'relative' }}>
+            <div style={{ fontSize: 64 }}>🥕🍅🥦</div>
+            <div style={{ fontSize: 13, marginTop: 10, opacity: 0.85 }}>
+              Position your ingredients, good lighting helps
             </div>
-          ) : (
-            <div style={{ color: 'rgba(255,255,255,.9)', textAlign: 'center', position: 'relative' }}>
-              <div style={{ fontSize: 64 }}>🥕🍅🥦</div>
-              <div style={{ fontSize: 13, marginTop: 10, opacity: 0.85 }}>
-                Position your ingredients, good lighting helps
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
 
@@ -105,7 +117,7 @@ export default function Capture() {
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
             <circle cx="12" cy="13" r="4" />
           </svg>
-          {busy ? 'Working…' : 'Take or choose a photo'}
+          Take or choose a photo
         </button>
 
         {status !== 'ready' && (
@@ -128,7 +140,7 @@ export default function Capture() {
             <path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2" />
             <path d="M8 9h8M8 12h8M8 15h5" />
           </svg>
-          Scan a package label instead
+          Scan a product barcode
         </button>
       </div>
 

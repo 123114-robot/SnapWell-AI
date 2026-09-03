@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useAppState } from '../state/AppState.jsx'
+import { useAppState } from '../state/useAppState.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -9,7 +9,10 @@ const T = {
 }
 
 const DIETS = ['Vegetarian', 'Vegan', 'Low-calorie', 'High-protein', 'Gluten-free', 'Dairy-free']
-const ALLERGIES = ['No shellfish', 'No nuts', 'No eggs', 'No soy']
+const ALLERGIES = [
+  'No shellfish', 'No nuts', 'No eggs', 'No soy', 'No milk',
+  'No wheat', 'No sesame', 'No fish', 'No lupin', 'No sulphites',
+]
 const GOALS = ['Weight loss', 'Muscle gain', 'Balanced diet', 'General health']
 
 function Chip({ label, active, onClick }) {

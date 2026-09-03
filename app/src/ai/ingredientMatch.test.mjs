@@ -105,6 +105,33 @@ check('rejects words scattered far apart',
   labelsFor('OLIVE GROVE ESTATE\nnet weight 500 grams\nproduce of spain\nboiled in salted water then packed in oil').includes('olive_oil'),
   false)
 
+// ----------------------------------------------------------------- genus terms
+
+// A pack of chicken says CHICKEN and nothing else; the table only holds
+// "chicken breast" and "chicken thigh". Text cannot tell those apart, so both
+// are offered rather than nothing being recognised at all.
+check('offers every cut when the label names only the animal',
+  labelsFor('macro ORGANIC AUSTRALIAN CHICKEN\nFREE RANGE, ORGANICALLY FED').sort(),
+  ['chicken_breast', 'chicken_thigh'])
+
+check('marks a genus suggestion as such',
+  matchIngredients('ORGANIC AUSTRALIAN CHICKEN', index).every((m) => m.genus === 'chicken'),
+  true)
+
+// Naming the cut is specific evidence, so the other cut is not offered.
+check('a named cut beats the genus',
+  labelsFor('ORGANIC AUSTRALIAN CHICKEN BREAST FILLETS'), ['chicken_breast'])
+
+// The guards. Without the two-label rule an allergen declaration becomes a
+// shopping suggestion; without the leading-word rule "sauce" links pasta
+// sauce to soy sauce.
+check('an allergen declaration is not a suggestion',
+  labelsFor('CONTAINS SOY. MAY CONTAIN PEANUTS.').sort(), [])
+
+check('a shared form word is not a genus',
+  labelsFor('STIR THROUGH COOKED PASTA. Simmer sauce gently.').includes('soy_sauce'),
+  false)
+
 // -------------------------------------------------------------------- plumbing
 
 check('index covers both channels',
