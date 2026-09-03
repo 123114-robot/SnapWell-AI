@@ -1,8 +1,9 @@
-# OCR channel and recipe data update
+# Packaged food: barcode, label OCR and recipe data
 
-This branch does two things: it makes the app read packaged food labels, and it
-connects the recipe screens to the real AUSNUT data that was already in the
-repository but was not being used.
+This branch does three things: it makes the app read packaged food labels, it
+adds a barcode channel that identifies a product outright, and it connects the
+recipe screens to the real AUSNUT data that was already in the repository but
+was not being used.
 
 Everything still runs on the phone. No photo is uploaded.
 
@@ -109,6 +110,48 @@ it needs an AUSNUT food ID and eight nutrition values looked up by hand.
 
 ---
 
+## 7. Scanning the barcode
+
+Reading a label is the hard way to identify a packaged product. The number
+under the bars identifies it exactly, so the app tries that first and reads the
+label only when there is no barcode, or when the number turns up nothing.
+
+**The flow.** `/scan-package` reads the barcode, `/product/:barcode` shows the
+report. The report answers the question a shopper actually has in the aisle:
+can I eat this? An allergy check against saved preferences, dietary flags, the
+nutrition panel per 100 g, and the Australian daily-intake figures to read it
+against. From there the product can be added to the ingredient list like
+anything else.
+
+**Not trusting a single read.** A barcode on a curved or badly lit package can
+decode to a number that passes its own check digit and is still wrong. So
+nothing is accepted from one look: the live camera wants the same number from
+two separate frames, and a photo is decoded at four rotations and the readings
+have to agree. Only the four retail formats are enabled (EAN-13, EAN-8, UPC-A,
+UPC-E), so a QR code or a courier label cannot be mistaken for a product. The
+barcode GS1 prints in its own documentation is rejected by name, because mock
+packaging often carries those bars with unrelated digits underneath.
+
+There is a manual entry field too. On iOS, and over plain HTTP, `getUserMedia`
+is unavailable, so the screen quietly falls back to a rear-camera photo.
+
+**The lookup.** The number goes to Open Food Facts, asking only for the fields
+the screen uses, and the result is cached on the device for a week. Only the
+digits leave the phone. The photo never does.
+
+**Missing data is not good news.** Community records are often incomplete, and
+for an allergy question "nothing recorded" must not look like "safe". Every
+preference resolves to one of four states — conflict, may contain, not found,
+unknown — and *not found* is only reported when the record actually carries
+both an allergen and a traces declaration. When it does not, the report offers
+to photograph the Contains / May contain line off the package, and the
+recognised text is merged back into the same report. Gluten-free and
+dairy-free work the same way: confirmed on positive evidence, never inferred
+from silence.
+
+**Files:** `app/src/screens/ScanBarcode.jsx`,
+`app/src/screens/ProductReport.jsx`, `app/src/product/productData.js`
+
 ## Known limitations
 
 **OCR is unreliable on colourful packaging.** A flat white sticker with black
@@ -145,10 +188,10 @@ on the same Wi-Fi.
 ---
 ---
 
-# OCR 通道与食谱数据更新（中文）
+# 包装食品：条码、标签 OCR 与食谱数据（中文）
 
-这个分支做了两件事：让 app 能读包装食品的标签，以及把食谱页面接到仓库里早就
-准备好、但一直没用起来的真实 AUSNUT 数据上。
+这个分支做了三件事：让 app 能读包装食品的标签，加入一条直接识别商品的条码通道，
+以及把食谱页面接到仓库里早就准备好、但一直没用起来的真实 AUSNUT 数据上。
 
 所有处理仍然在手机本地完成，照片不会上传。
 
@@ -234,6 +277,37 @@ arrabbiata、sugo。
 - **可以从相册选照片了。** 文件选择器原来被锁定在摄像头，用不了相册。锁已解除。
 
 ---
+
+## 7. 扫条码
+
+读标签是识别包装商品最费劲的办法。条码下面那串数字能精确定位商品，所以 app 会先
+扫条码，只有在没有条码、或者号码查不到东西时，才退回去读标签。
+
+**流程。** `/scan-package` 负责扫码，`/product/:barcode` 展示报告。报告回答的是
+人站在货架前真正想问的问题：这个我能不能吃。页面上有基于个人偏好的过敏检查、
+饮食标签、每 100 g 营养成分，以及用来对照的澳洲每日摄入参考值。确认之后，商品可以
+像其他食材一样加进列表。
+
+**不相信单次识别。** 包装有弧度或者光线不好时，条码可能解码出一个能通过自身校验位、
+但内容是错的号码。所以任何一次识别的结果都不单独采信：实时扫描要求连续两帧读到同一个
+号码，照片则按四个方向分别解码、结果一致才通过。只启用四种零售条码格式
+（EAN-13、EAN-8、UPC-A、UPC-E），二维码和快递单号不会被误认成商品。GS1 官方文档里
+当示例用的那个条码会被单独拒绝——样品包装经常直接印上那组条纹，底下却是另一串数字。
+
+页面也提供手动输入。在 iOS 和纯 HTTP 环境下 `getUserMedia` 用不了，此时会自动退回到
+调用后置摄像头拍一张。
+
+**查询。** 号码发给 Open Food Facts，只请求页面用得到的字段，结果在设备上缓存一周。
+**离开手机的只有那串数字，照片从来不会。**
+
+**没有数据不等于好消息。** 社区数据经常不完整，而在过敏这个问题上，「没有记录」绝不能
+显示成「安全」。每一项偏好都会落到四种状态之一——冲突、可能含有、未发现、未知——而且
+只有当记录同时带着过敏原声明和微量残留声明时，才会报告「未发现」。否则报告页会引导
+用户去拍包装上的 Contains / May contain 那行字，识别出来的文字会合并回同一份报告。
+无麸质和无乳制品也一样：有正面证据才确认，绝不因为「没提到」就推断。
+
+**相关文件：** `app/src/screens/ScanBarcode.jsx`、
+`app/src/screens/ProductReport.jsx`、`app/src/product/productData.js`
 
 ## 已知限制
 
