@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { RECIPES } from './Recommendations.jsx'
+import { displayName, emojiForIngredient, useFoodData } from '../data/foodData.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -8,39 +8,42 @@ const T = {
   muted: '#5E6E64', line: '#E4E0D6',
 }
 
+function Notice({ children }) {
+  return (
+    <div style={{ padding: 40, textAlign: 'center', fontFamily: 'system-ui', color: T.muted }}>
+      {children}
+    </div>
+  )
+}
+
+const round = (n) => (Number.isFinite(n) ? Math.round(n * 10) / 10 : null)
+
 export default function NutritionInfo() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const recipe = RECIPES.find(r => r.id === id)
+  const { data, error, loading } = useFoodData()
 
+  if (loading) return <Notice>Loading nutrition…</Notice>
+  if (error) return <Notice>Nutrition data failed to load.</Notice>
+
+  const recipe = data.recipesById.get(id)
   if (!recipe) {
     return (
-      <div style={{ padding: 40, textAlign: 'center', fontFamily: 'system-ui', color: T.muted }}>
+      <Notice>
         Recipe not found.
         <div style={{ marginTop: 16 }}>
           <button onClick={() => navigate('/recommendations')} style={{
             background: T.green, color: '#fff', border: 'none', borderRadius: 12,
-            padding: '10px 18px', cursor: 'pointer', fontWeight: 600,
+            padding: '10px 18px', cursor: 'pointer', fontWeight: 600, fontFamily: 'inherit',
           }}>Back to recipes</button>
         </div>
-      </div>
+      </Notice>
     )
   }
 
-  const n = recipe.nutrition
-  const macros = [
-    ['Calories', recipe.kcal, 'kcal'],
-    ['Protein', n.protein, 'g'],
-    ['Carbs', n.carbs, 'g'],
-    ['Fat', n.fat, 'g'],
-  ]
-  const rows = [
-    ['Protein', n.protein + ' g'],
-    ['Carbohydrates', n.carbs + ' g'],
-    ['Fat', n.fat + ' g'],
-    ['Fibre', n.fibre + ' g'],
-    ['Sodium', n.sodium + ' mg'],
-  ]
+  const rows = recipe.ingredients
+    .map((label) => data.nutritionByLabel.get(label))
+    .filter(Boolean)
 
   return (
     <div style={{
@@ -49,7 +52,7 @@ export default function NutritionInfo() {
     }}>
       {/* 顶部 */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '20px 20px 12px' }}>
-        <button onClick={() => navigate('/recipe/' + recipe.id)} style={{
+        <button onClick={() => navigate('/recipe/' + recipe.recipe_id)} style={{
           background: '#fff', border: `1px solid ${T.line}`, borderRadius: 10,
           width: 34, height: 34, display: 'grid', placeItems: 'center',
           cursor: 'pointer', color: T.ink, flexShrink: 0, marginTop: 3,
@@ -62,67 +65,101 @@ export default function NutritionInfo() {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Nutrition</div>
           <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
-            {recipe.name} · per serving
+            {recipe.recipe_name} · {data.nutritionBasis}
           </div>
         </div>
       </div>
 
-      {/* 四大营养概览（绿色卡片） */}
-      <div style={{
-        margin: '4px 20px 0', background: T.green, borderRadius: 18,
-        padding: '16px 14px', display: 'flex', justifyContent: 'space-around',
-      }}>
-        {macros.map(([k, v, u]) => (
-          <div key={k} style={{ textAlign: 'center', color: '#fff' }}>
-            <div style={{ fontSize: 22, fontWeight: 700 }}>{v}</div>
-            <div style={{ fontFamily: 'monospace', fontSize: 10, opacity: 0.8 }}>{u}</div>
-            <div style={{ fontSize: 11, opacity: 0.9, marginTop: 3 }}>{k}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* 详细营养表 */}
-      <div style={{ padding: '18px 20px 0' }}>
-        <div style={{
-          fontWeight: 700, fontSize: 12, color: T.muted,
-          textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 8,
-        }}>Detailed nutrition</div>
-        <div style={{ background: '#fff', border: `1px solid ${T.line}`, borderRadius: 14, overflow: 'hidden' }}>
-          {rows.map(([k, v], i) => (
-            <div key={k} style={{
-              display: 'flex', justifyContent: 'space-between', padding: '12px 14px',
-              borderTop: i ? `1px solid ${T.line}` : 'none',
+      {/* 每种食材一张卡，数值直接来自 AUSNUT，不做任何加总 */}
+      <div style={{ padding: '4px 20px 0', display: 'grid', gap: 10 }}>
+        {rows.map((item) => {
+          const n = item.nutrition
+          return (
+            <div key={item.label} style={{
+              background: '#fff', border: `1px solid ${T.line}`, borderRadius: 16, padding: 14,
             }}>
-              <span style={{ fontSize: 14, color: T.ink }}>{k}</span>
-              <span style={{ fontFamily: 'monospace', fontSize: 14, color: T.ink }}>{v}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 24 }}>{emojiForIngredient(item.label)}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: T.ink }}>
+                    {displayName(item.label)}
+                  </div>
+                  <div style={{ fontSize: 11, color: T.muted, marginTop: 2 }}>
+                    {item.ausnut_food_name}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: 16, color: T.green }}>
+                    {round(n.energy_kcal)}
+                  </div>
+                  <div style={{ fontFamily: 'monospace', fontSize: 10, color: T.muted }}>kcal</div>
+                </div>
+              </div>
+
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6,
+                marginTop: 12, paddingTop: 12, borderTop: `1px solid ${T.line}`,
+              }}>
+                {[
+                  ['Protein', n.protein_g, 'g'],
+                  ['Carbs', n.carbs_g, 'g'],
+                  ['Fat', n.fat_g, 'g'],
+                  ['Fibre', n.fibre_g, 'g'],
+                ].map(([k, v, unit]) => (
+                  <div key={k} style={{ textAlign: 'center' }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: T.ink }}>
+                      {round(v)}<span style={{ fontSize: 10, color: T.muted }}>{unit}</span>
+                    </div>
+                    <div style={{ fontSize: 10, color: T.muted, marginTop: 2 }}>{k}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{
+                display: 'flex', justifyContent: 'space-between',
+                marginTop: 10, fontSize: 11, color: T.muted, fontFamily: 'monospace',
+              }}>
+                <span>sugars {round(n.sugars_g)} g · sodium {round(n.sodium_mg)} mg</span>
+                <span>{item.ausnut_public_food_key}</span>
+              </div>
             </div>
-          ))}
-        </div>
+          )
+        })}
       </div>
 
-      {/* 诚实声明横幅（论文核心卖点：营养有据可查，非 AI 瞎编） */}
+      {/* 诚实声明：数据集没有份量，所以不给整道菜的合计 */}
       <div style={{
         margin: '18px 20px 0', background: T.greenSoft, borderRadius: 14,
         padding: 14, display: 'flex', gap: 10,
       }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={T.green}
-          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          style={{ flexShrink: 0, marginTop: 1 }}>
           <circle cx="12" cy="12" r="10" />
           <line x1="12" y1="16" x2="12" y2="12" />
           <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
         <div style={{ fontSize: 12.5, color: T.green, lineHeight: 1.5 }}>
-          Estimated from AUSNUT 2011–13 reference data, not AI-generated.
-          For guidance only, not medical advice.
+          Values are shown for each ingredient {data.nutritionBasis}, taken from{' '}
+          {data.attribution.dataset}. The recipe collection does not record how much
+          of each ingredient a serving uses, so no per-serving total is calculated
+          here rather than estimated. For guidance only, not medical advice.
         </div>
       </div>
 
-      {/* 完成，回首页 */}
+      {/* AUSNUT 署名 */}
+      <div style={{ padding: '12px 20px 0' }}>
+        <div style={{ fontSize: 11, color: T.muted, lineHeight: 1.6 }}>
+          Food and nutrient data derived from {data.attribution.dataset},{' '}
+          {data.attribution.provider}, licensed under {data.attribution.license}.
+        </div>
+      </div>
+
       <div style={{ padding: '20px 20px 0' }}>
         <button onClick={() => navigate('/')} style={{
           width: '100%', background: T.green, color: '#fff', border: 'none',
           borderRadius: 14, padding: '14px 18px', fontFamily: 'inherit',
-          fontWeight: 600, fontSize: 15, cursor: 'pointer',
+          fontWeight: 600, fontSize: 15, cursor: 'pointer', boxSizing: 'border-box',
         }}>
           Done
         </button>

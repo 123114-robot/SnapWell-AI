@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/AppState.jsx'
+import { displayName } from '../ai/ingredientMatch.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -60,7 +61,7 @@ export default function IngredientConfirm() {
     }}>
       {/* 顶部 */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '20px 20px 12px' }}>
-        <button onClick={() => navigate('/results')} style={{
+        <button onClick={() => navigate('/capture')} style={{
           background: '#fff', border: `1px solid ${T.line}`, borderRadius: 10,
           width: 34, height: 34, display: 'grid', placeItems: 'center',
           cursor: 'pointer', color: T.ink, flexShrink: 0, marginTop: 3,
@@ -87,8 +88,8 @@ export default function IngredientConfirm() {
           }}>
             <div style={{ fontSize: 26 }}>{emojiFor(it.label)}</div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 600, fontSize: 15, color: T.ink, textTransform: 'capitalize' }}>
-                {it.label}
+              <div style={{ fontWeight: 600, fontSize: 15, color: T.ink }}>
+                {displayName(it.label)}
                 {(it.quantity || 1) > 1 && (
                   <span style={{ color: T.muted, fontWeight: 600 }}> ×{it.quantity}</span>
                 )}
@@ -96,11 +97,11 @@ export default function IngredientConfirm() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 3 }}>
                 <span style={{
                   fontSize: 11, fontWeight: 600,
-                  color: it.source === 'manual' ? T.wattle : T.green,
-                  background: it.source === 'manual' ? T.wattleSoft : T.greenSoft,
+                  color: it.source === 'manual' ? T.wattle : it.source === 'ocr' ? T.ink : T.green,
+                  background: it.source === 'manual' ? T.wattleSoft : it.source === 'ocr' ? T.line : T.greenSoft,
                   padding: '2px 7px', borderRadius: 999,
                 }}>
-                  {it.source === 'manual' ? 'Added' : 'Detected'}
+                  {it.source === 'manual' ? 'Added' : it.source === 'ocr' ? 'Scanned' : 'Detected'}
                 </span>
                 {it.confidence != null && (
                   <span style={{ fontSize: 11, color: T.muted, fontFamily: 'monospace' }}>
@@ -142,6 +143,42 @@ export default function IngredientConfirm() {
             padding: '0 18px', fontFamily: 'inherit', fontWeight: 700, fontSize: 14,
             cursor: 'pointer',
           }}>Add</button>
+        </div>
+
+        {/* 询问是否还要扫包装：摄像头只认生鲜，罐头/酱料/干货走 OCR 通道 */}
+        <div style={{
+          marginTop: 14, background: '#fff', border: `1px solid ${T.line}`,
+          borderRadius: 16, padding: 16,
+        }}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <div style={{
+              width: 42, height: 42, borderRadius: 12, background: T.wattleSoft,
+              display: 'grid', placeItems: 'center', fontSize: 22, flexShrink: 0,
+            }}>🥫</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: T.ink }}>
+                Any packaged items to add?
+              </div>
+              <div style={{ fontSize: 13, color: T.muted, marginTop: 4, lineHeight: 1.45 }}>
+                The camera reads fresh ingredients. Tins, sauces, pasta and other
+                pantry items are read from their label instead.
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate('/scan-package', { state: { from: '/confirm' } })}
+            style={{
+              ...btnBase, marginTop: 12, gap: 8, background: '#fff', color: T.green,
+              border: `1.5px solid ${T.greenLine}`, padding: '12px 18px',
+              boxSizing: 'border-box',
+            }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2" />
+              <path d="M8 9h8M8 12h8M8 15h5" />
+            </svg>
+            Scan a package label
+          </button>
         </div>
       </div>
 

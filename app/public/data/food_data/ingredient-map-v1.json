@@ -429,7 +429,7 @@
     {
       "source": "ocr",
       "label": "pasta_sauce",
-      "ocr_keywords": "pasta sauce, tomato pasta sauce, bolognese sauce",
+      "ocr_keywords": "pasta sauce, tomato pasta sauce, bolognese sauce, bolognese, napoletana, napolitana, arrabbiata, sugo",
       "ausnut_public_food_key": "F008050",
       "ausnut_food_name": "Sauce, pasta, tomato based, commercial",
       "match_type": "packaged",

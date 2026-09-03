@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/AppState.jsx'
+import { displayName } from '../ai/ingredientMatch.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -99,8 +100,8 @@ export default function QuantityAdjust() {
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <span style={{ fontSize: 22 }}>{emojiFor(it.label)}</span>
-              <span style={{ flex: 1, fontWeight: 600, fontSize: 14, color: T.ink, textTransform: 'capitalize' }}>
-                {it.label}
+              <span style={{ flex: 1, fontWeight: 600, fontSize: 14, color: T.ink }}>
+                {displayName(it.label)}
               </span>
               <button onClick={() => changeQty(it.id, -1)} style={stepBtn}>{IconMinus}</button>
               <span style={{ fontFamily: 'monospace', fontSize: 14, minWidth: 30, textAlign: 'center', color: T.ink }}>

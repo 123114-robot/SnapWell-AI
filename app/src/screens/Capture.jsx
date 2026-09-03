@@ -26,7 +26,7 @@ export default function Capture() {
     image.onload = async () => {
       setPhoto(image)
       navigate('/processing')   // 先跳到处理动画屏
-      // 在后台跑检测，结果存进仓库；Processing 屏跑完动画后会跳到 /results
+      // 在后台跑检测，结果存进仓库；Processing 屏跑完动画后会跳到 /confirm
       const r = await detect(session.current, image)
       setIngredients(mergeDetectionsByLabel(r.detections))
     }
@@ -84,7 +84,6 @@ export default function Capture() {
         ref={fileRef}
         type="file"
         accept="image/*"
-        capture="environment"
         onChange={onFile}
         disabled={!ready}
         style={{ display: 'none' }}
@@ -114,6 +113,23 @@ export default function Capture() {
             Loading AI model… please wait
           </div>
         )}
+
+        {/* 包装食品走 OCR 通道，不依赖检测模型是否加载完 */}
+        <button
+          onClick={() => navigate('/scan-package')}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            width: '100%', borderRadius: 14, fontFamily: 'inherit', fontWeight: 600,
+            fontSize: 15, padding: '14px 18px', cursor: 'pointer',
+            background: '#fff', color: T.green, border: `1.5px solid ${T.greenLine}`,
+          }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2" />
+            <path d="M8 9h8M8 12h8M8 15h5" />
+          </svg>
+          Scan a package label instead
+        </button>
       </div>
 
       {/* 隐私提醒 */}

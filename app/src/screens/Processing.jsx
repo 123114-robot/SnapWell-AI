@@ -28,7 +28,7 @@ export default function Processing() {
       setPct(p => {
         if (p >= 100) {
           clearInterval(iv)
-          setTimeout(() => navigate('/results'), 350)
+          setTimeout(() => navigate('/confirm'), 350)
           return 100
         }
         return p + 4

@@ -23,7 +23,7 @@ const TABS = [
     id: 'scan',
     label: 'Scan',
     to: '/capture',
-    match: (p) => p === '/capture' || p === '/processing',
+    match: (p) => ['/capture', '/processing', '/scan-package'].includes(p),
     icon: (active) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth={active ? 2.4 : 2} strokeLinecap="round" strokeLinejoin="round">
@@ -35,8 +35,8 @@ const TABS = [
   {
     id: 'ingredients',
     label: 'List',
-    to: '/results',
-    match: (p) => ['/results', '/confirm', '/quantity'].includes(p),
+    to: '/confirm',
+    match: (p) => ['/confirm', '/quantity'].includes(p),
     icon: (active) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth={active ? 2.4 : 2} strokeLinecap="round" strokeLinejoin="round">

@@ -1,13 +1,11 @@
 source,label,ocr_keywords,ausnut_public_food_key,ausnut_food_name,match_type,notes
-ocr,noodles,"noodles, noodle, instant noodles",F006068,"Noodle, wheat, instant, unflavoured, uncooked",packaged,"OCR channel"
-ocr,flour,"flour, plain flour, self raising flour, wholemeal flour",F004007,"Flour, wheat, white, plain",packaged,"OCR channel"
-ocr,oats,"oats, rolled oats, quick oats",F006143,"Oats, rolled, uncooked",packaged,"OCR channel"
-ocr,tortilla,"tortilla, wrap, wraps",F001418,"Bread, flat wrap or tortilla, commercial, not further defined",packaged,"OCR channel"
-ocr,canned_tomatoes,"canned tomatoes, tinned tomatoes, diced tomatoes, crushed tomatoes",F009222,"Tomato, whole, canned in tomato juice, undrained",packaged,"OCR channel"
-ocr,coconut_milk,"coconut milk",F002991,"Coconut, milk, canned",packaged,"OCR channel"
-ocr,soy_sauce,"soy sauce",F008065,"Sauce, soy, commercial",packaged,"OCR channel"
-ocr,olive_oil,"olive oil, cooking oil, extra virgin olive oil",F006177,"Oil, olive",packaged,"OCR channel"
-ocr,pasta_sauce,"pasta sauce, tomato pasta sauce, bolognese sauce",F008050,"Sauce, pasta, tomato based, commercial",packaged,"OCR channel"
-ocr,peanut_butter,"peanut butter, crunchy peanut butter, smooth peanut butter",F006577,"Peanut butter, added sugar & salt",packaged,"OCR channel"
-
-
+ocr,noodles,"noodles, noodle, instant noodles",F006068,"Noodle, wheat, instant, unflavoured, uncooked",packaged,OCR channel
+ocr,flour,"flour, plain flour, self raising flour, wholemeal flour",F004007,"Flour, wheat, white, plain",packaged,OCR channel
+ocr,oats,"oats, rolled oats, quick oats",F006143,"Oats, rolled, uncooked",packaged,OCR channel
+ocr,tortilla,"tortilla, wrap, wraps",F001418,"Bread, flat wrap or tortilla, commercial, not further defined",packaged,OCR channel
+ocr,canned_tomatoes,"canned tomatoes, tinned tomatoes, diced tomatoes, crushed tomatoes",F009222,"Tomato, whole, canned in tomato juice, undrained",packaged,OCR channel
+ocr,coconut_milk,coconut milk,F002991,"Coconut, milk, canned",packaged,OCR channel
+ocr,soy_sauce,soy sauce,F008065,"Sauce, soy, commercial",packaged,OCR channel
+ocr,olive_oil,"olive oil, cooking oil, extra virgin olive oil",F006177,"Oil, olive",packaged,OCR channel
+ocr,pasta_sauce,"pasta sauce, tomato pasta sauce, bolognese sauce, bolognese, napoletana, napolitana, arrabbiata, sugo",F008050,"Sauce, pasta, tomato based, commercial",packaged,OCR channel
+ocr,peanut_butter,"peanut butter, crunchy peanut butter, smooth peanut butter",F006577,"Peanut butter, added sugar & salt",packaged,OCR channel

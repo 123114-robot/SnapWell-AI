@@ -1,12 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
 import { ModelProvider, useModel } from './ai/ModelContext.jsx'
 import { AppStateProvider } from './state/AppState.jsx'
 import Home from './screens/Home.jsx'
 import Privacy from './screens/Privacy.jsx'
 import Preferences from './screens/Preferences.jsx'
 import Capture from './screens/Capture.jsx'
+import ScanPackage from './screens/ScanPackage.jsx'
 import Processing from './screens/Processing.jsx'
-import DetectionResults from './screens/DetectionResults.jsx'
 import IngredientConfirm from './screens/IngredientConfirm.jsx'
 import QuantityAdjust from './screens/QuantityAdjust.jsx'
 import Recommendations from './screens/Recommendations.jsx'
@@ -88,9 +88,11 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/preferences" element={<Preferences />} />
               <Route path="/capture" element={<Capture />} />
+              <Route path="/scan-package" element={<ScanPackage />} />
               <Route path="/processing" element={<Processing />} />
-              <Route path="/results" element={<DetectionResults />} />
               <Route path="/confirm" element={<IngredientConfirm />} />
+              {/* 检测结果页已并入确认页；保留重定向，旧链接和浏览器历史不至于落到空白页 */}
+              <Route path="/results" element={<Navigate to="/confirm" replace />} />
               <Route path="/quantity" element={<QuantityAdjust />} />
               <Route path="/recommendations" element={<Recommendations />} />
               <Route path="/missing" element={<MissingIngredients />} />
