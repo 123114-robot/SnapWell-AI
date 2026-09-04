@@ -4,6 +4,8 @@ dist/
 .DS_Store
 *.pt
 *.log
+.env*
+.vscode*
 
 data/raw/
 data/converted/

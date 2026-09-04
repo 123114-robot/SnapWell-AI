@@ -49,9 +49,10 @@ export default function Recommendations() {
   }, [ingredients, preferences, setRecommendationResult, setSelectedRecipe])
 
   const ranked = recommendationResult?.recommendations ?? []
-  const visibleRecipes = ranked.filter(recipe => recipe.coverageScore > 0)
+  const visibleRecipes = ranked.filter(recipe => recipe.coverageScore > 0 || recipe.source === 'online')
   const noConfirmedIngredients = (recommendationResult?.diagnostics?.confirmedIngredientCount ?? 0) === 0
-  const noEligibleRecipes = (recommendationResult?.diagnostics?.eligibleRecipeCount ?? 0) === 0
+  const noEligibleRecipes = visibleRecipes.length === 0
+  const onlineStatus = recommendationResult?.diagnostics?.onlineRecommendationStatus ?? null
 
   function openRecipe(recipe) {
     setSelectedRecipe(recipe)
@@ -77,14 +78,14 @@ export default function Recommendations() {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Recommended for you</div>
           <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
-            Ranked by ingredient coverage
+            {onlineStatus === 'success' ? 'Generated to match your ingredients' : 'Ranked by ingredient coverage'}
           </div>
         </div>
       </div>
 
       <div style={{ padding: '4px 20px 0', display: 'grid', gap: 14 }}>
         {status === 'loading' && (
-          <MessageCard>Loading the local recipe library…</MessageCard>
+          <MessageCard>Loading recommendations…</MessageCard>
         )}
 
         {status === 'error' && (
@@ -95,26 +96,31 @@ export default function Recommendations() {
 
         {status === 'ready' && noConfirmedIngredients && (
           <MessageCard>
-            Add at least one confirmed ingredient to calculate recipe coverage.
+            Add at least one confirmed ingredient to calculate recipe recommendations.
           </MessageCard>
         )}
 
-        {status === 'ready' && recommendationResult?.fallbackRequired
-          && !noConfirmedIngredients && !noEligibleRecipes && (
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'success' && (
+          <div style={{
+            background: T.greenSoft, border: `1px solid ${T.green}`,
+            borderRadius: 14, padding: 14, color: T.ink, fontSize: 13, lineHeight: 1.5,
+          }}>
+            <strong style={{ color: T.green }}>Online Recommendation.</strong> Recipes generated dynamically for your confirmed ingredients.
+          </div>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'failed' && (
           <div style={{
             background: T.wattleSoft, border: `1px solid ${T.wattle}`,
             borderRadius: 14, padding: 14, color: T.ink, fontSize: 13, lineHeight: 1.5,
           }}>
-            <strong>AI fallback required.</strong> The best eligible local recipe covers{' '}
-            {Math.round(recommendationResult.topCoverageScore)}% of its ingredients, below the{' '}
-            {recommendationResult.threshold}% threshold. Gemini is not connected in Part 4A;
-            local matches remain below for diagnostics.
+            <strong>Unable to connect to online service.</strong> Showing local recipe matches.
           </div>
         )}
 
         {status === 'ready' && !noConfirmedIngredients && noEligibleRecipes && (
           <MessageCard>
-            No eligible local recipes match the confirmed ingredients and hard preferences.
+            No eligible recipes match the confirmed ingredients and preferences.
           </MessageCard>
         )}
 
@@ -129,7 +135,18 @@ export default function Recommendations() {
               display: 'grid', placeItems: 'center', fontSize: 34, flexShrink: 0,
             }}>🍽️</div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>{recipe.name}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>{recipe.name}</div>
+                {recipe.source === 'online' && (
+                  <span style={{
+                    background: T.greenSoft, color: T.green, fontSize: 10,
+                    fontWeight: 700, padding: '2px 6px', borderRadius: 6, textTransform: 'uppercase',
+                    letterSpacing: 0.4, flexShrink: 0,
+                  }}>
+                    Online Recommendation
+                  </span>
+                )}
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: 4,

@@ -11,10 +11,14 @@ If you are on Windows (or testing on Android), here is all you need to do to run
 2. **Setup & Run**:
 ```bash
 git clone <repo-url>
+# Web version
 cd web
 npm install
 npm run dev -- --host
-
+# App version
+cd app
+npm install
+npm run dev -- --host
 ```
 
 

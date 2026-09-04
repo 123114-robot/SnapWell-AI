@@ -21,6 +21,14 @@ export default function MissingIngredients() {
   const [linkData, setLinkData] = useState(null)
   const [linkError, setLinkError] = useState('')
   const missing = selectedRecipe?.missingIngredients ?? []
+  const missingDetails = Array.isArray(selectedRecipe?.missingIngredientDetails)
+    ? selectedRecipe.missingIngredientDetails
+    : missing.map(label => ({
+      label,
+      displayName: displayIngredientLabel(label),
+      reason: 'Find it near you',
+      shoppingLinks: null,
+    }))
 
   useEffect(() => {
     let cancelled = false
@@ -66,19 +74,22 @@ export default function MissingIngredients() {
         <StatusCard>Select a recipe from the recommendation list to see its missing ingredients.</StatusCard>
       )}
 
-      {selectedRecipe && missing.length === 0 && (
+      {selectedRecipe && missingDetails.length === 0 && (
         <StatusCard>You have everything this recipe requires.</StatusCard>
       )}
 
-      {linkError && missing.length > 0 && (
+      {linkError && missingDetails.length > 0 && !missingDetails.some(d => d.shoppingLinks?.length) && (
         <StatusCard>Shopping links could not be loaded. {linkError}</StatusCard>
       )}
 
       <div style={{ padding: '4px 20px 0', display: 'grid', gap: 14 }}>
-        {missing.map(item => {
-          const storeLinks = createMissingIngredientLinks(item, linkData)
+        {missingDetails.map(item => {
+          const storeLinks = item.shoppingLinks?.length
+            ? item.shoppingLinks
+            : createMissingIngredientLinks(item.label, linkData)
+
           return (
-            <div key={item} style={{
+            <div key={item.label} style={{
               background: '#fff', border: `1px solid ${T.line}`, borderRadius: 16, padding: 14,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
@@ -88,13 +99,13 @@ export default function MissingIngredients() {
                 }}>🛒</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 16, color: T.ink, textTransform: 'capitalize' }}>
-                    {displayIngredientLabel(item)}
+                    {item.displayName || displayIngredientLabel(item.label)}
                   </div>
-                  <div style={{ fontSize: 12, color: T.muted }}>Find it near you</div>
+                  <div style={{ fontSize: 12, color: T.muted }}>{item.reason || 'Find it near you'}</div>
                 </div>
               </div>
               <div style={{ display: 'grid', gap: 8 }}>
-                {!linkData && !linkError && (
+                {!linkData && !linkError && (!storeLinks || storeLinks.length === 0) && (
                   <div style={{ fontSize: 12, color: T.muted }}>Loading store links…</div>
                 )}
                 {storeLinks.map(link => (

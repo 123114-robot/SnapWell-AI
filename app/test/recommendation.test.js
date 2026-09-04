@@ -3,6 +3,7 @@ import test from 'node:test'
 
 import recommendationEngine from '../src/recommendation/recommendationEngine.js'
 import { matchRecipes } from '../src/recommendation/recipeMatcher.js'
+import { generateOnlineRecommendations, buildAiInputPayload } from '../src/recommendation/geminiService.js'
 
 const EMPTY_NUTRITION_DATA = Object.freeze({ items: [] })
 
@@ -19,7 +20,7 @@ function recipe({
     meal_type: mealType,
     cuisine_style: cuisine,
     ingredients,
-    steps: [],
+    steps: ['Prepare ingredients', 'Cook and serve'],
     dietary_tags: tags,
   }
 }
@@ -37,10 +38,11 @@ function match(recipes, ingredients = [], preferences = {}) {
   })
 }
 
-function runEngine(recipes, ingredients = [], preferences = {}) {
+function runEngine(recipes, ingredients = [], preferences = {}, options = {}) {
   return recommendationEngine(
     { ingredients, preferences },
     { recipes, ingredientNutrition: EMPTY_NUTRITION_DATA },
+    options,
   )
 }
 
@@ -56,7 +58,7 @@ test('3 matched ingredients out of 4 returns 75% coverage', () => {
   assert.deepEqual(results[0].missingIngredients, ['bread'])
 })
 
-test('75% top result returns local mode', async () => {
+test('75% top result returns local mode and universal recipe structure', async () => {
   const result = await runEngine(
     [recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk', 'bread'] })],
     [ingredient('apple'), ingredient('egg'), ingredient('milk')],
@@ -65,17 +67,149 @@ test('75% top result returns local mode', async () => {
   assert.equal(result.topCoverageScore, 75)
   assert.equal(result.fallbackRequired, false)
   assert.equal(result.mode, 'local')
+  assert.equal(result.source, 'local')
+  assert.equal(result.recommendations.length, 1)
+
+  const rec = result.recommendations[0]
+  assert.equal(rec.id, 'R001')
+  assert.equal(rec.source, 'local')
+  assert.equal(rec.displayCoverageScore, 75)
+  assert.deepEqual(rec.matchedIngredients, ['apple', 'egg', 'milk'])
+  assert.deepEqual(rec.missingIngredients, ['bread'])
+  assert.equal(Array.isArray(rec.missingIngredientDetails), true)
+  assert.equal(rec.missingIngredientDetails[0].label, 'bread')
+  assert.equal(rec.missingIngredientDetails[0].shoppingLinks.length >= 2, true)
 })
 
-test('60% top result sets fallbackRequired to true', async () => {
+test('60% top result triggers online recommendation when available', async () => {
+  const mockOnlineGenerator = async ({ inputPayload }) => {
+    assert.equal(inputPayload.input.confirmed_ingredients.length, 3)
+    return {
+      success: true,
+      data: {
+        recommendations: [
+          {
+            recipe_id: 'AI001',
+            recipe_name: 'Apple Egg Milk Toast',
+            meal_type: 'breakfast',
+            cuisine_style: 'Australian cafe',
+            used_ingredients: ['apple', 'egg', 'milk'],
+            missing_ingredients: [
+              {
+                label: 'cinnamon',
+                display_name: 'Cinnamon',
+                optional: true,
+                reason: 'Adds sweet aromatic flavour',
+                shopping_links: {
+                  coles: 'https://www.coles.com.au/search/products?q=cinnamon',
+                  woolworths: 'https://www.woolworths.com.au/shop/search/products?searchTerm=cinnamon',
+                },
+              },
+            ],
+            steps: ['Whisk egg and milk', 'Slice apple and toast'],
+            dietary_tags: ['vegetarian'],
+            nutrition_note: 'Estimated from AUSNUT reference data.',
+            recommendation_reason: 'Uses your available fresh ingredients.',
+          },
+        ],
+        summary: { total_recommendations: 1, assumptions: [] },
+      },
+    }
+  }
+
   const result = await runEngine(
     [recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk', 'bread', 'tomato'] })],
     [ingredient('apple'), ingredient('egg'), ingredient('milk')],
+    {},
+    { generateOnlineRecommendations: mockOnlineGenerator },
   )
 
   assert.equal(result.topCoverageScore, 60)
   assert.equal(result.fallbackRequired, true)
-  assert.equal(result.mode, 'ai-fallback')
+  assert.equal(result.mode, 'online')
+  assert.equal(result.source, 'online')
+  assert.equal(result.recommendations.length, 1)
+
+  const rec = result.recommendations[0]
+  assert.equal(rec.id, 'AI001')
+  assert.equal(rec.source, 'online')
+  assert.equal(rec.name, 'Apple Egg Milk Toast')
+  assert.equal(rec.coverageScore, 75) // 3 used out of 4 total
+  assert.deepEqual(rec.matchedIngredients, ['apple', 'egg', 'milk'])
+  assert.deepEqual(rec.missingIngredients, ['cinnamon'])
+  assert.equal(rec.missingIngredientDetails[0].shoppingLinks.length, 2)
+  assert.equal(result.diagnostics.onlineRecommendationStatus, 'success')
+})
+
+test('Online recommendation gracefully falls back to local recipe when service fails', async () => {
+  const mockFailingOnlineGenerator = async () => ({
+    success: false,
+    error: 'Unable to connect to online service.',
+  })
+
+  const result = await runEngine(
+    [recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk', 'bread', 'tomato'] })],
+    [ingredient('apple'), ingredient('egg'), ingredient('milk')],
+    {},
+    { generateOnlineRecommendations: mockFailingOnlineGenerator },
+  )
+
+  assert.equal(result.fallbackRequired, true)
+  assert.equal(result.mode, 'local')
+  assert.equal(result.source, 'local')
+  assert.equal(result.recommendations.length, 1)
+  assert.equal(result.recommendations[0].id, 'R001')
+  assert.equal(result.diagnostics.onlineRecommendationStatus, 'failed')
+  assert.equal(result.diagnostics.onlineRecommendationNote, 'Unable to connect to online service.')
+})
+
+test('Online recommendation cleanly times out after default or custom duration', async () => {
+  const mockSlowFetch = () => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => resolve({ ok: true, json: async () => ({}) }), 1000)
+    if (typeof timer.unref === 'function') timer.unref()
+  })
+
+  const onlineResult = await generateOnlineRecommendations({
+    inputPayload: { input: {} },
+    apiKey: 'test-api-key',
+    timeoutMs: 50,
+    fetchFn: (url, options) => new Promise((resolve, reject) => {
+      options?.signal?.addEventListener('abort', () => {
+        const error = new Error('The operation was aborted')
+        error.name = 'AbortError'
+        reject(error)
+      })
+    }),
+  })
+
+  assert.equal(onlineResult.success, false)
+  assert.equal(onlineResult.error, 'Unable to connect to online service.')
+})
+
+test('buildAiInputPayload conforms to ai-input-schema-v1', () => {
+  const payload = buildAiInputPayload({
+    ingredients: [ingredient('apple', 'vision')],
+    preferences: { diets: ['Vegetarian'], allergies: ['No nuts'], goals: ['Weight loss'] },
+    ingredientNutrition: {
+      items: [
+        {
+          label: 'apple',
+          source: 'vision',
+          ausnut_public_food_key: 'F000114',
+          ausnut_food_name: 'Apple raw',
+          nutrition: { energy_kcal: 52 },
+        },
+      ],
+    },
+  })
+
+  assert.equal(payload.version, 'v1')
+  assert.equal(payload.input.confirmed_ingredients.length, 1)
+  assert.equal(payload.input.confirmed_ingredients[0].label, 'apple')
+  assert.equal(payload.input.confirmed_ingredients[0].ausnut_public_food_key, 'F000114')
+  assert.equal(payload.input.user_preferences.dietary_pattern, 'Vegetarian')
+  assert.deepEqual(payload.input.user_preferences.allergens, ['No nuts'])
+  assert.equal(payload.input.user_preferences.health_goal, 'Weight loss')
 })
 
 test('Vegetarian excludes meat recipes', () => {
@@ -190,7 +324,7 @@ test('Empty ingredient input is handled safely', async () => {
 
   assert.equal(result.topCoverageScore, 0)
   assert.equal(result.fallbackRequired, true)
-  assert.equal(result.mode, 'ai-fallback')
+  assert.equal(result.mode, 'local')
   assert.equal(result.diagnostics.confirmedIngredientCount, 0)
   assert.equal(result.recommendations[0].coverageScore, 0)
 })

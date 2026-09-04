@@ -1,6 +1,12 @@
-import { loadNutritionCalculationData, loadRecommendationData } from './foodDataService.js'
+import { loadNutritionCalculationData, loadRecommendationData, loadMissingIngredientLinks } from './foodDataService.js'
 import { matchRecipes, normaliseConfirmedIngredients, createIngredientAliasMap } from './recipeMatcher.js'
 import { calculateRecipeNutrition } from './nutritionService.js'
+import { adaptLocalRecommendation, adaptOnlineRecommendation } from './recommendationAdapter.js'
+import {
+  buildAiInputPayload,
+  generateOnlineRecommendations,
+  ONLINE_SERVICE_ERROR_MESSAGE,
+} from './geminiService.js'
 
 export const LOCAL_MATCH_THRESHOLD = 70
 
@@ -10,7 +16,7 @@ function safePreferences(preferences) {
     : {}
 }
 
-export async function recommendationEngine(input = {}, dataOverride = null) {
+export async function recommendationEngine(input = {}, dataOverride = null, options = {}) {
   const data = dataOverride ?? await loadRecommendationData()
   const ingredients = Array.isArray(input?.ingredients) ? input.ingredients : []
   const preferences = safePreferences(input?.preferences)
@@ -21,21 +27,28 @@ export async function recommendationEngine(input = {}, dataOverride = null) {
     preferences,
   })
   let nutritionData = null
+  let linkData = null
 
   if (dataOverride) {
     const hasNutritionData = dataOverride.recipeIngredientMap
       && dataOverride.ingredientPortions
       && dataOverride.recipePortions
     nutritionData = hasNutritionData ? dataOverride : null
+    linkData = dataOverride.missingIngredientLinks ?? null
   } else {
     try {
       nutritionData = await loadNutritionCalculationData()
     } catch {
       nutritionData = null
     }
+    try {
+      linkData = await loadMissingIngredientLinks()
+    } catch {
+      linkData = null
+    }
   }
 
-  const recommendations = matches.map(result => ({
+  const rawLocalResults = matches.map(result => ({
     ...result,
     nutrition: nutritionData
       ? calculateRecipeNutrition({
@@ -49,25 +62,102 @@ export async function recommendationEngine(input = {}, dataOverride = null) {
         unresolvedIngredients: [],
       },
   }))
+
   const aliasMap = createIngredientAliasMap(data.ingredientNutrition)
   const confirmedIngredientLabels = normaliseConfirmedIngredients(ingredients, aliasMap)
-  const topCoverageScore = recommendations[0]?.coverageScore ?? 0
-  const fallbackRequired = recommendations.length === 0
+  const topCoverageScore = rawLocalResults[0]?.coverageScore ?? 0
+  const fallbackRequired = rawLocalResults.length === 0
     || topCoverageScore < LOCAL_MATCH_THRESHOLD
 
+  const localRecommendations = rawLocalResults.map(item => adaptLocalRecommendation(item, linkData))
+
+  // Attempt Online Recommendation when local matching is below threshold and ingredients are present
+  if (fallbackRequired && confirmedIngredientLabels.length > 0) {
+    const onlineGenerator = options?.generateOnlineRecommendations ?? generateOnlineRecommendations
+    const inputPayload = buildAiInputPayload({
+      ingredients,
+      preferences,
+      ingredientNutrition: data.ingredientNutrition,
+      ingredientPortions: nutritionData?.ingredientPortions ?? dataOverride?.ingredientPortions ?? null,
+      linkData,
+    })
+
+  let onlineResult = null
+      try {
+        onlineResult = await onlineGenerator({
+          inputPayload,
+          apiKey: options?.apiKey,
+          timeoutMs: options?.timeoutMs,
+          fetchFn: options?.fetchFn,
+        })
+      } catch (error) {
+        // onlineResult remains null so execution flows into the local fallback block
+      }
+
+    if (onlineResult?.success) {
+      const onlineRecommendations = onlineResult.data.recommendations.map(onlineItem =>
+        adaptOnlineRecommendation(onlineItem, linkData),
+      )
+
+      return {
+        mode: 'online',
+        source: 'online',
+        threshold: LOCAL_MATCH_THRESHOLD,
+        fallbackRequired,
+        topCoverageScore,
+        recommendations: onlineRecommendations,
+        inputContext: {
+          ingredients,
+          preferences,
+          confirmedIngredientLabels,
+        },
+        diagnostics: {
+          eligibleRecipeCount: onlineRecommendations.length,
+          confirmedIngredientCount: confirmedIngredientLabels.length,
+          onlineRecommendationStatus: 'success',
+          localRecommendations,
+          assumptions: onlineResult.data.summary?.assumptions ?? [],
+        },
+      }
+    }
+
+    // If online service fails, timed out, or unconfigured, gracefully fallback to local recipes
+    return {
+      mode: 'local',
+      source: 'local',
+      threshold: LOCAL_MATCH_THRESHOLD,
+      fallbackRequired,
+      topCoverageScore,
+      recommendations: localRecommendations,
+      inputContext: {
+        ingredients,
+        preferences,
+        confirmedIngredientLabels,
+      },
+      diagnostics: {
+        eligibleRecipeCount: localRecommendations.length,
+        confirmedIngredientCount: confirmedIngredientLabels.length,
+        onlineRecommendationStatus: 'failed',
+        onlineRecommendationNote: ONLINE_SERVICE_ERROR_MESSAGE,
+        localRecommendations,
+      },
+    }
+  }
+
   return {
-    mode: fallbackRequired ? 'ai-fallback' : 'local',
+    mode: 'local',
+    source: 'local',
     threshold: LOCAL_MATCH_THRESHOLD,
     fallbackRequired,
     topCoverageScore,
-    recommendations,
+    recommendations: localRecommendations,
     inputContext: {
       ingredients,
       preferences,
       confirmedIngredientLabels,
     },
     diagnostics: {
-      eligibleRecipeCount: recommendations.length,
+      eligibleRecipeCount: localRecommendations.length,
       confirmedIngredientCount: confirmedIngredientLabels.length,
     },
   }
