@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
 import { displayName } from '../ai/ingredientMatch.js'
+import { emojiForIngredient } from '../data/foodData.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -9,14 +10,6 @@ const T = {
   wattle: '#E9A824', tomato: '#D64525',
   muted: '#5E6E64', line: '#E4E0D6',
 }
-
-const EMOJI = {
-  apple: '🍎', banana: '🍌', orange: '🍊', tomato: '🍅', carrot: '🥕',
-  broccoli: '🥦', milk: '🥛', egg: '🥚', bread: '🍞', cheese: '🧀',
-  pasta: '🍝', rice: '🍚', chicken: '🍗', fish: '🐟', potato: '🥔',
-  onion: '🧅', garlic: '🧄', lemon: '🍋', pizza: '🍕', cake: '🍰',
-}
-const emojiFor = (label) => EMOJI[String(label).toLowerCase()] || '🥗'
 
 export default function QuantityAdjust() {
   const navigate = useNavigate()
@@ -99,7 +92,7 @@ export default function QuantityAdjust() {
               background: '#fff', border: `1px solid ${T.line}`, borderRadius: 12,
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 12,
             }}>
-              <span style={{ fontSize: 22 }}>{emojiFor(it.label)}</span>
+              <span style={{ fontSize: 22 }}>{emojiForIngredient(it.label)}</span>
               <span style={{ flex: 1, fontWeight: 600, fontSize: 14, color: T.ink }}>
                 {displayName(it.label)}
               </span>

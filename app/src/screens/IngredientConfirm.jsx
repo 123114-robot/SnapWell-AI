@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
 import { displayName } from '../ai/ingredientMatch.js'
+import { emojiForIngredient } from '../data/foodData.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
@@ -11,18 +12,13 @@ const T = {
   muted: '#5E6E64', line: '#E4E0D6',
 }
 
-const EMOJI = {
-  apple: '🍎', banana: '🍌', orange: '🍊', tomato: '🍅', carrot: '🥕',
-  broccoli: '🥦', milk: '🥛', egg: '🥚', bread: '🍞', cheese: '🧀',
-  pasta: '🍝', rice: '🍚', chicken: '🍗', fish: '🐟', potato: '🥔',
-  onion: '🧅', garlic: '🧄', lemon: '🍋', pizza: '🍕', cake: '🍰',
-}
-const emojiFor = (label) => EMOJI[String(label).toLowerCase()] || '🥗'
-
 export default function IngredientConfirm() {
   const navigate = useNavigate()
-  const { ingredients, setIngredients, preferences } = useAppState()
+  const { ingredients, setIngredients, preferences, detection } = useAppState()
   const [newName, setNewName] = useState('')
+  // 空列表要分两种情况说话：刚跑完检测但一个都没认出来，和直接从导航进来。
+  const isEmpty = ingredients.length === 0
+  const detectionFinished = detection.status === 'done'
 
   function removeItem(id) {
     setIngredients(ingredients.filter(it => it.id !== id))
@@ -74,19 +70,48 @@ export default function IngredientConfirm() {
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Confirm ingredients</div>
           <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
-            Add anything we missed, remove anything wrong
+            {isEmpty
+              ? 'Nothing on your list yet'
+              : 'Add anything we missed, remove anything wrong'}
           </div>
         </div>
       </div>
 
-      {/* 列表 */}
+      {/* 列表。空的时候必须说明为什么空，否则用户分不清是没识别到还是页面坏了 */}
       <div style={{ padding: '4px 20px 0', display: 'grid', gap: 10 }}>
+        {isEmpty && (
+          <div style={{
+            background: '#fff', border: `1px dashed ${T.line}`, borderRadius: 14,
+            padding: '22px 20px', textAlign: 'center',
+            color: T.muted, fontSize: 13.5, lineHeight: 1.5,
+          }}>
+            <div style={{ fontSize: 32 }}>{detectionFinished ? '\u{1F50D}' : '\u{1F9FA}'}</div>
+            <div style={{ fontWeight: 700, fontSize: 15, color: T.ink, margin: '8px 0 6px' }}>
+              {detectionFinished
+                ? 'No ingredients recognised in that photo'
+                : 'Your ingredient list is empty'}
+            </div>
+            <div>
+              {detectionFinished
+                ? 'SnapWell recognises 39 fresh ingredients. Packaged food is read from its label instead. Try a closer, brighter photo, or add the items yourself below.'
+                : 'Take a photo of your ingredients, scan a package, or type an item in below.'}
+            </div>
+            <button
+              onClick={() => navigate('/capture')}
+              style={{
+                ...btnBase, marginTop: 14, background: T.green, color: '#fff',
+                padding: '12px 18px', boxSizing: 'border-box',
+              }}>
+              {detectionFinished ? 'Take another photo' : 'Take a photo'}
+            </button>
+          </div>
+        )}
         {ingredients.map(it => (
           <div key={it.id} style={{
             background: '#fff', border: `1px solid ${T.line}`, borderRadius: 14,
             padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12,
           }}>
-            <div style={{ fontSize: 26 }}>{emojiFor(it.label)}</div>
+            <div style={{ fontSize: 26 }}>{emojiForIngredient(it.label)}</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, fontSize: 15, color: T.ink }}>
                 {displayName(it.label)}
@@ -197,9 +222,16 @@ export default function IngredientConfirm() {
         </div>
       )}
 
-      {/* 继续 */}
+      {/* 继续。空列表点下去只会到一个同样空的推荐页，所以直接禁用 */}
       <div style={{ padding: '20px 20px 0' }}>
-        <button style={{ ...btnBase, background: T.green, color: '#fff' }}
+        <button
+          disabled={isEmpty}
+          style={{
+            ...btnBase,
+            background: isEmpty ? '#9fb0a5' : T.green,
+            color: '#fff',
+            cursor: isEmpty ? 'default' : 'pointer',
+          }}
           onClick={() => navigate('/quantity')}>
           Continue
         </button>
