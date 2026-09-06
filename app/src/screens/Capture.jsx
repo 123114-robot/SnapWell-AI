@@ -16,12 +16,12 @@ export default function Capture() {
   const { session, status } = useModel()
   const { setPhoto, setIngredients, setDetection } = useAppState()
   const fileRef = useRef(null)
+  const cameraRef = useRef(null)
   const videoRef = useRef(null)
   const streamRef = useRef(null)
   const [cameraOn, setCameraOn] = useState(false)
   const [camError, setCamError] = useState('')
 
-  // —— 核心检测逻辑（接收一个已加载的 Image，原样保留，不改）——
   function runDetection(image) {
     const fail = (message) => setDetection({ status: 'error', error: message })
     setPhoto(image)
@@ -40,7 +40,6 @@ export default function Capture() {
     })()
   }
 
-  // 从相册/文件选照片
   function onFile(e) {
     const file = e.target.files[0]
     if (!file) return
@@ -51,13 +50,12 @@ export default function Capture() {
     e.target.value = ''
   }
 
-  // 打开摄像头
   async function openCamera() {
     setCamError('')
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: { facingMode: { ideal: 'environment' } },  // 手机优先用后置
+        video: { facingMode: { ideal: 'environment' } },
       })
       streamRef.current = stream
       if (videoRef.current) {
@@ -67,12 +65,11 @@ export default function Capture() {
       setCameraOn(true)
     } catch (err) {
       console.error('camera failed', err)
-      setCamError('Camera unavailable. You can choose a photo from your library instead.')
+      setCamError('Live preview needs a secure (https) connection. Use "Quick photo" below instead.')
       setCameraOn(false)
     }
   }
 
-  // 关闭摄像头
   function stopCamera() {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((t) => t.stop())
@@ -82,7 +79,6 @@ export default function Capture() {
     setCameraOn(false)
   }
 
-  // 点快门：从视频截一帧 → 转成 Image → 走检测
   function capture() {
     const video = videoRef.current
     if (!video || !video.videoWidth) return
@@ -97,10 +93,16 @@ export default function Capture() {
     image.src = dataUrl
   }
 
-  // 离开页面时确保摄像头关掉（省电、隐私）
   useEffect(() => () => stopCamera(), [])
 
   const ready = status === 'ready'
+
+  // 次要文字按钮的样式（低调，和主按钮区分开）
+  const subtleBtn = {
+    background: 'none', border: 'none', color: T.green,
+    fontFamily: 'inherit', fontWeight: 600, fontSize: 14, cursor: 'pointer',
+    padding: '6px 4px',
+  }
 
   return (
     <div style={{
@@ -128,32 +130,22 @@ export default function Capture() {
           Add ingredients
         </div>
         <p style={{ fontSize: 14, color: T.sub, marginTop: 10, lineHeight: 1.5 }}>
-          Point your camera at your ingredients, or choose a photo.
+          Open the camera to frame your ingredients, or choose a photo.
         </p>
       </div>
 
-      {/* 取景区：相机开时显示画面，否则显示提示 */}
+      {/* 取景区 */}
       <div style={{ padding: '20px 20px 0' }}>
         <div style={{
           borderRadius: 2, background: '#14241C',
           position: 'relative', overflow: 'hidden', height: 340,
           display: 'grid', placeItems: 'center',
         }}>
-          {/* 视频画面（始终挂载，隐藏时不显示） */}
-          <video
-            ref={videoRef}
-            muted
-            playsInline
-            style={{
-              position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', display: cameraOn ? 'block' : 'none',
-            }}
-          />
-
-          {/* 取景边框 */}
+          <video ref={videoRef} muted playsInline style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover', display: cameraOn ? 'block' : 'none',
+          }} />
           <div style={{ position: 'absolute', inset: 20, border: '1px solid rgba(255,255,255,.35)', pointerEvents: 'none' }} />
-
-          {/* 相机未开时的提示 */}
           {!cameraOn && (
             <div style={{ color: 'rgba(255,255,255,.7)', textAlign: 'center', position: 'relative' }}>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -166,8 +158,6 @@ export default function Capture() {
               </div>
             </div>
           )}
-
-          {/* 相机开时的快门按钮 */}
           {cameraOn && (
             <button onClick={capture} aria-label="Capture" style={{
               position: 'absolute', bottom: 18, left: '50%', transform: 'translateX(-50%)',
@@ -179,11 +169,11 @@ export default function Capture() {
         </div>
       </div>
 
-      {/* 隐藏文件选择器 */}
+      <input ref={cameraRef} type="file" accept="image/*" capture="environment" onChange={onFile} style={{ display: 'none' }} />
       <input ref={fileRef} type="file" accept="image/*" onChange={onFile} style={{ display: 'none' }} />
 
-      <div style={{ padding: '20px 20px 0', display: 'grid', gap: 10 }}>
-        {/* 打开/关闭相机 */}
+      <div style={{ padding: '20px 20px 0' }}>
+        {/* 主按钮：实时相机预览 / 关闭 */}
         {!cameraOn ? (
           <button
             onClick={openCamera}
@@ -214,41 +204,37 @@ export default function Capture() {
           </button>
         )}
 
-        {/* 从相册选照片 */}
-        <button
-          onClick={() => fileRef.current && fileRef.current.click()}
-          disabled={!ready}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9,
-            width: '100%', borderRadius: 2, fontFamily: 'inherit', fontWeight: 600,
-            fontSize: 15, padding: '15px 18px',
-            background: T.bg, color: T.green, border: `1px solid ${T.line}`,
-            cursor: ready ? 'pointer' : 'default',
+        {/* 次要选项：一行小文字，两个兜底方式，低调不抢戏 */}
+        {!cameraOn && (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            marginTop: 12,
           }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <path d="M21 15l-5-5L5 21" />
-          </svg>
-          Choose from library
-        </button>
+            <button onClick={() => cameraRef.current && cameraRef.current.click()} disabled={!ready} style={subtleBtn}>
+              Quick photo
+            </button>
+            <span style={{ color: T.line }}>·</span>
+            <button onClick={() => fileRef.current && fileRef.current.click()} disabled={!ready} style={subtleBtn}>
+              Choose from library
+            </button>
+          </div>
+        )}
 
         {camError && (
-          <div style={{ fontSize: 13, color: '#C6492B', lineHeight: 1.45 }}>{camError}</div>
+          <div style={{ fontSize: 13, color: '#C6492B', lineHeight: 1.45, marginTop: 10 }}>{camError}</div>
         )}
         {status !== 'ready' && (
-          <div style={{ textAlign: 'center', fontSize: 13, color: T.faint }}>
+          <div style={{ textAlign: 'center', fontSize: 13, color: T.faint, marginTop: 10 }}>
             Loading AI model… please wait
           </div>
         )}
 
-        {/* 扫条形码入口 */}
+        {/* 扫条形码 */}
         <button
           onClick={() => { stopCamera(); navigate('/scan-package') }}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9,
-            width: '100%', borderRadius: 2, fontFamily: 'inherit', fontWeight: 600,
+            width: '100%', marginTop: 16, borderRadius: 2, fontFamily: 'inherit', fontWeight: 600,
             fontSize: 15, padding: '15px 18px', cursor: 'pointer',
             background: T.bg, color: T.green, border: `1px solid ${T.line}`,
           }}>
