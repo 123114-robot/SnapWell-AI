@@ -6,20 +6,17 @@ import {
 } from '../data/foodData.js'
 
 const T = {
-  paper: '#FAF7F0', ink: '#12261C', green: '#1B4332',
-  greenSoft: '#E7EFE9', greenLine: '#CBDDD0',
-  wattle: '#E9A824', wattleSoft: '#FBEECB',
-  tomato: '#D64525', tomatoSoft: '#F8E3DC',
-  muted: '#5E6E64', line: '#E4E0D6',
+  bg: '#FFFFFF', ink: '#0A0A0A', sub: '#6E6E73', faint: '#86868B',
+  green: '#1B4332', line: '#E5E5E7', fill: '#F5F5F7', tomato: '#C6492B',
 }
 
-const PROVIDER_TONE = { coles: '#D64525', woolworths: '#1B4332' }
+// 超市颜色（保留队友的品牌色语义）
+const PROVIDER_TONE = { coles: '#C6492B', woolworths: '#1B4332' }
 
 export default function MissingIngredients() {
   const navigate = useNavigate()
   const { ingredients, preferences } = useAppState()
   const { data, error, loading } = useFoodData()
-  // 从食谱详情页进来时看的是那道菜；直接进来则取匹配度最高且还缺东西的一道
   const requestedId = useLocation().state?.recipeId
 
   const target = useMemo(() => {
@@ -37,33 +34,38 @@ export default function MissingIngredients() {
 
   return (
     <div style={{
-      minHeight: '100vh', background: T.paper, fontFamily: 'system-ui, sans-serif',
+      minHeight: '100vh', background: T.bg,
+      fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
       maxWidth: 430, margin: '0 auto', paddingBottom: 30,
     }}>
       {/* 顶部 */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '20px 20px 12px' }}>
+      <div style={{ padding: '24px 20px 0' }}>
         <button onClick={() => navigate(-1)} style={{
-          background: '#fff', border: `1px solid ${T.line}`, borderRadius: 10,
-          width: 34, height: 34, display: 'grid', placeItems: 'center',
-          cursor: 'pointer', color: T.ink, flexShrink: 0, marginTop: 3,
+          background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2,
+          width: 36, height: 36, display: 'grid', placeItems: 'center',
+          cursor: 'pointer', color: T.ink,
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 22, fontWeight: 700, color: T.ink }}>Missing ingredients</div>
-          <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>
-            {loading ? 'Loading…' : target ? `To complete ${target.recipe.recipe_name}` : 'Nothing missing'}
-          </div>
+      </div>
+
+      {/* 大标题 */}
+      <div style={{ padding: '24px 20px 0' }}>
+        <div style={{ fontSize: 30, fontWeight: 700, color: T.ink, letterSpacing: -0.7, lineHeight: 1.1 }}>
+          Missing ingredients
         </div>
+        <p style={{ fontSize: 14, color: T.sub, marginTop: 10, lineHeight: 1.5 }}>
+          {loading ? 'Loading…' : target ? `To complete ${target.recipe.recipe_name}` : 'Nothing missing'}
+        </p>
       </div>
 
       {error && (
-        <div style={{ padding: '4px 20px 0' }}>
+        <div style={{ padding: '24px 20px 0' }}>
           <div style={{
-            background: T.tomatoSoft, borderRadius: 14, padding: '14px 16px',
+            background: '#FBEAE5', borderRadius: 2, padding: '14px 16px',
             fontSize: 13, color: T.tomato, fontWeight: 600,
           }}>
             Recipe data failed to load.
@@ -72,48 +74,47 @@ export default function MissingIngredients() {
       )}
 
       {!loading && !error && missing.length === 0 && (
-        <div style={{ padding: '4px 20px 0' }}>
+        <div style={{ padding: '24px 20px 0' }}>
           <div style={{
-            background: '#fff', border: `1px dashed ${T.line}`, borderRadius: 14,
-            padding: 24, textAlign: 'center', color: T.muted, fontSize: 14,
+            background: T.fill, border: `1px solid ${T.line}`, borderRadius: 2,
+            padding: 24, textAlign: 'center', color: T.sub, fontSize: 14,
           }}>
             You have everything you need. Head back and start cooking.
           </div>
         </div>
       )}
 
-      {/* 每个缺失食材一块，链接由数据层的模板生成 */}
-      <div style={{ padding: '4px 20px 0', display: 'grid', gap: 14 }}>
+      {/* 每个缺失食材一块 */}
+      <div style={{ padding: '24px 20px 0', display: 'grid', gap: 12 }}>
         {missing.map((label) => (
           <div key={label} style={{
-            background: '#fff', border: `1px solid ${T.line}`, borderRadius: 16, padding: 14,
+            background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2, padding: 14,
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
               <div style={{
-                width: 44, height: 44, borderRadius: 12, background: T.wattleSoft,
+                width: 44, height: 44, borderRadius: 2, background: T.fill,
                 display: 'grid', placeItems: 'center', fontSize: 22,
               }}>{emojiForIngredient(label)}</div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>
                   {displayName(label)}
                 </div>
-                <div style={{ fontSize: 12, color: T.muted }}>Find it near you</div>
+                <div style={{ fontSize: 12, color: T.faint }}>Find it near you</div>
               </div>
             </div>
             <div style={{ display: 'grid', gap: 8 }}>
               {storeLinks(label, data?.providers).map((s) => (
                 <a key={s.key} href={s.url} target="_blank" rel="noreferrer" style={{
                   textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12,
-                  border: `1px solid ${T.line}`, borderRadius: 12, padding: '10px 14px',
+                  border: `1px solid ${T.line}`, borderRadius: 2, padding: '11px 14px',
                 }}>
                   <div style={{
-                    width: 4, height: 28, borderRadius: 4,
-                    background: PROVIDER_TONE[s.key] || T.green,
+                    width: 3, height: 26, background: PROVIDER_TONE[s.key] || T.green,
                   }} />
                   <span style={{ flex: 1, fontWeight: 600, fontSize: 14, color: T.ink }}>
                     Search on {s.name}
                   </span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.muted}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T.faint}
                     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
@@ -125,10 +126,10 @@ export default function MissingIngredients() {
         ))}
       </div>
 
-      <div style={{ padding: '20px 20px 0' }}>
+      <div style={{ padding: '28px 20px 0' }}>
         <button onClick={() => navigate('/recommendations')} style={{
-          width: '100%', background: 'transparent', color: T.green, border: 'none',
-          borderRadius: 14, padding: '14px 18px', fontFamily: 'inherit',
+          width: '100%', background: T.bg, color: T.green, border: `1px solid ${T.line}`,
+          borderRadius: 2, padding: '15px 18px', fontFamily: 'inherit',
           fontWeight: 600, fontSize: 15, cursor: 'pointer',
         }}>
           Back to recipes
