@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { displayName, emojiForIngredient, useFoodData } from '../data/foodData.js'
+import { useAppState } from '../state/useAppState.js'
 
 const T = {
   bg: '#FFFFFF', ink: '#0A0A0A', sub: '#6E6E73', faint: '#86868B',
@@ -17,17 +17,15 @@ function Notice({ children }) {
   )
 }
 
-const round = (n) => (Number.isFinite(n) ? Math.round(n * 10) / 10 : null)
-
 export default function NutritionInfo() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const { data, error, loading } = useFoodData()
+  const { recommendationResult, selectedRecipe } = useAppState()
 
-  if (loading) return <Notice>Loading nutrition…</Notice>
-  if (error) return <Notice>Nutrition data failed to load.</Notice>
+  const recipe = selectedRecipe?.id === id
+    ? selectedRecipe
+    : recommendationResult?.recommendations?.find((item) => item.id === id)
 
-  const recipe = data.recipesById.get(id)
   if (!recipe) {
     return (
       <Notice>
@@ -42,9 +40,21 @@ export default function NutritionInfo() {
     )
   }
 
-  const rows = recipe.ingredients
-    .map((label) => data.nutritionByLabel.get(label))
-    .filter(Boolean)
+  const nutrition = recipe.nutrition
+  const perServing = nutrition?.perServing
+  const macros = nutrition?.available ? [
+    ['Calories', Math.round(perServing.kcal), 'kcal'],
+    ['Protein', perServing.protein.toFixed(1), 'g'],
+    ['Carbs', perServing.carbs.toFixed(1), 'g'],
+    ['Fat', perServing.fat.toFixed(1), 'g'],
+  ] : []
+  const rows = nutrition?.available ? [
+    ['Protein', `${perServing.protein.toFixed(1)} g`],
+    ['Carbohydrates', `${perServing.carbs.toFixed(1)} g`],
+    ['Fat', `${perServing.fat.toFixed(1)} g`],
+    ['Fibre', `${perServing.fibre.toFixed(1)} g`],
+    ['Sodium', `${Math.round(perServing.sodium)} mg`],
+  ] : []
 
   return (
     <div style={{
@@ -54,7 +64,7 @@ export default function NutritionInfo() {
     }}>
       {/* 顶部 */}
       <div style={{ padding: '24px 20px 0' }}>
-        <button onClick={() => navigate('/recipe/' + recipe.recipe_id)} style={{
+        <button onClick={() => navigate('/recipe/' + encodeURIComponent(recipe.id))} style={{
           background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2,
           width: 36, height: 36, display: 'grid', placeItems: 'center',
           cursor: 'pointer', color: T.ink,
@@ -72,68 +82,65 @@ export default function NutritionInfo() {
           Nutrition
         </div>
         <p style={{ fontSize: 14, color: T.sub, marginTop: 10, lineHeight: 1.5 }}>
-          {recipe.recipe_name} · {data.nutritionBasis}
+          {recipe.name} · estimated per serving
         </p>
       </div>
 
-      {/* 每种食材一张卡（数值直接来自 AUSNUT，不做任何加总 —— 逻辑不动） */}
-      <div style={{ padding: '24px 20px 0', display: 'grid', gap: 10 }}>
-        {rows.map((item) => {
-          const n = item.nutrition
-          return (
-            <div key={item.label} style={{
-              background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2, padding: 14,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 24 }}>{emojiForIngredient(item.label)}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 15, color: T.ink }}>
-                    {displayName(item.label)}
-                  </div>
-                  <div style={{ fontSize: 11, color: T.faint, marginTop: 2 }}>
-                    {item.ausnut_food_name}
-                  </div>
-                </div>
-                <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <div style={{ fontWeight: 700, fontSize: 17, color: T.ink, fontFamily: 'ui-monospace, monospace' }}>
-                    {round(n.energy_kcal)}
-                  </div>
-                  <div style={{ fontSize: 10, color: T.faint, letterSpacing: 0.4 }}>KCAL</div>
-                </div>
-              </div>
-
-              <div style={{
-                display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6,
-                marginTop: 12, paddingTop: 12, borderTop: `1px solid ${T.line}`,
+      {nutrition?.available ? (
+        <>
+          {/* 每份宏量：直角四宫格 */}
+          <div style={{ padding: '24px 20px 0', display: 'flex', gap: 8 }}>
+            {macros.map(([label, value, unit]) => (
+              <div key={label} style={{
+                flex: 1, minWidth: 0, background: T.bg, border: `1px solid ${T.line}`,
+                borderRadius: 2, padding: '14px 6px', textAlign: 'center',
               }}>
-                {[
-                  ['Protein', n.protein_g, 'g'],
-                  ['Carbs', n.carbs_g, 'g'],
-                  ['Fat', n.fat_g, 'g'],
-                  ['Fibre', n.fibre_g, 'g'],
-                ].map(([k, v, unit]) => (
-                  <div key={k} style={{ textAlign: 'center' }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, color: T.ink, fontFamily: 'ui-monospace, monospace' }}>
-                      {round(v)}<span style={{ fontSize: 10, color: T.faint }}>{unit}</span>
-                    </div>
-                    <div style={{ fontSize: 10, color: T.faint, marginTop: 3, textTransform: 'uppercase', letterSpacing: 0.4 }}>{k}</div>
-                  </div>
-                ))}
+                <div style={{ fontWeight: 700, fontSize: 18, color: T.ink, fontFamily: 'ui-monospace, monospace' }}>
+                  {value}
+                </div>
+                <div style={{ fontSize: 10, color: T.faint, letterSpacing: 0.4 }}>{unit.toUpperCase()}</div>
+                <div style={{ fontSize: 11, color: T.sub, marginTop: 4 }}>{label}</div>
               </div>
+            ))}
+          </div>
 
-              <div style={{
-                display: 'flex', justifyContent: 'space-between',
-                marginTop: 10, fontSize: 11, color: T.faint, fontFamily: 'ui-monospace, monospace',
-              }}>
-                <span>sugars {round(n.sugars_g)} g · sodium {round(n.sodium_mg)} mg</span>
-                <span>{item.ausnut_public_food_key}</span>
-              </div>
+          {/* 明细 */}
+          <div style={{ padding: '24px 20px 0' }}>
+            <div style={{
+              fontSize: 12, fontWeight: 600, color: T.faint,
+              textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 12,
+            }}>Detailed nutrition</div>
+            <div style={{ background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2, overflow: 'hidden' }}>
+              {rows.map(([label, value], index) => (
+                <div key={label} style={{
+                  display: 'flex', justifyContent: 'space-between', padding: '12px 14px',
+                  borderTop: index ? `1px solid ${T.line}` : 'none',
+                }}>
+                  <span style={{ fontSize: 14, color: T.ink }}>{label}</span>
+                  <span style={{ fontFamily: 'ui-monospace, monospace', fontSize: 14, color: T.ink }}>{value}</span>
+                </div>
+              ))}
             </div>
-          )
-        })}
-      </div>
+          </div>
+        </>
+      ) : (
+        <div style={{ padding: '24px 20px 0' }}>
+          <div style={{
+            background: T.fill, border: `1px solid ${T.line}`, borderRadius: 2,
+            padding: 24, textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 32, marginBottom: 10 }}>⚖️</div>
+            <div style={{ fontWeight: 700, fontSize: 16, color: T.ink }}>
+              Nutrition is unavailable for this recipe
+            </div>
+            <div style={{ fontSize: 13, color: T.sub, lineHeight: 1.55, marginTop: 8 }}>
+              {nutrition?.reason ?? 'The required portion or AUSNUT mapping data could not be loaded.'}
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* 诚实声明：措辞一字不动，只改外观 */}
+      {/* 诚实声明 */}
       <div style={{
         margin: '24px 20px 0', background: T.fill, borderRadius: 2,
         padding: 16, display: 'flex', gap: 12,
@@ -146,18 +153,10 @@ export default function NutritionInfo() {
           <line x1="12" y1="8" x2="12.01" y2="8" />
         </svg>
         <div style={{ fontSize: 12.5, color: T.sub, lineHeight: 1.55 }}>
-          Values are shown for each ingredient {data.nutritionBasis}, taken from{' '}
-          {data.attribution.dataset}. The recipe collection does not record how much
-          of each ingredient a serving uses, so no per-serving total is calculated
-          here rather than estimated. For guidance only, not medical advice.
-        </div>
-      </div>
-
-      {/* AUSNUT 署名（措辞不动） */}
-      <div style={{ padding: '14px 20px 0' }}>
-        <div style={{ fontSize: 11, color: T.faint, lineHeight: 1.6 }}>
-          Food and nutrient data derived from {data.attribution.dataset},{' '}
-          {data.attribution.provider}, licensed under {data.attribution.license}.
+          Estimated using standard ingredient portion weights and AUSNUT per-100g reference
+          data{nutrition?.available ? ` for a ${nutrition.servings}-serving recipe` : ''}. Actual
+          values may vary with ingredient size, brand, preparation and serving size. For guidance
+          only, not medical advice.
         </div>
       </div>
 
