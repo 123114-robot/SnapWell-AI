@@ -36,12 +36,13 @@ You will receive JSON input containing:
 2. You may suggest a small number of missing ingredients only if allowed by \`max_missing_ingredients\`.
 3. Do not invent nutrition values.
 4. If nutrition information is needed, refer only to the nutrition values provided in the input.
-5. Do not recommend ingredients that conflict with the user's allergens or dietary pattern.
-6. Keep the recipes realistic for Australian users.
-7. Prefer common Australian supermarket ingredients.
-8. If a missing ingredient is suggested, include Coles and Woolworths search links using the provided templates.
-9. Return JSON only.
-10. Follow the output schema exactly.
+5. Give every recipe a \`servings\` count as a whole number from 1 to 6. The app divides its own AUSNUT nutrition totals by this number, so it must describe how many people the recipe as written actually feeds.
+6. Do not recommend ingredients that conflict with the user's allergens or dietary pattern.
+7. Keep the recipes realistic for Australian users.
+8. Prefer common Australian supermarket ingredients.
+9. If a missing ingredient is suggested, include Coles and Woolworths search links using the provided templates.
+10. Return JSON only.
+11. Follow the output schema exactly.
 
 ## Output Format
 
@@ -55,6 +56,7 @@ Return an object with this structure:
       "recipe_name": "Recipe name",
       "meal_type": "breakfast/lunch/dinner/snack/side",
       "cuisine_style": "Australian everyday",
+      "servings": 2,
       "used_ingredients": ["ingredient_label"],
       "missing_ingredients": [
         {

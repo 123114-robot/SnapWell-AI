@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
+import { displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 
 const T = {
   bg: '#FFFFFF', ink: '#0A0A0A', sub: '#6E6E73', faint: '#86868B',
@@ -55,6 +56,19 @@ export default function NutritionInfo() {
     ['Fibre', `${perServing.fibre.toFixed(1)} g`],
     ['Sodium', `${Math.round(perServing.sodium)} mg`],
   ] : []
+  // An AI recipe can name food the dataset does not cover. The numbers then
+  // describe only part of the plate, and saying which part is missing is the
+  // difference between an estimate and a wrong number. The two reasons are
+  // kept apart: one has no AUSNUT entry at all, the other has one but no way
+  // to turn the amount into grams.
+  const names = (labels) => (labels ?? []).map(displayIngredientLabel).filter(Boolean)
+  const exclusions = (nutrition?.available && nutrition.partial)
+    ? [
+      ['no AUSNUT match', names(nutrition.unmatchedIngredients)],
+      ['no portion estimate', names(nutrition.unestimatedIngredients)],
+    ].filter(([, labels]) => labels.length > 0)
+    : []
+  const excludedCount = exclusions.reduce((sum, [, labels]) => sum + labels.length, 0)
 
   return (
     <div style={{
@@ -121,6 +135,26 @@ export default function NutritionInfo() {
                 </div>
               ))}
             </div>
+
+            {excludedCount > 0 && (
+              <div style={{
+                marginTop: 12, background: T.fill, border: `1px solid ${T.line}`,
+                borderRadius: 2, padding: '12px 14px',
+                fontSize: 12.5, color: T.sub, lineHeight: 1.55,
+              }}>
+                <strong style={{ color: T.ink, fontWeight: 600 }}>
+                  Excludes {excludedCount} ingredient{excludedCount === 1 ? '' : 's'}
+                </strong>
+                {exclusions.map(([reason, labels]) => (
+                  <div key={reason} style={{ marginTop: 4 }}>
+                    {labels.join(', ')} — {reason}
+                  </div>
+                ))}
+                <div style={{ marginTop: 6 }}>
+                  The totals above cover the rest of the recipe only.
+                </div>
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -154,9 +188,10 @@ export default function NutritionInfo() {
         </svg>
         <div style={{ fontSize: 12.5, color: T.sub, lineHeight: 1.55 }}>
           Estimated using standard ingredient portion weights and AUSNUT per-100g reference
-          data{nutrition?.available ? ` for a ${nutrition.servings}-serving recipe` : ''}. Actual
-          values may vary with ingredient size, brand, preparation and serving size. For guidance
-          only, not medical advice.
+          data{nutrition?.available
+            ? ` for ${nutrition.servingsAssumed ? 'an assumed ' : 'a '}${nutrition.servings}-serving recipe`
+            : ''}. Actual values may vary with ingredient size, brand, preparation and serving
+          size. For guidance only, not medical advice.
         </div>
       </div>
 

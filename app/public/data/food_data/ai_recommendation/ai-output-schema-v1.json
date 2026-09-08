@@ -8,6 +8,7 @@
         "recipe_name": "Apple Yoghurt Oat Bowl",
         "meal_type": "breakfast",
         "cuisine_style": "Australian everyday",
+        "servings": 2,
         "used_ingredients": [
           "apple"
         ],
@@ -43,7 +44,7 @@
         "dietary_tags": [
           "vegetarian"
         ],
-        "nutrition_note": "Nutrition values should be calculated from AUSNUT data by the app, not invented by the AI.",
+        "nutrition_note": "Nutrition values are calculated from AUSNUT data by the app, using this recipe's ingredient labels and servings; the AI must not invent them.",
         "recommendation_reason": "This recipe uses the confirmed apple and suggests two common missing ingredients for a simple Australian-style breakfast."
       }
     ],

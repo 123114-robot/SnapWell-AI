@@ -128,7 +128,14 @@ test('60% top result triggers online recommendation when available', async () =>
   assert.equal(result.fallbackRequired, true)
   assert.equal(result.mode, 'online')
   assert.equal(result.source, 'online')
-  assert.equal(result.recommendations.length, 1)
+  // The AI recipe leads, and the 60% local match rides along behind it rather
+  // than being dropped just because it sat under the threshold.
+  assert.equal(result.recommendations.length, 2)
+  assert.deepEqual(result.recommendations.map(item => item.source), ['online', 'local'])
+  assert.equal(result.recommendations[1].id, 'R001')
+  assert.equal(result.recommendations[1].coverageScore, 60)
+  assert.equal(result.diagnostics.onlineRecipeCount, 1)
+  assert.equal(result.diagnostics.localTopUpCount, 1)
 
   const rec = result.recommendations[0]
   assert.equal(rec.id, 'AI001')
@@ -139,6 +146,46 @@ test('60% top result triggers online recommendation when available', async () =>
   assert.deepEqual(rec.missingIngredients, ['cinnamon'])
   assert.equal(rec.missingIngredientDetails[0].shoppingLinks.length, 2)
   assert.equal(result.diagnostics.onlineRecommendationStatus, 'success')
+})
+
+test('The local top-up is capped at three and skips recipes sharing no ingredient', async () => {
+  const mockOnlineGenerator = async () => ({
+    success: true,
+    data: {
+      recommendations: [{
+        recipe_id: 'AI001',
+        recipe_name: 'Apple bowl',
+        used_ingredients: ['apple'],
+        missing_ingredients: [],
+        steps: [],
+      }],
+      summary: {},
+    },
+  })
+
+  const result = await runEngine(
+    [
+      recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk'] }),
+      recipe({ id: 'R002', ingredients: ['apple', 'egg', 'bread'] }),
+      recipe({ id: 'R003', ingredients: ['apple', 'bread', 'rice'] }),
+      recipe({ id: 'R004', ingredients: ['apple', 'tofu', 'noodles'] }),
+      recipe({ id: 'R005', ingredients: ['pork', 'tofu', 'noodles'] }),
+    ],
+    [ingredient('apple')],
+    {},
+    { generateOnlineRecommendations: mockOnlineGenerator },
+  )
+
+  assert.equal(result.mode, 'online')
+  assert.equal(result.diagnostics.localTopUpCount, 3)
+  // R005 shares nothing with the confirmed apple, so it never rides along even
+  // though it passes the preference filters.
+  assert.deepEqual(
+    result.recommendations.map(item => item.id),
+    ['AI001', 'R001', 'R002', 'R003'],
+  )
+  // The full local list stays in diagnostics, untrimmed.
+  assert.equal(result.diagnostics.localRecommendations.length, 5)
 })
 
 test('Online recommendation gracefully falls back to local recipe when service fails', async () => {
