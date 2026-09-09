@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
-import {
-  displayName, emojiForIngredient, scoreRecipe, useFoodData,
-} from '../data/foodData.js'
+import { emojiForIngredient } from '../data/foodData.js'
+import { displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 import { getRecipeImage } from '../data/recipeImages.js'
 
 const T = {
@@ -11,48 +10,32 @@ const T = {
   green: '#1B4332', line: '#E5E5E7', fill: '#F5F5F7', tomato: '#C6492B',
 }
 
-function Notice({ children }) {
-  return (
-    <div style={{
-      padding: 40, textAlign: 'center', color: T.sub,
-      fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
-    }}>
-      {children}
-    </div>
-  )
-}
-
 export default function RecipeDetail() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const { ingredients } = useAppState()
-  const { data, error, loading } = useFoodData()
+  const { recommendationResult, selectedRecipe, setSelectedRecipe } = useAppState()
   const [saved, setSaved] = useState(false)
 
-  if (loading) return <Notice>Loading recipe…</Notice>
-  if (error) return <Notice>Recipe data failed to load.</Notice>
+  const recipe = selectedRecipe?.id === id
+    ? selectedRecipe
+    : recommendationResult?.recommendations?.find((item) => item.id === id)
 
-  const recipe = data.recipesById.get(id)
+  // 直接进入 /recipe/:id（刷新或分享链接）时，把当前配方写回 state，
+  // 这样 /missing 和 /nutrition 也能拿到它。
+  useEffect(() => {
+    if (recipe && selectedRecipe?.id !== recipe.id) setSelectedRecipe(recipe)
+  }, [recipe, selectedRecipe, setSelectedRecipe])
+
   if (!recipe) {
-    return (
-      <Notice>
-        Recipe not found.
-        <div style={{ marginTop: 16 }}>
-          <button onClick={() => navigate('/recommendations')} style={{
-            background: T.green, color: '#fff', border: 'none', borderRadius: 2,
-            padding: '10px 18px', cursor: 'pointer', fontWeight: 600, fontFamily: 'inherit',
-          }}>Back to recipes</button>
-        </div>
-      </Notice>
-    )
+    return <RecipeNotFound onBack={() => navigate('/recommendations')} />
   }
 
-  const { hit, missing } = scoreRecipe(recipe, ingredients)
-  const img = getRecipeImage(recipe.recipe_name)
+  const matched = new Set(recipe.matchedIngredients)
+  const img = getRecipeImage(recipe.name)
 
   const facts = [
-    ['Meal', recipe.meal_type],
-    ['Cuisine', recipe.cuisine_style],
+    ['Meal', recipe.mealType],
+    ['Cuisine', recipe.cuisineStyle],
     ['Ingredients', String(recipe.ingredients.length)],
   ]
 
@@ -95,12 +78,12 @@ export default function RecipeDetail() {
 
       <div style={{ padding: '20px 20px 0' }}>
         <div style={{ fontSize: 26, fontWeight: 700, color: T.ink, letterSpacing: -0.5, lineHeight: 1.15 }}>
-          {recipe.recipe_name}
+          {recipe.name}
         </div>
 
-        {recipe.dietary_tags.length > 0 && (
+        {recipe.tags.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
-            {recipe.dietary_tags.map((t) => (
+            {recipe.tags.map((t) => (
               <span key={t} style={{
                 background: T.fill, color: T.ink, fontWeight: 500,
                 fontSize: 12, padding: '4px 9px', borderRadius: 2,
@@ -132,7 +115,7 @@ export default function RecipeDetail() {
         }}>Ingredients</div>
         <div style={{ display: 'grid', gap: 10 }}>
           {recipe.ingredients.map((n) => {
-            const has = hit.includes(n)
+            const has = matched.has(n)
             return (
               <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14 }}>
                 <span style={{ fontSize: 18, width: 22, textAlign: 'center' }}>{emojiForIngredient(n)}</span>
@@ -141,49 +124,71 @@ export default function RecipeDetail() {
                     ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
                 </span>
-                <span style={{ color: has ? T.ink : T.faint }}>{displayName(n)}</span>
+                <span style={{ color: has ? T.ink : T.faint, textTransform: 'capitalize' }}>{displayIngredientLabel(n)}</span>
               </div>
             )
           })}
         </div>
 
-        {missing.length > 0 && (
-          <button onClick={() => navigate('/missing', { state: { recipeId: recipe.recipe_id } })} style={{
+        {recipe.missingIngredients.length > 0 && (
+          <button onClick={() => navigate('/missing')} style={{
             width: '100%', marginTop: 16, background: T.bg, color: T.tomato,
             border: `1px solid ${T.tomato}`, borderRadius: 2, padding: '13px',
             fontFamily: 'inherit', fontWeight: 600, fontSize: 14, cursor: 'pointer',
           }}>
-            You're missing {missing.length} item{missing.length > 1 ? 's' : ''} — see where to buy
+            You're missing {recipe.missingIngredients.length} item
+            {recipe.missingIngredients.length > 1 ? 's' : ''} — view shopping options
           </button>
         )}
 
         {/* 步骤 */}
-        <div style={{
-          fontSize: 12, fontWeight: 600, color: T.faint,
-          textTransform: 'uppercase', letterSpacing: 0.6, margin: '24px 0 12px',
-        }}>Method</div>
-        <div style={{ display: 'grid', gap: 14 }}>
-          {recipe.steps.map((s, i) => (
-            <div key={s} style={{ display: 'flex', gap: 12 }}>
-              <div style={{
-                width: 22, height: 22, borderRadius: 2, background: T.green,
-                color: '#fff', fontFamily: 'ui-monospace, monospace', fontSize: 12,
-                display: 'grid', placeItems: 'center', flexShrink: 0, marginTop: 1,
-              }}>{i + 1}</div>
-              <span style={{ fontSize: 14, color: T.ink, lineHeight: 1.55 }}>{s}</span>
+        {recipe.steps.length > 0 && (
+          <>
+            <div style={{
+              fontSize: 12, fontWeight: 600, color: T.faint,
+              textTransform: 'uppercase', letterSpacing: 0.6, margin: '24px 0 12px',
+            }}>Method</div>
+            <div style={{ display: 'grid', gap: 14 }}>
+              {recipe.steps.map((s, i) => (
+                <div key={`${i}-${s}`} style={{ display: 'flex', gap: 12 }}>
+                  <div style={{
+                    width: 22, height: 22, borderRadius: 2, background: T.green,
+                    color: '#fff', fontFamily: 'ui-monospace, monospace', fontSize: 12,
+                    display: 'grid', placeItems: 'center', flexShrink: 0, marginTop: 1,
+                  }}>{i + 1}</div>
+                  <span style={{ fontSize: 14, color: T.ink, lineHeight: 1.55 }}>{s}</span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         <div style={{ marginTop: 28 }}>
-          <button onClick={() => navigate('/nutrition/' + recipe.recipe_id)} style={{
+          <button onClick={() => navigate('/nutrition/' + encodeURIComponent(recipe.id))} style={{
             width: '100%', background: T.green, color: '#fff', border: 'none',
             borderRadius: 2, padding: '16px 18px', fontFamily: 'inherit',
             fontWeight: 600, fontSize: 16, cursor: 'pointer',
           }}>
-            View nutrition
+            Nutrition information
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function RecipeNotFound({ onBack }) {
+  return (
+    <div style={{
+      padding: 40, textAlign: 'center', color: T.sub,
+      fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+    }}>
+      Recipe not found. Return to recommendations to pick a current result.
+      <div style={{ marginTop: 16 }}>
+        <button onClick={onBack} style={{
+          background: T.green, color: '#fff', border: 'none', borderRadius: 2,
+          padding: '10px 18px', cursor: 'pointer', fontWeight: 600, fontFamily: 'inherit',
+        }}>Back to recipes</button>
       </div>
     </div>
   )

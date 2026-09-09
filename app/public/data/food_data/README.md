@@ -13,6 +13,8 @@ This folder contains the data layer for SnapWell AI. It connects detected ingred
 | `ingredient-nutrition-v1.json` | Combined ingredient mapping and nutrition data for Step 4. |
 | `recipes-v1.json` | Australian-localised multicultural recipe dataset for recommendation logic. |
 | `recipe-ingredient-map-v1.json` | Maps each recipe ingredient to an AUSNUT public food key. |
+| `ingredient-portions-v1.json` | Standard unit-to-gram conversions for estimated nutrition. |
+| `recipe-portions-v1.json` | Two-serving standard ingredient quantities for the 100 recipes. |
 | `missing-ingredient-links-v1.json` | Rules for generating Coles and Woolworths search links for missing ingredients. |
 | `attribution-v1.json` | AUSNUT source and CC BY attribution information. |
 
@@ -37,6 +39,28 @@ This folder contains the data layer for SnapWell AI. It connects detected ingred
 | Recipe ingredient references | 434 |
 
 The recipe dataset uses all 49 mapped ingredient labels and contains no unmapped ingredient labels.
+
+## Recommendation Logic
+
+The recommendation engine matches confirmed user ingredients against the local recipe dataset.
+
+Ingredient coverage is calculated as:
+
+`matched recipe ingredients / total recipe ingredients × 100`
+
+Recipes with a top coverage score of 70% or higher are returned using the local recommendation mode. If the best eligible recipe is below 70%, the system marks the result as requiring the Gemini AI fallback.
+
+Dietary restrictions and allergies are applied as hard filters before ranking. Meal type, cuisine preference, and health goals may influence ranking but do not change the ingredient coverage score.
+
+## Nutrition Estimates
+
+Recipe nutrition is calculated from the standard quantities in `recipe-portions-v1.json`,
+the unit conversions in `ingredient-portions-v1.json`, and the existing AUSNUT per-100g
+values. Each ingredient nutrient is calculated as `per-100g value × grams / 100`, then
+summed and divided by the recipe serving count.
+
+The portion weights are prototype estimates rather than measured recipe specifications.
+Actual values vary with ingredient size, brand, preparation method, and serving size.
 
 ## Data Sources
 

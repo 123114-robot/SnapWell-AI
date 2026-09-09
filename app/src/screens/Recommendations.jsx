@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
-import { displayName, rankRecipes, useFoodData } from '../data/foodData.js'
+import recommendationEngine from '../recommendation/recommendationEngine.js'
+import { adaptRecommendationResult, displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 import { getRecipeImage } from '../data/recipeImages.js'
 
 // 冷静专业配色：纯白底 + 中性灰 + 深绿点睛（近直角）
@@ -16,17 +17,142 @@ const emptyCard = {
   padding: 24, textAlign: 'center', color: T.sub, fontSize: 14, lineHeight: 1.5,
 }
 
+function RecipeCard({ r, onOpen }) {
+  const img = getRecipeImage(r.name)
+  return (
+    <button onClick={() => onOpen(r)} style={{
+      textAlign: 'left', background: T.bg, border: `1px solid ${T.line}`,
+      borderRadius: 2, cursor: 'pointer', padding: 0, overflow: 'hidden',
+      fontFamily: 'inherit', display: 'block', width: '100%',
+    }}>
+      {/* 图区（直角，配不上就纯深绿块） */}
+      <div style={{
+        height: 160, position: 'relative',
+        display: 'flex', alignItems: 'flex-end', padding: 16,
+        background: img
+          ? `linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 100%), url(${img})`
+          : T.green,
+        backgroundSize: 'cover', backgroundPosition: 'center',
+      }}>
+        <span style={{
+          position: 'absolute', top: 12, left: 12,
+          background: 'rgba(255,255,255,0.95)', color: T.ink, fontWeight: 600,
+          fontSize: 11, padding: '4px 9px', borderRadius: 2, letterSpacing: 0.2,
+          textTransform: 'capitalize',
+        }}>
+          {r.mealType}
+        </span>
+        <span style={{
+          position: 'absolute', top: 12, right: 12,
+          background: 'rgba(255,255,255,0.95)', color: T.ink, fontWeight: 700,
+          fontSize: 12, padding: '4px 9px', borderRadius: 2,
+          fontFamily: 'ui-monospace, monospace',
+        }}>
+          {r.displayCoverageScore}%
+        </span>
+        <div style={{
+          color: '#fff', fontSize: 21, fontWeight: 700, lineHeight: 1.15,
+          letterSpacing: -0.3, maxWidth: '92%',
+        }}>
+          {r.name}
+        </div>
+      </div>
+
+      {/* 信息区 */}
+      <div style={{ padding: '14px 16px 16px' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          fontSize: 12, color: T.faint, textTransform: 'uppercase', letterSpacing: 0.5,
+        }}>
+          <span>{r.cuisineStyle}</span>
+          {/* Where the recipe came from. Every card carries it, so a generated
+              recipe and one from the recipe book are never mistaken for each
+              other — their coverage percentages are not the same measure. */}
+          <span style={{
+            background: T.green, color: '#fff', fontWeight: 700,
+            fontSize: 10, padding: '2px 7px', borderRadius: 2, letterSpacing: 0.4,
+          }}>
+            {r.source === 'online' ? 'Online' : 'Local'}
+          </span>
+        </div>
+
+        {r.tags.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
+            {r.tags.map((t) => (
+              <span key={t} style={{
+                background: T.fill, color: T.ink, fontWeight: 500,
+                fontSize: 11, padding: '4px 9px', borderRadius: 2,
+              }}>{t}</span>
+            ))}
+          </div>
+        )}
+
+        {r.missingIngredients.length > 0 && (
+          <div style={{
+            marginTop: 12, paddingTop: 12, borderTop: `1px solid ${T.line}`,
+            fontSize: 12.5, color: T.sub,
+          }}>
+            <span style={{ color: T.faint, marginRight: 6 }}>Missing</span>
+            {r.missingIngredients.map(displayIngredientLabel).join(', ').toLowerCase()}
+          </div>
+        )}
+      </div>
+    </button>
+  )
+}
+
 export default function Recommendations() {
   const navigate = useNavigate()
-  const { ingredients, preferences } = useAppState()
-  const { data, error, loading } = useFoodData()
+  const {
+    ingredients,
+    preferences,
+    recommendationResult,
+    setRecommendationResult,
+    setSelectedRecipe,
+  } = useAppState()
+  const [status, setStatus] = useState('loading')
+  const [error, setError] = useState('')
 
-  const { ranked, excludedBy, consideredCount } = useMemo(() => {
-    if (!data) return { ranked: [], excludedBy: new Map(), consideredCount: 0 }
-    return rankRecipes(data.recipes, ingredients, preferences)
-  }, [data, ingredients, preferences])
+  useEffect(() => {
+    let cancelled = false
 
+    async function loadRecommendations() {
+      setStatus('loading')
+      setError('')
+
+      try {
+        const result = await recommendationEngine({ ingredients, preferences })
+        if (cancelled) return
+        setRecommendationResult(adaptRecommendationResult(result))
+        setSelectedRecipe(null)
+        setStatus('ready')
+      } catch (loadError) {
+        if (cancelled) return
+        setError(loadError instanceof Error ? loadError.message : 'Unable to load recommendations')
+        setStatus('error')
+      }
+    }
+
+    loadRecommendations()
+    return () => { cancelled = true }
+  }, [ingredients, preferences, setRecommendationResult, setSelectedRecipe])
+
+  const ranked = recommendationResult?.recommendations ?? []
+  const visibleRecipes = ranked.filter((r) => r.coverageScore > 0 || r.source === 'online')
+  const noConfirmedIngredients = (recommendationResult?.diagnostics?.confirmedIngredientCount ?? 0) === 0
+  const onlineStatus = recommendationResult?.diagnostics?.onlineRecommendationStatus ?? null
   const activePreferences = [...(preferences.diets || []), ...(preferences.allergies || [])]
+
+  function openRecipe(recipe) {
+    setSelectedRecipe(recipe)
+    navigate('/recipe/' + encodeURIComponent(recipe.id))
+  }
+
+  const subtitle = status === 'loading'
+    ? 'Loading recipes…'
+    : onlineStatus === 'success'
+      ? 'Generated to match your ingredients'
+      : `${visibleRecipes.length} match what you have`
 
   return (
     <div style={{
@@ -51,15 +177,13 @@ export default function Recommendations() {
             Recipes
           </div>
           <div style={{ fontSize: 13, color: T.faint, marginTop: 6 }}>
-            {loading
-              ? 'Loading recipes…'
-              : `${ranked.length} of ${consideredCount} use what you have`}
+            {subtitle}
           </div>
         </div>
       </div>
 
       {/* 生效中的偏好 */}
-      {activePreferences.length > 0 && !loading && (
+      {activePreferences.length > 0 && status === 'ready' && (
         <div style={{ padding: '0 20px 8px', display: 'flex', flexWrap: 'wrap', gap: 6 }}>
           {activePreferences.map((p) => (
             <span key={p} style={{
@@ -71,29 +195,48 @@ export default function Recommendations() {
       )}
 
       <div style={{ padding: '8px 20px 0', display: 'grid', gap: 20 }}>
-        {error && (
+        {status === 'error' && (
           <div style={{ ...emptyCard, background: '#FBEAE5', color: T.tomato, fontWeight: 600 }}>
-            Recipe data failed to load. Check your connection and try again.
+            Recommendations could not be loaded. {error}
           </div>
         )}
 
-        {loading && <div style={emptyCard}>Loading the recipe collection…</div>}
+        {status === 'loading' && <div style={emptyCard}>Loading recommendations…</div>}
 
-        {!loading && !error && consideredCount === 0 && (
+        {status === 'ready' && noConfirmedIngredients && (
           <div style={emptyCard}>
-            None of the 100 recipes match your preferences
-            {excludedBy.size > 0 && ` (${[...excludedBy.keys()].join(', ')})`}.
+            Add at least one confirmed ingredient to calculate recipe recommendations.
             <div style={{ marginTop: 12 }}>
-              <button onClick={() => navigate('/preferences')} style={{
+              <button onClick={() => navigate('/confirm')} style={{
                 background: T.green, color: '#fff', border: 'none', borderRadius: 2,
                 padding: '10px 18px', cursor: 'pointer', fontFamily: 'inherit',
                 fontWeight: 600, fontSize: 14,
-              }}>Adjust preferences</button>
+              }}>Add ingredients</button>
             </div>
           </div>
         )}
 
-        {!loading && !error && consideredCount > 0 && ranked.length === 0 && (
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'success' && (
+          <div style={{
+            background: T.fill, border: `1px solid ${T.green}`, borderRadius: 2,
+            padding: '12px 14px', fontSize: 12.5, color: T.ink, lineHeight: 1.5,
+          }}>
+            <strong style={{ color: T.green }}>Online recommendation.</strong>{' '}
+            Recipes generated dynamically for your confirmed ingredients.
+          </div>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'failed' && (
+          <div style={{
+            background: T.fill, border: `1px solid ${T.line}`, borderRadius: 2,
+            padding: '12px 14px', fontSize: 12.5, color: T.sub, lineHeight: 1.5,
+          }}>
+            <strong style={{ color: T.ink }}>Offline.</strong>{' '}
+            Could not reach the online service — showing local recipe matches.
+          </div>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && visibleRecipes.length === 0 && (
           <div style={emptyCard}>
             No recipe uses the ingredients on your list yet. Add a few common
             staples such as egg, tomato, rice or pasta.
@@ -101,79 +244,9 @@ export default function Recommendations() {
         )}
 
         {/* 卡片：直角、纯白、图块直角、冷静排版 */}
-        {ranked.map((r) => {
-          const img = getRecipeImage(r.recipe_name)
-          return (
-            <button key={r.recipe_id} onClick={() => navigate('/recipe/' + r.recipe_id)} style={{
-              textAlign: 'left', background: T.bg, border: `1px solid ${T.line}`,
-              borderRadius: 2, cursor: 'pointer', padding: 0, overflow: 'hidden',
-              fontFamily: 'inherit', display: 'block', width: '100%',
-            }}>
-              {/* 图区（直角，配不上就纯深绿块） */}
-              <div style={{
-                height: 160, position: 'relative',
-                display: 'flex', alignItems: 'flex-end', padding: 16,
-                background: img
-                  ? `linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 100%), url(${img})`
-                  : T.green,
-                backgroundSize: 'cover', backgroundPosition: 'center',
-              }}>
-                <span style={{
-                  position: 'absolute', top: 12, left: 12,
-                  background: 'rgba(255,255,255,0.95)', color: T.ink, fontWeight: 600,
-                  fontSize: 11, padding: '4px 9px', borderRadius: 2, letterSpacing: 0.2,
-                  textTransform: 'capitalize',
-                }}>
-                  {r.meal_type}
-                </span>
-                <span style={{
-                  position: 'absolute', top: 12, right: 12,
-                  background: 'rgba(255,255,255,0.95)', color: T.ink, fontWeight: 700,
-                  fontSize: 12, padding: '4px 9px', borderRadius: 2,
-                  fontFamily: 'ui-monospace, monospace',
-                }}>
-                  {r.matchPercent}%
-                </span>
-                <div style={{
-                  color: '#fff', fontSize: 21, fontWeight: 700, lineHeight: 1.15,
-                  letterSpacing: -0.3, maxWidth: '92%',
-                }}>
-                  {r.recipe_name}
-                </div>
-              </div>
-
-              {/* 信息区 */}
-              <div style={{ padding: '14px 16px 16px' }}>
-                <div style={{
-                  fontSize: 12, color: T.faint, textTransform: 'uppercase', letterSpacing: 0.5,
-                }}>
-                  {r.cuisine_style}
-                </div>
-
-                {r.dietary_tags.length > 0 && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
-                    {r.dietary_tags.map((t) => (
-                      <span key={t} style={{
-                        background: T.fill, color: T.ink, fontWeight: 500,
-                        fontSize: 11, padding: '4px 9px', borderRadius: 2,
-                      }}>{t}</span>
-                    ))}
-                  </div>
-                )}
-
-                {r.missing.length > 0 && (
-                  <div style={{
-                    marginTop: 12, paddingTop: 12, borderTop: `1px solid ${T.line}`,
-                    fontSize: 12.5, color: T.sub,
-                  }}>
-                    <span style={{ color: T.faint }}>Missing　</span>
-                    {r.missing.map(displayName).join(', ').toLowerCase()}
-                  </div>
-                )}
-              </div>
-            </button>
-          )
-        })}
+        {status === 'ready' && !noConfirmedIngredients && visibleRecipes.map((r) => (
+          <RecipeCard key={r.id} r={r} onOpen={openRecipe} />
+        ))}
       </div>
     </div>
   )

@@ -1,0 +1,2678 @@
+{
+  "version": "v1",
+  "description": "Standard recipe portions for nutrition estimates without changing the matching dataset schema.",
+  "estimation_note": "Each recipe uses a two-serving prototype portion assembled from standard ingredient amounts. Values are estimates and not measured cooking specifications.",
+  "recipes": {
+    "R001": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R002": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "peanut_butter",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R003": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "apple",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R004": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "mango",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R005": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "bacon",
+          "quantity": 4,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R006": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R007": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R008": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R009": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "mango",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "orange",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "grape",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R010": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R011": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R012": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "apple",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R013": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R014": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "peanut_butter",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R015": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R016": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R017": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R018": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tortilla",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "bacon",
+          "quantity": 4,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R019": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tortilla",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R020": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R021": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R022": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R023": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R024": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R025": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R026": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R027": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "tortilla",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R028": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R029": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "sausage",
+          "quantity": 4,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tortilla",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R030": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R031": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R032": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta_sauce",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R033": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "canned_tomatoes",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R034": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R035": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta_sauce",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R036": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R037": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R038": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R039": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "zucchini",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R040": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "sausage",
+          "quantity": 4,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta_sauce",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R041": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta_sauce",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "zucchini",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R042": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "canned_tomatoes",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R043": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R044": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "peanut_butter",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R045": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R046": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R047": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R048": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R049": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pork",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R050": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "canned_tomatoes",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R051": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R052": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R053": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R054": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R055": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R056": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R057": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R058": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R059": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R060": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "coconut_milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "noodles",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R061": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R062": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R063": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tofu",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R064": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R065": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        }
+      ]
+    },
+    "R066": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R067": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R068": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R069": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R070": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "prawn",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R071": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R072": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "salmon",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R073": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "beef_mince",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R074": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pork",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R075": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "sausage",
+          "quantity": 4,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R076": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "pumpkin",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R077": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_thigh",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R078": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pork",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "sausage",
+          "quantity": 4,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "potato",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "onion",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R079": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "zucchini",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R080": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R081": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "apple",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "peanut_butter",
+          "quantity": 2,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R082": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "orange",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "grape",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R083": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R084": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R085": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R086": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "mango",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R087": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "flour",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R088": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R089": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "zucchini",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "flour",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "egg",
+          "quantity": 2,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R090": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "olive_oil",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R091": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "broccoli",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "milk",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "butter",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R092": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "apple",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "grape",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R093": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "peanut_butter",
+          "quantity": 2,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R094": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "carrot",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "capsicum",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R095": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R096": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R097": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "orange",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "mango",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R098": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "banana",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "oats",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "yoghurt",
+          "quantity": 1,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R099": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "apple",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "orange",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "grape",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R100": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "bread",
+          "quantity": 2,
+          "unit": "slice"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    }
+  }
+}
+
