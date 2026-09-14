@@ -130,3 +130,25 @@ export function getPreferenceFit(recipe, preferences = {}) {
     cuisineMatch: getCuisineMatchScore(recipe, preferences) > 0,
   }
 }
+
+/**
+ * The allergen and dietary exclusion sets, exposed so the chat verification
+ * layer can enforce exactly the same rules the recipe filter enforces. Keeping
+ * one copy is the point: a second hand-written list in the chat layer would
+ * drift from this one the first time an ingredient is added.
+ */
+export const ALLERGEN_GROUPS = Object.freeze({
+  no_nuts: NUTS,
+  no_shellfish: SHELLFISH,
+  no_eggs: EGGS,
+  no_soy: SOY,
+})
+
+export const DIET_EXCLUSIONS = Object.freeze({
+  vegetarian: MEAT_AND_SEAFOOD,
+  vegan: VEGAN_EXCLUSIONS,
+  gluten_free: GLUTEN,
+  dairy_free: DAIRY,
+})
+
+export { normalisePreference }

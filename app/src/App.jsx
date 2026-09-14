@@ -17,6 +17,7 @@ import MissingIngredients from './screens/MissingIngredients.jsx'
 import RecipeDetail from './screens/RecipeDetail.jsx'
 import NutritionInfo from './screens/NutritionInfo.jsx'
 import BottomNav from './components/BottomNav.jsx'
+import ChatFab from './components/ChatFab.jsx'
 
 function ModelBadge() {
   const { status, progress } = useModel()
@@ -105,6 +106,7 @@ export default function App() {
               <Route path="/nutrition/:id" element={<NutritionInfo />} />
             </Routes>
           </div>
+          <ChatFab />
           <BottomNav />
         </BrowserRouter>
       </AppStateProvider>
