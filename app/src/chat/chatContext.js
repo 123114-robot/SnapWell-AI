@@ -1,14 +1,15 @@
 import { displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 import { normalisePreference } from '../recommendation/preferenceRules.js'
+import { CHAT_STAGES } from './chatStages.js'
 
-export const CHAT_CONTEXT_VERSION = 'chat-v1'
+export const CHAT_CONTEXT_VERSION = 'chat-v3'
 
 /**
- * How many ranked recipes the model is allowed to see. The chat is a grounded
- * explainer, not a search engine: a short candidate list keeps the answer
- * anchored and the request small. The recipe the user is currently looking at
- * is added on top of this, so opening the eighth card never leaves the model
- * unable to talk about the screen the user is on.
+ * How many ranked recipes the model sees up front. The chat is a grounded
+ * explainer, not a search engine: a short summary keeps the request small, and
+ * the rest of the same list is reachable through the find_recipes tool. The
+ * recipe the user is currently looking at is added on top of this, so opening
+ * the eighth card never leaves the model unable to talk about that screen.
  */
 export const MAX_CANDIDATE_RECIPES = 5
 
@@ -17,10 +18,9 @@ const FALLBACK_NUTRITION_SOURCE = 'AUSNUT 2023 per-100g data with standard v1 po
 /**
  * Per-serving figures are renamed to carry their units, because the model reads
  * these as text and `protein: 12` invites "12 grams" or "12 percent" equally.
- * The app never renders these numbers from the model's reply — they are here so
- * it can reason about them, not so it can repeat them.
+ * They reach the model only through the nutrition tool, never in the summary.
  */
-function nutritionPerServing(nutrition) {
+export function nutritionPerServing(nutrition) {
   const perServing = nutrition?.perServing
   if (!nutrition?.available || !perServing) return null
   return {
@@ -38,7 +38,7 @@ function nutritionPerServing(nutrition) {
  * recommendation object wholesale would quietly forward whatever the app state
  * grows next — a cached photo, a bounding box — into an outbound request.
  */
-function packRecipe(recipe) {
+export function packRecipe(recipe) {
   const nutrition = recipe?.nutrition
   return {
     recipe_id: String(recipe?.id ?? ''),
@@ -61,6 +61,18 @@ function packRecipe(recipe) {
       ? [...nutrition.unresolvedIngredients]
       : [],
   }
+}
+
+/**
+ * The recipe as the model sees it without asking: everything except the
+ * nutrition figures. Those come only from the get_recipe_nutrition tool, so
+ * every figure the model can quote is one the guard can check against a tool
+ * result from the same turn.
+ */
+export function packCandidate(recipe) {
+  const summary = packRecipe(recipe)
+  delete summary.nutrition_per_serving
+  return summary
 }
 
 function packIngredient(ingredient) {
@@ -99,17 +111,19 @@ function packPreferences(preferences) {
  * Assembles the text-only context pack sent with a chat turn.
  *
  * Nothing derived from the camera reaches this object: no photo, no detection
- * run, no bounding boxes. Only the confirmed ingredient labels the user has
- * already seen and edited, their stated preferences, and recipes the local
- * engine has already ranked.
+ * run, no bounding boxes. Only the ingredient labels the user has already seen
+ * and edited, their stated preferences, and — on the recipe screens — recipes
+ * the local engine has already ranked. On the ingredient screens there is no
+ * ranked list yet, so the summary is empty and the tools do the looking.
  */
 export function buildChatContext({
+  stage = CHAT_STAGES.RECIPES,
   ingredients = [],
   preferences = {},
   recommendationResult = null,
   focusedRecipeId = null,
 } = {}) {
-  const ranked = Array.isArray(recommendationResult?.recommendations)
+  const ranked = stage === CHAT_STAGES.RECIPES && Array.isArray(recommendationResult?.recommendations)
     ? recommendationResult.recommendations
     : []
 
@@ -121,7 +135,7 @@ export function buildChatContext({
     if (focused) candidates.push(focused)
   }
 
-  const packedRecipes = candidates.map(packRecipe).filter(recipe => recipe.recipe_id)
+  const packedRecipes = candidates.map(packCandidate).filter(recipe => recipe.recipe_id)
 
   const nutritionSource = ranked
     .map(recipe => recipe?.nutrition?.source)
@@ -130,6 +144,7 @@ export function buildChatContext({
 
   return {
     version: CHAT_CONTEXT_VERSION,
+    stage,
     ingredients: (Array.isArray(ingredients) ? ingredients : [])
       .map(packIngredient)
       .filter(item => item.label),

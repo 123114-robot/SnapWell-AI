@@ -29,6 +29,7 @@ You will receive JSON input containing:
 - preferred meal type
 - preferred cuisine style
 - missing ingredient link templates
+- available_ingredient_labels: every ingredient label the app has AUSNUT nutrition data for
 
 ## Rules
 
@@ -37,12 +38,14 @@ You will receive JSON input containing:
 3. Do not invent nutrition values.
 4. If nutrition information is needed, refer only to the nutrition values provided in the input.
 5. Give every recipe a \`servings\` count as a whole number from 1 to 6. The app divides its own AUSNUT nutrition totals by this number, so it must describe how many people the recipe as written actually feeds.
-6. Do not recommend ingredients that conflict with the user's allergens or dietary pattern.
-7. Keep the recipes realistic for Australian users.
-8. Prefer common Australian supermarket ingredients.
-9. If a missing ingredient is suggested, include Coles and Woolworths search links using the provided templates.
-10. Return JSON only.
-11. Follow the output schema exactly.
+6. Give every recipe \`ingredient_quantities\`: the weight in grams of each used ingredient and each non-optional missing ingredient, for the whole recipe as written (not per serving). Use realistic home-cooking amounts, and label each entry exactly as it appears in \`used_ingredients\` or \`missing_ingredients\`. These are cooking quantities, not nutrition values; the app calculates nutrition from them with AUSNUT data.
+7. When an ingredient appears in \`available_ingredient_labels\`, use that exact label, so the app can find its nutrition data.
+8. Do not recommend ingredients that conflict with the user's allergens or dietary pattern.
+9. Keep the recipes realistic for Australian users.
+10. Prefer common Australian supermarket ingredients.
+11. If a missing ingredient is suggested, include Coles and Woolworths search links using the provided templates.
+12. Return JSON only.
+13. Follow the output schema exactly.
 
 ## Output Format
 
@@ -58,6 +61,9 @@ Return an object with this structure:
       "cuisine_style": "Australian everyday",
       "servings": 2,
       "used_ingredients": ["ingredient_label"],
+      "ingredient_quantities": [
+        { "label": "ingredient_label", "grams": 150 }
+      ],
       "missing_ingredients": [
         {
           "label": "ingredient_label",
@@ -208,6 +214,9 @@ export function buildAiInputPayload({
         max_missing_ingredients: Number(preferences?.maxMissingIngredients) || 3,
       },
       missing_ingredient_link_templates: linkTemplates,
+      // The labels the app can cost, so a generated recipe names its
+      // ingredients in a way the AUSNUT lookup will recognise
+      available_ingredient_labels: items.map(item => item.label).filter(Boolean),
       constraints: {
         ai_generates_recipes: true,
         use_confirmed_ingredients_as_primary_inputs: true,

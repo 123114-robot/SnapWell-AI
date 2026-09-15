@@ -37,27 +37,71 @@ function positiveInteger(value) {
 }
 
 /**
- * The ingredient list an AI recipe should be costed on: what the user confirmed
- * (at the quantities they confirmed, so the numbers describe their own food)
- * plus the missing ingredients the recipe genuinely needs. Ingredients the AI
- * marked optional are left out — a garnish should not move a calorie count.
+ * Upper bound on one ingredient's weight in an AI recipe. A figure outside
+ * (0, 5 kg] is a slip rather than an amount, so that ingredient falls back to
+ * the estimate below instead of skewing the whole total.
  */
-function onlineRecipeIngredients(onlineRecipe, confirmedIngredients) {
+export const MAX_AI_INGREDIENT_GRAMS = 5000
+
+/**
+ * AI labels arrive as written — "eggs", "Tomatoes" — so each is matched to the
+ * label the AUSNUT table knows, trying the singular before giving up.
+ */
+function canonicalIngredientLabel(rawLabel, aliasMap) {
+  const label = normaliseIngredientLabel(rawLabel)
+  if (!label || !aliasMap) return label
+  const forms = [label]
+  if (label.endsWith('es')) forms.push(label.slice(0, -2))
+  if (label.endsWith('s')) forms.push(label.slice(0, -1))
+  const known = forms.find(form => aliasMap.has(form))
+  return known ? aliasMap.get(known) : label
+}
+
+/**
+ * The ingredient list an AI recipe should be costed on: every ingredient the
+ * recipe uses, plus the missing ingredients it genuinely needs. Ingredients the
+ * AI marked optional are left out — a garnish should not move a calorie count.
+ *
+ * Amounts come from the recipe itself: the AI gives grams for the whole recipe
+ * as written, which is what makes the per-serving figures describe that dish.
+ * An ingredient without a usable weight falls back to what the user confirmed,
+ * or to one standard portion, and the result records that the figures are then
+ * an estimate rather than the recipe's own.
+ */
+function onlineRecipeIngredients(onlineRecipe, confirmedIngredients, aliasMap = null) {
   const confirmedByLabel = new Map()
   for (const ingredient of confirmedIngredients) {
-    const label = normaliseIngredientLabel(
+    const label = canonicalIngredientLabel(
       typeof ingredient === 'string' ? ingredient : ingredient?.label,
+      aliasMap,
     )
     if (label && !confirmedByLabel.has(label)) confirmedByLabel.set(label, ingredient)
   }
 
+  const recipeGrams = new Map()
+  const quantities = Array.isArray(onlineRecipe?.ingredient_quantities) ? onlineRecipe.ingredient_quantities : []
+  for (const entry of quantities) {
+    const label = canonicalIngredientLabel(entry?.label, aliasMap)
+    const grams = Number(entry?.grams)
+    if (!label || recipeGrams.has(label)) continue
+    if (Number.isFinite(grams) && grams > 0 && grams <= MAX_AI_INGREDIENT_GRAMS) recipeGrams.set(label, grams)
+  }
+
   const entries = []
   const seen = new Set()
+  let estimated = 0
 
   function add(rawLabel) {
-    const label = normaliseIngredientLabel(rawLabel)
+    const label = canonicalIngredientLabel(rawLabel, aliasMap)
     if (!label || seen.has(label)) return
     seen.add(label)
+
+    if (recipeGrams.has(label)) {
+      entries.push({ ingredient_label: label, quantity_g: recipeGrams.get(label) })
+      return
+    }
+
+    estimated += 1
     const confirmed = confirmedByLabel.get(label)
     entries.push(confirmed && typeof confirmed === 'object'
       ? { ...confirmed, ingredient_label: label }
@@ -74,7 +118,7 @@ function onlineRecipeIngredients(onlineRecipe, confirmedIngredients) {
     add(item?.label)
   })
 
-  return entries
+  return { entries, quantitiesFromRecipe: entries.length > 0 && estimated === 0 }
 }
 
 function safePreferences(preferences) {
@@ -149,20 +193,26 @@ export async function recommendationEngine(input = {}, dataOverride = null, opti
     }
 
     const servings = positiveInteger(onlineRecipe?.servings)
+    const { entries, quantitiesFromRecipe } = onlineRecipeIngredients(onlineRecipe, ingredients, aliasMap)
     const nutrition = calculateIngredientListNutrition({
-      ingredients: onlineRecipeIngredients(onlineRecipe, ingredients),
+      ingredients: entries,
       servings: servings ?? AI_DEFAULT_SERVINGS,
       ingredientNutrition: nutritionData.ingredientNutrition ?? data.ingredientNutrition,
       ingredientPortions: nutritionData.ingredientPortions,
     })
 
     return nutrition.available
-      ? { ...nutrition, servingsAssumed: servings === null }
+      ? { ...nutrition, servingsAssumed: servings === null, quantitiesFromRecipe }
       : nutrition
   }
 
+  // Local mode never leaves the device: the local list is the answer even
+  // when its best match is below the threshold. Callers opt out explicitly, so
+  // leaving the option out keeps the existing hybrid behaviour.
+  const allowOnline = options?.allowOnline !== false
+
   // Attempt Online Recommendation when local matching is below threshold and ingredients are present
-  if (fallbackRequired && confirmedIngredientLabels.length > 0) {
+  if (allowOnline && fallbackRequired && confirmedIngredientLabels.length > 0) {
     const onlineGenerator = options?.generateOnlineRecommendations ?? generateOnlineRecommendations
     const inputPayload = buildAiInputPayload({
       ingredients,
@@ -197,9 +247,14 @@ export async function recommendationEngine(input = {}, dataOverride = null, opti
 
       // Recipes sharing nothing with the confirmed list are not a match at any
       // rank, so they are dropped before the top-up is taken rather than after.
+      // Online mode in the app shows generated recipes on their own and passes
+      // 0 here; leaving the option out keeps the mixed list.
+      const localTopUpCount = Number.isInteger(options?.localTopUpCount) && options.localTopUpCount >= 0
+        ? options.localTopUpCount
+        : LOCAL_TOP_UP_COUNT
       const localTopUp = localRecommendations
         .filter(item => item.coverageScore > 0)
-        .slice(0, LOCAL_TOP_UP_COUNT)
+        .slice(0, localTopUpCount)
 
       return {
         mode: 'online',
@@ -263,6 +318,7 @@ export async function recommendationEngine(input = {}, dataOverride = null, opti
     diagnostics: {
       eligibleRecipeCount: localRecommendations.length,
       confirmedIngredientCount: confirmedIngredientLabels.length,
+      ...(allowOnline ? {} : { onlineRecommendationStatus: 'disabled' }),
     },
   }
 }

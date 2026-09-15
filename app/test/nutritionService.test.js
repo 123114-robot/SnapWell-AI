@@ -381,3 +381,77 @@ test('An AI recipe without a serving count is divided by the assumed default', a
   assert.equal(nutrition.servingsAssumed, true)
   assert.equal(nutrition.perServing.kcal, 71.5)
 })
+
+test('An AI recipe is costed from the grams the recipe itself gives', async () => {
+  const result = await runOnline({
+    recipe_id: 'AI003',
+    recipe_name: 'Egg on toast',
+    servings: 2,
+    used_ingredients: ['egg'],
+    missing_ingredients: [{ label: 'bread', display_name: 'Bread', optional: false }],
+    ingredient_quantities: [{ label: 'egg', grams: 120 }, { label: 'bread', grams: 68 }],
+    steps: ['Toast the bread.'],
+  })
+  const nutrition = result.recommendations[0].nutrition
+
+  assert.equal(nutrition.quantitiesFromRecipe, true)
+  // The recipe's own 120 g of egg, not the two confirmed eggs (100 g)
+  assert.deepEqual(
+    nutrition.ingredients.map(item => [item.ingredientLabel, item.grams]),
+    [['egg', 120], ['bread', 68]],
+  )
+  // (143 kcal x 1.2 + 250 kcal x 0.68) / 2 servings
+  assert.equal(nutrition.perServing.kcal, 170.8)
+})
+
+test('An ingredient the recipe gave no weight for is estimated, and the result says so', async () => {
+  const result = await runOnline({
+    recipe_id: 'AI004',
+    recipe_name: 'Egg on toast',
+    servings: 2,
+    used_ingredients: ['egg'],
+    missing_ingredients: [{ label: 'bread', display_name: 'Bread', optional: false }],
+    ingredient_quantities: [{ label: 'egg', grams: 120 }],
+    steps: ['Toast the bread.'],
+  })
+  const nutrition = result.recommendations[0].nutrition
+
+  assert.equal(nutrition.quantitiesFromRecipe, false)
+  assert.deepEqual(
+    nutrition.ingredients.map(item => [item.ingredientLabel, item.grams]),
+    [['egg', 120], ['bread', 34]],
+  )
+})
+
+test('An implausible weight from the AI is ignored rather than trusted', async () => {
+  const result = await runOnline({
+    recipe_id: 'AI005',
+    recipe_name: 'Scrambled eggs',
+    servings: 2,
+    used_ingredients: ['egg'],
+    missing_ingredients: [],
+    ingredient_quantities: [{ label: 'egg', grams: -5 }, { label: 'egg', grams: 99999 }],
+    steps: ['Scramble.'],
+  })
+  const nutrition = result.recommendations[0].nutrition
+
+  assert.equal(nutrition.quantitiesFromRecipe, false)
+  assert.deepEqual(nutrition.ingredients.map(item => [item.ingredientLabel, item.grams]), [['egg', 100]])
+})
+
+test('A plural label from the AI still finds its AUSNUT entry', async () => {
+  const result = await runOnline({
+    recipe_id: 'AI006',
+    recipe_name: 'Boiled eggs',
+    servings: 1,
+    used_ingredients: ['Eggs'],
+    missing_ingredients: [],
+    ingredient_quantities: [{ label: 'eggs', grams: 110 }],
+    steps: ['Boil.'],
+  })
+  const nutrition = result.recommendations[0].nutrition
+
+  assert.equal(nutrition.available, true)
+  assert.equal(nutrition.quantitiesFromRecipe, true)
+  assert.deepEqual(nutrition.ingredients.map(item => [item.ingredientLabel, item.grams]), [['egg', 110]])
+})
