@@ -21,6 +21,7 @@ export default function Privacy() {
     'SnapWell processes images on your device.',
     'Images are never uploaded for recognition.',
     'For an online product lookup, only the barcode number is sent to Open Food Facts.',
+    'In Online mode, your ingredient list, preferences and chat messages are sent to Google Gemini. Photos are never sent.',
     'You can delete captured images at any time.',
   ]
 

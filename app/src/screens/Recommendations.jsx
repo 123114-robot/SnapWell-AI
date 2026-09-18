@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
+import { isOnlineMode } from '../state/appMode.js'
 import recommendationEngine from '../recommendation/recommendationEngine.js'
 import { adaptRecommendationResult, displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 import { getRecipeImage } from '../data/recipeImages.js'
@@ -109,6 +110,7 @@ export default function Recommendations() {
     recommendationResult,
     setRecommendationResult,
     setSelectedRecipe,
+    mode,
   } = useAppState()
   const [status, setStatus] = useState('loading')
   const [error, setError] = useState('')
@@ -121,7 +123,13 @@ export default function Recommendations() {
       setError('')
 
       try {
-        const result = await recommendationEngine({ ingredients, preferences })
+        const result = await recommendationEngine(
+          { ingredients, preferences },
+          null,
+          // Online mode shows generated recipes on their own, without the
+          // local ones the engine would otherwise add behind them
+          { allowOnline: isOnlineMode(mode), localTopUpCount: 0 },
+        )
         if (cancelled) return
         setRecommendationResult(adaptRecommendationResult(result))
         setSelectedRecipe(null)
@@ -135,7 +143,7 @@ export default function Recommendations() {
 
     loadRecommendations()
     return () => { cancelled = true }
-  }, [ingredients, preferences, setRecommendationResult, setSelectedRecipe])
+  }, [ingredients, preferences, mode, setRecommendationResult, setSelectedRecipe])
 
   const ranked = recommendationResult?.recommendations ?? []
   const visibleRecipes = ranked.filter((r) => r.coverageScore > 0 || r.source === 'online')
@@ -233,6 +241,18 @@ export default function Recommendations() {
           }}>
             <strong style={{ color: T.ink }}>Offline.</strong>{' '}
             Could not reach the online service — showing local recipe matches.
+          </div>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'disabled'
+          && recommendationResult?.fallbackRequired && (
+          <div style={{
+            background: T.fill, border: `1px solid ${T.line}`, borderRadius: 2,
+            padding: '12px 14px', fontSize: 12.5, color: T.sub, lineHeight: 1.5,
+          }}>
+            <strong style={{ color: T.ink }}>Local mode.</strong>{' '}
+            Showing matches from the built-in recipe book only. Online mode can generate
+            recipes for ingredients the book does not cover well.
           </div>
         )}
 

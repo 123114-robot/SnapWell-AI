@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom'
 import { ModelProvider } from './ai/ModelContext.jsx'
 import { useModel } from './ai/useModel.js'
 import { AppStateProvider } from './state/AppState.jsx'
@@ -18,8 +18,11 @@ import RecipeDetail from './screens/RecipeDetail.jsx'
 import NutritionInfo from './screens/NutritionInfo.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import ChatFab from './components/ChatFab.jsx'
+import { ModeBadge } from './components/ModeSwitch.jsx'
 
-function ModelBadge() {
+const topRow = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }
+
+function ModelBadge({ trailing = null }) {
   const { status, progress } = useModel()
   const pct = status === 'ready' || status === 'warming'
     ? 100
@@ -31,11 +34,14 @@ function ModelBadge() {
         maxWidth: 430, margin: '0 auto', padding: '10px 20px 6px',
         fontFamily: 'system-ui, sans-serif',
       }}>
-        <div style={{
-          fontSize: 16, fontWeight: 700, color: '#1B4332',
-          letterSpacing: 0.2,
-        }}>
-          On-device AI ready
+        <div style={topRow}>
+          <div style={{
+            fontSize: 16, fontWeight: 700, color: '#1B4332',
+            letterSpacing: 0.2,
+          }}>
+            On-device AI ready
+          </div>
+          {trailing}
         </div>
       </div>
     )
@@ -45,9 +51,14 @@ function ModelBadge() {
     return (
       <div style={{
         maxWidth: 430, margin: '0 auto', padding: '10px 20px 6px',
-        fontFamily: 'system-ui, sans-serif', fontSize: 14, fontWeight: 600, color: '#D64525',
+        fontFamily: 'system-ui, sans-serif',
       }}>
-        Model failed to load
+        <div style={topRow}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: '#D64525' }}>
+            Model failed to load
+          </div>
+          {trailing}
+        </div>
       </div>
     )
   }
@@ -61,10 +72,13 @@ function ModelBadge() {
       maxWidth: 430, margin: '0 auto', padding: '10px 20px 8px',
       fontFamily: 'system-ui, sans-serif',
     }}>
-      <div style={{
-        fontSize: 13, fontWeight: 600, color: '#5E6E64', marginBottom: 8,
-      }}>
-        {label}
+      <div style={{ ...topRow, marginBottom: 8 }}>
+        <div style={{
+          fontSize: 13, fontWeight: 600, color: '#5E6E64',
+        }}>
+          {label}
+        </div>
+        {trailing}
       </div>
       <div style={{
         height: 8, borderRadius: 999, background: '#E7EFE9', overflow: 'hidden',
@@ -80,13 +94,23 @@ function ModelBadge() {
   )
 }
 
+/**
+ * The bar above every screen. Home already carries the mode badge in its own
+ * header, beside the mode picker, so it is left out here to avoid two badges
+ * stacked on top of each other.
+ */
+function TopBar() {
+  const { pathname } = useLocation()
+  return <ModelBadge trailing={pathname === '/' ? null : <ModeBadge />} />
+}
+
 export default function App() {
   return (
     <ModelProvider>
       <AppStateProvider>
         <BrowserRouter>
           <div style={{ paddingBottom: 88, minHeight: '100vh', boxSizing: 'border-box' }}>
-            <ModelBadge />
+            <TopBar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/privacy" element={<Privacy />} />

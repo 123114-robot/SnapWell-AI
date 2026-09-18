@@ -12,6 +12,11 @@
         "used_ingredients": [
           "apple"
         ],
+        "ingredient_quantities": [
+          { "label": "apple", "grams": 150 },
+          { "label": "yoghurt", "grams": 200 },
+          { "label": "oats", "grams": 40 }
+        ],
         "missing_ingredients": [
           {
             "label": "yoghurt",

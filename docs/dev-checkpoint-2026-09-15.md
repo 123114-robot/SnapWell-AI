@@ -1,0 +1,184 @@
+# 开发存档：模式切换 + 聊天助手（2026-09-15）
+
+本文记录 `feature/mode-switch` 分支到 2026-09-15 为止的工作，供后续开发接手。
+
+## 1. 分支状态
+
+- **分支**：`feature/mode-switch`，基于 `main` 的 `95e4e4e`（Add grounded recipe chat assistant with local reply verification）
+- **所有改动都还没有提交**。按计划由开发者自己提交，提交命令见文末。
+- **测试**：`cd app && npm test`，157 个测试全部通过；`npx eslint src test` 无报错
+- **Gemini key**：写在 `app/.env` 的 `VITE_GEMINI_API_KEY` 里。这个文件被根目录 `.gitignore` 的 `.env*` 规则忽略，已确认从未进入 git 历史。
+
+### 新增文件
+| 文件 | 作用 |
+|---|---|
+| `app/src/state/appMode.js` | Local / Online 模式常量、本地存储、同意提示的版本号 |
+| `app/src/components/ModeSwitch.jsx` | 模式徽章、首页模式选择卡片、首次进入 Online 模式的提示 |
+| `app/src/chat/chatStages.js` | 阶段与页面映射、每个页面的示例问句、每个阶段的提示词段落 |
+| `app/src/chat/chatTools.js` | 工具声明、各阶段可用的工具、本地工具的具体实现 |
+| `app/src/chat/chatPolicy.js` | 通用知识开关、健康关键词、拒答文案、AI 标签的判断规则 |
+| `app/src/chat/appGuide.js` | App 使用指南（11 个小节）和关键词检索 |
+| `app/test/{appMode,chatStages,chatTools,chatService,chatPolicy,appGuide}.test.js` | 对应的单元测试 |
+
+### 修改的文件
+`App.jsx`、`AppState.jsx`、`Home.jsx`、`Preferences.jsx`、`Privacy.jsx`、`Recommendations.jsx`、`ChatFab.jsx`、`ChatDrawer.jsx`、`chatContext.js`、`chatGuard.js`、`chatService.js`、`geminiService.js`、`recommendationEngine.js`，以及 `public/data/food_data/ai_recommendation/` 下的三份 AI 输入/输出文档，和三个已有的测试文件。
+
+---
+
+## 2. 已完成的功能
+
+### 2.1 Local / Online 模式
+- **两种模式**：Local mode 所有处理都在设备上完成，只用本地菜谱库；Online mode 增加 AI 聊天和 AI 推荐菜谱。**默认是 Local**。
+- **切换入口**：首页的模式卡片，或者任意页面顶栏的模式徽章。
+- **首次提示**：第一次切到 Online 时弹出简短说明，告诉用户会发送食材清单、偏好和聊天消息，照片不会发送。之后再切换不再弹出。
+  - 同意记录带版本号 `ONLINE_CONSENT_VERSION = '1'`。以后 Online 模式发送的内容变多时，把版本号加一，所有人会重新看到提示。
+- **切换时清空状态**：推荐结果、当前选中的菜谱、聊天记录都会被清空（`AppState.setMode`）。
+- **Privacy 页**：新增一条说明 Online 模式会发送哪些数据。
+- **聊天按钮**：只在 Online 模式下出现。
+
+### 2.2 推荐引擎（`recommendationEngine.js`）
+- **`allowOnline` 选项**：Local 模式传 `false`，即使本地匹配度低于阈值也不调用 AI。
+- **`localTopUpCount` 选项**：App 在 Online 模式下传 `0`，使用 AI 推荐时不再附带本地菜谱。
+  - 引擎默认仍然是 3，所以原作者的测试行为不变。
+- **70% 阈值（`LOCAL_MATCH_THRESHOLD`）没有改动**：这是队友的设计。
+
+### 2.3 AI 菜谱的营养计算
+- **AI 输出新增字段**：`geminiService.js` 的提示词要求每道菜给出 `ingredient_quantities`，即整道菜每种食材的克数。
+- **AI 输入新增字段**：`available_ingredient_labels`，列出 AUSNUT 里有数据的食材名，引导 AI 使用能匹配上的名称。
+- **引擎按 AI 给的克数计算营养**：
+  - 复数名称会映射到单数，比如 eggs 对应 egg。
+  - 克数不在 (0, 5000] 范围内的直接忽略。
+  - 某个食材没有可用克数时，退回到原来的估算方式，并把结果标记为 `quantitiesFromRecipe: false`。
+- **可选食材仍然不计入营养**：这是原有规则，比如 AI 把牛奶、黄油标成可选时就不算。是否改动还没决定（见 §6）。
+
+### 2.4 聊天助手整体架构
+
+```
+用户提问
+  → 本地健康关键词检查（命中就由 app 直接拒答，不发请求）
+  → buildChatContext（按阶段打包上下文，摘要里不含营养数字）
+  → askChat：Gemini 函数调用循环
+       · 一轮对话最多 3 轮工具调用（MAX_TOOL_ROUNDS）
+       · 开启工具时不使用 JSON 输出模式（实测两者同时开启会导致模型反复调用工具、不给回答）
+       · 容错解析回复；解析失败时自动补救重试 1 次（MAX_REPAIR_ATTEMPTS）
+       · 超时时间 45 秒
+  → verifyChatAnswer（本地校验层）
+  → 显示回答：工具记录、AI 标签或 app 回答标签、营养卡片
+```
+
+**按页面划分的阶段**（`chatStages.js`）：
+| 阶段 | 页面 | 可用工具 |
+|---|---|---|
+| home | `/` | `get_app_help` |
+| ingredients | `/confirm`、`/quantity` | `preview_recipes`、`suggest_additions`、`get_list_nutrition`、`check_ingredient`、`get_app_help` |
+| recipes | `/recommendations`、`/recipe/:id`、`/nutrition/:id`、`/missing` | `find_recipes`、`get_recipe_details`、`get_recipe_nutrition`、`check_ingredient`、`get_app_help` |
+
+其他页面（拍照、商品、设置等）没有助手。
+
+**几个工具的实现要点**（`chatTools.js`，全部在设备上运行）：
+- **`suggest_additions`**：对每道菜谱，计算加入一种缺料后覆盖率会不会从 m/t 升到 (m+1)/t 并跨过 70% 阈值。排序依次看解锁的菜谱数、覆盖率总提升、食材名称；只需遍历一遍各菜谱的缺料，复杂度 O(缺料总数)。每个候选食材都先过一遍过敏和饮食规则。
+- **`check_ingredient`**：返回 `allowed` 和 `verified`。规则覆盖不到的情况（比如 "No milk" 这个设置本身就没有对应规则）会返回 `verified: false`。
+- **`get_recipe_nutrition` / `get_list_nutrition`**：取整方式和营养面板一致。AI 菜谱的营养如果是估算出来的，会附带 `note`。
+- **`get_app_help`**：在 `appGuide.js` 里做关键词检索，返回最多 2 个小节，并附上其他主题的标题；找不到时返回总览。
+- **`allowedRecipeIds()` / `recipeNames()`**：工具返回过的菜谱，校验层允许回答引用，也能拿到它们的名称。
+
+**本地校验层**（`chatGuard.js`），按以下顺序检查：
+1. **健康建议**：回答命中健康关键词时，替换成 app 的固定拒答文案。
+2. **菜谱白名单**：回答引用了列表外的菜谱，整条拦截。
+3. **过敏食材**：回答提到过敏食材时拦截；如果这一轮 `check_ingredient` 已经确认冲突，则由 app 给出固定的警告语。
+4. **清理菜谱 ID**：删掉回答正文里括号中的 ID，或者把单独出现的 ID 换成菜名。
+5. **核对营养数字**：数值、营养素、单位都要和本轮工具返回的结果一致，否则替换成 `[see the nutrition panel]`。
+   - 配对数字和营养素时，先找紧跟在数字后面的营养素（`0 g of fat`），再找前面最近、还没被配对的营养素（`protein: 12.4 g`）。配对不跨句子，也不越过其他数字。
+
+**对话策略**（`chatPolicy.js` + `chatService.js`）：
+- **`ALLOW_GENERAL_FOOD_KNOWLEDGE = true`**：允许回答保存、处理、技巧、替换、菜式灵感等通用问题，也可以提到列表以外的菜。改成 `false` 就恢复为只根据 app 数据回答。
+- **始终禁止**：医疗健康建议；判断食物对这个用户是否安全；和食物无关的问题（友好拒答，并引导回做饭话题）。营养数字只能来自工具。
+- **健康问题双重拦截**：提示词明确禁止，加上本地中英文关键词检查（问题和回答都检查）。关键词写得比较窄，腰豆、鸡肝、山药、Weight loss 偏好这类不会误判。
+- **模型回复的 JSON 格式**：`{"answer", "cited_recipe_ids", "general_knowledge", "declined"}`。
+- **AI 标签的判断**（`shouldShowAiNote`）：模型自己标了 `general_knowledge` 就显示；一个工具都没调用、并且不是拒答时也显示；app 自己给的回答不显示。
+- **工具调用规则**：只有回答依赖 SnapWell 数据时才调用工具；只有模型自己提议新食材、并且用户设置了过敏或饮食偏好时，才调用 `check_ingredient`。
+- **正文里不写 recipe_id**，只写菜名。
+
+**界面**：
+- **`ChatFab`**：Online 模式、并且当前阶段有可依据的内容时才显示。页面底部留出空白，避免按钮挡住最后一个按钮。
+  - 首页第一次出现时，弹出提示气泡 "Ask me how SnapWell works"，6 秒后消失，每台设备只显示一次。
+- **`ChatDrawer`**：
+  - 对话记录存在 `AppState.chatMessages` 里，切换页面不丢失，切换阶段时显示分隔线。
+  - 输入框上方有横向滑动的示例问句。
+  - 回答下方显示 "Checked with …" 工具记录，以及 "Generated by AI · please double-check" 或 "Answered by SnapWell, not the AI"。
+  - **营养卡片只在调用了营养工具的回答下显示**，数据是那一轮工具结果的快照，之后推荐列表变化也不会影响。
+  - 请求失败时标题显示 "Could not answer"；只有校验层拦截时才显示 "Withheld"。失败时会在控制台打印 `[SnapWell assistant]` 诊断信息。
+
+---
+
+## 3. 浏览器本地存储的键
+| 键 | 含义 |
+|---|---|
+| `SNAPWELL_APP_MODE` | `local` / `online`；值不合法时按 Local 处理 |
+| `SNAPWELL_ONLINE_CONSENT` | 同意提示的版本号（当前为 `'1'`） |
+| `SNAPWELL_CHAT_HINT_SEEN` | 首页提示气泡是否已经显示过 |
+| `GEMINI_API_KEY` | 旧版遗留，`getApiKey` 仍会作为备用读取；界面上已经没有填写入口 |
+
+---
+
+## 4. 用户已拍板的决策
+1. 模式命名为 Local / Online。说明文案：Local = "Everything runs on your device."，Online = "Chat with AI and get recipe recommendations."
+2. 同意提示只弹一次，只保留最少的必要说明。
+3. **API key 暂时放在前端**，不做后端。
+4. 保留 70% 阈值；Online 模式下使用 AI 推荐时，不显示本地菜谱。
+5. 助手按页面分阶段；对话跨页面保留；示例问句按页面区分，并且始终显示在输入框上方。
+6. 放宽通用知识范围，只坚决拒绝医疗和健康建议；加本地关键词检查；允许提到列表以外的菜。
+7. 拒答时不显示 AI 标签，语气友好，并引导回做饭话题。
+8. 首页助手：用工具检索 App 指南，采用一次性提示气泡。指南由 Claude 起草、团队审核。
+
+---
+
+## 5. 已知问题和限制
+- **Key 暴露风险**：`VITE_` 开头的变量会被打包进前端 JS。**公开部署前必须改成后端代理**，或者至少在 Google Cloud 控制台给 key 加 API 限制、referrer 限制和配额上限。
+- **过敏检查只认英文**：中文回复里的过敏原（比如"花生"）识别不出来。
+- **过敏规则覆盖范围小**：比如坚果只有 `peanut_butter`；No milk、No sesame 等设置没有对应规则，工具会如实返回 `verified: false`。
+- **营养数字校验不核对口径**：只检查数值、营养素、单位，不区分"每份"和"整份清单合计"，口径靠提示词约束。
+- **模型自己取整的数字会被删掉**，比如写成 "about 11 g"。
+- **拒答和通用知识标记是模型自己报告的**：AI 标签的兜底规则依赖"本轮是否调用了工具"。
+- **健康关键词可能误判**：这是有意为之，宁可误拦也不漏过。
+- **AI 菜谱里的可选食材不计入营养**，比如被标成可选的牛奶、黄油。
+- **App 指南需要人工同步**：只有阈值是从代码常量读取的，其余内容要跟着功能改动手动更新。
+- **`app/dist` 是 9 月 8 日的旧构建**，不包含本次改动。
+- **自动化浏览器里按回车发送没有验证过**（点 Send 按钮正常）。
+- **手机通过局域网访问开发服务器时热更新不可靠**，改完代码需要在手机上手动刷新页面。
+
+---
+
+## 6. 待办事项（按讨论先后）
+- [ ] **A. 替换食材工具 `find_substitutes`**（已批准两层都做，还没开始）
+  - 第一层：给 AUSNUT 里的 49 种食材标注"在菜里的作用"（Claude 起草、团队审核）；在作用相同的食材里，按每 100g 营养数据的相似度排序；过一遍过敏和饮食规则；只对本地菜谱计算替换后的营养变化。
+  - 第二层：本地覆盖不到时，允许 AI 提名候选，每个都必须经过 `check_ingredient`，界面标注 AI 生成，不给营养数字。
+  - 同一轮讨论里的 B（提示词区分三种意图）和 C（回答下方加"移除食材并刷新推荐"按钮）暂不做。
+- [ ] **待决定**：AI 给了克数的可选食材，要不要计入营养（上次决定"先不管"）。
+- [ ] **第 2 期：商品页助手**。需要把商品数据移到全局状态，并把同意提示版本号升到 `'2'`。
+- [ ] **方案 C：本地知识库 RAG**（比如 FSANZ 的食品保存和安全指引），用来给通用知识回答提供出处。暂缓。
+- [ ] **评估问题集 + 消融实验**，给报告出数据：有依据的回答率、违规率、误拦率、延迟。
+- [ ] **公开部署前改为后端代理调用 Gemini**。
+- [ ] **团队审核** `appGuide.js` 的内容。
+
+---
+
+## 7. 验证方法
+- **单元测试**：`cd app && npm test`（Node 自带的 `node --test`）。
+- **真实 API 验证**：本期是用会话内的临时脚本完成的，脚本没有放进仓库。做法是用 Node 直接 import `app/src` 下的模块，从 `app/.env` 读取 key（不打印出来），读取 `public/data/food_data` 的真实数据，再调用 `recommendationEngine`、`askChat`、`verifyChatAnswer` 看输出。以后需要可以正式加到 `scripts/` 目录。
+- **浏览器验证**：
+  - 开发服务器（5173 端口）使用自签名 https 证书，内置浏览器打不开。
+  - 做法是 `npx vite build --outDir <临时目录>`，再用 `python3 -m http.server` 以 http 方式提供服务。
+  - **构建产物里含有打包进去的 key，验证完必须删除。**
+
+---
+
+## 8. 提交命令（由开发者自己执行）
+```bash
+cd /Users/ranyin/SnapWell-AI
+git status
+git add app/src app/test app/public/data/food_data/ai_recommendation docs/dev-checkpoint-2026-09-15.md
+git diff --cached --name-only   # 确认没有 .env
+git commit -m "Add Local/Online modes and a stage-aware, tool-grounded chat assistant"
+git push -u origin feature/mode-switch
+```

@@ -188,6 +188,63 @@ test('The local top-up is capped at three and skips recipes sharing no ingredien
   assert.equal(result.diagnostics.localRecommendations.length, 5)
 })
 
+test('A top-up count of zero returns only the generated recipes', async () => {
+  const mockOnlineGenerator = async () => ({
+    success: true,
+    data: {
+      recommendations: [{
+        recipe_id: 'AI001',
+        recipe_name: 'Apple bowl',
+        used_ingredients: ['apple'],
+        missing_ingredients: [],
+        steps: [],
+      }],
+      summary: {},
+    },
+  })
+
+  const result = await runEngine(
+    [
+      recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk'] }),
+      recipe({ id: 'R002', ingredients: ['apple', 'egg', 'bread'] }),
+    ],
+    [ingredient('apple')],
+    {},
+    { generateOnlineRecommendations: mockOnlineGenerator, localTopUpCount: 0 },
+  )
+
+  assert.equal(result.mode, 'online')
+  assert.deepEqual(result.recommendations.map(item => item.id), ['AI001'])
+  assert.equal(result.diagnostics.localTopUpCount, 0)
+  // The threshold decision itself is untouched: the local list was still ranked.
+  assert.equal(result.fallbackRequired, true)
+  assert.equal(result.diagnostics.localRecommendations.length, 2)
+})
+
+test('Local mode keeps a below-threshold result local and never calls the online service', async () => {
+  let onlineCalls = 0
+  const result = await runEngine(
+    [recipe({ id: 'R001', ingredients: ['apple', 'egg', 'milk', 'bread', 'tomato'] })],
+    [ingredient('apple'), ingredient('egg'), ingredient('milk')],
+    {},
+    {
+      allowOnline: false,
+      generateOnlineRecommendations: async () => {
+        onlineCalls += 1
+        return { success: false }
+      },
+    },
+  )
+
+  assert.equal(onlineCalls, 0)
+  assert.equal(result.topCoverageScore, 60)
+  assert.equal(result.fallbackRequired, true)
+  assert.equal(result.mode, 'local')
+  assert.equal(result.source, 'local')
+  assert.deepEqual(result.recommendations.map(item => item.id), ['R001'])
+  assert.equal(result.diagnostics.onlineRecommendationStatus, 'disabled')
+})
+
 test('Online recommendation gracefully falls back to local recipe when service fails', async () => {
   const mockFailingOnlineGenerator = async () => ({
     success: false,
@@ -252,6 +309,8 @@ test('buildAiInputPayload conforms to ai-input-schema-v1', () => {
   assert.equal(payload.input.user_preferences.dietary_pattern, 'Vegetarian')
   assert.deepEqual(payload.input.user_preferences.allergens, ['No nuts'])
   assert.equal(payload.input.user_preferences.health_goal, 'Weight loss')
+  // The labels the app can cost, so generated recipes name ingredients it can find
+  assert.deepEqual(payload.input.available_ingredient_labels, ['apple'])
 })
 
 test('Vegetarian excludes meat recipes', () => {

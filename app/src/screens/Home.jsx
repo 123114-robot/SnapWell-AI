@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
+import { isOnlineMode } from '../state/appMode.js'
+import { ModeBadge, ModeSelector } from '../components/ModeSwitch.jsx'
 
 // 全 app 统一配色：纯白 + 中性灰 + 深绿点睛（近直角，苹果字体）
 const T = {
@@ -17,7 +19,7 @@ const emojiFor = (label) => EMOJI[String(label).toLowerCase()] || '🥗'
 
 export default function Home() {
   const navigate = useNavigate()
-  const { ingredients } = useAppState()
+  const { ingredients, mode } = useAppState()
   const recent = Array.isArray(ingredients) ? ingredients.slice(0, 6) : []
 
   return (
@@ -26,7 +28,7 @@ export default function Home() {
       fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
       maxWidth: 430, margin: '0 auto', paddingBottom: 30,
     }}>
-      {/* 顶部品牌 + 隐私标识 */}
+      {/* 顶部品牌 + 模式标识 */}
       <div style={{ padding: '24px 20px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <div style={{
@@ -40,17 +42,7 @@ export default function Home() {
           </div>
           <span style={{ fontWeight: 700, fontSize: 21, color: T.ink, letterSpacing: -0.4 }}>SnapWell</span>
         </div>
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: 5,
-          background: T.fill, color: T.sub, fontWeight: 600,
-          fontSize: 11, padding: '5px 9px', borderRadius: 2,
-        }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={T.green}
-            strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
-          </svg>
-          On-device
-        </span>
+        <ModeBadge />
       </div>
 
       {/* 主标题（强字体对比） */}
@@ -59,7 +51,8 @@ export default function Home() {
           Cook with what<br />you already have
         </div>
         <p style={{ fontSize: 15, color: T.sub, marginTop: 12, lineHeight: 1.5, maxWidth: 300 }}>
-          Snap your ingredients — recipes matched to Australian kitchens, all on your device.
+          Snap your ingredients — recipes matched to Australian kitchens,{' '}
+          {isOnlineMode(mode) ? 'with recognition still on your device.' : 'all on your device.'}
         </p>
       </div>
 
@@ -77,6 +70,14 @@ export default function Home() {
           </svg>
           Snap ingredients
         </button>
+      </div>
+
+      {/* 模式选择：隐私模式全部本地处理，AI 模式才会联网 */}
+      <div style={{ padding: '32px 20px 0' }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: T.faint, textTransform: 'uppercase', letterSpacing: 0.6, marginBottom: 14 }}>
+          Mode
+        </div>
+        <ModeSelector />
       </div>
 
       {/* 最近识别的食材 */}

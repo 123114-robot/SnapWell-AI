@@ -86,7 +86,7 @@ test('A recipe with no nutrition data says so instead of omitting the field', ()
     recipes: [recommendation({ id: 'R001', nutrition: { available: false } })],
   })
   assert.equal(pack.candidate_recipes[0].nutrition_available, false)
-  assert.equal(pack.candidate_recipes[0].nutrition_per_serving, null)
+  assert.equal('nutrition_per_serving' in pack.candidate_recipes[0], false)
 })
 
 test('A reply citing only whitelisted recipes passes', () => {

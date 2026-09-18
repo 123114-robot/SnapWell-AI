@@ -34,6 +34,12 @@
       "coles": "https://www.coles.com.au/search/products?q={query}",
       "woolworths": "https://www.woolworths.com.au/shop/search/products?searchTerm={query}"
     },
+    "available_ingredient_labels": [
+      "apple",
+      "egg",
+      "oats",
+      "yoghurt"
+    ],
     "constraints": {
       "ai_generates_recipes": true,
       "use_confirmed_ingredients_as_primary_inputs": true,

@@ -1,8 +1,6 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppState } from '../state/useAppState.js'
 import { CUISINE_OPTIONS, MEAL_TYPE_OPTIONS } from '../recommendation/preferenceRules.js'
-import { readApiKey, saveApiKey } from '../chat/chatService.js'
 
 const T = {
   bg: '#FFFFFF', ink: '#0A0A0A', sub: '#6E6E73', faint: '#86868B',
@@ -34,79 +32,6 @@ function Chip({ label, active, onClick }) {
       )}
       {label}
     </button>
-  )
-}
-
-/**
- * The user's own Gemini key, for the recipe assistant.
- *
- * SnapWell ships no key of its own and never puts one in the bundle: a key in a
- * VITE_ variable is inlined into the published JavaScript and readable by
- * anyone. The key typed here goes to this browser's local storage and nowhere
- * else — not to SnapWell, not into the repository, not to another device.
- */
-function ApiKeySection() {
-  const [draft, setDraft] = useState(() => readApiKey())
-  const [status, setStatus] = useState('')
-
-  const stored = readApiKey()
-
-  function save() {
-    const ok = saveApiKey(draft)
-    if (!ok) {
-      setStatus('This browser is blocking local storage, so the key could not be saved.')
-      return
-    }
-    setStatus(draft.trim() ? 'Key saved to this browser.' : 'Key removed from this browser.')
-  }
-
-  function remove() {
-    saveApiKey('')
-    setDraft('')
-    setStatus('Key removed from this browser.')
-  }
-
-  return (
-    <div style={{ display: 'grid', gap: 10 }}>
-      <p style={{ fontSize: 13, color: T.sub, lineHeight: 1.55, margin: 0 }}>
-        The recipe assistant uses Google Gemini. SnapWell does not ship an API key,
-        so add your own — it is stored in this browser only and is never sent to
-        SnapWell. Get one free at{' '}
-        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer"
-          style={{ color: T.green, fontWeight: 600 }}>Google AI Studio</a>.
-      </p>
-      <input
-        type="password"
-        aria-label="Gemini API key"
-        value={draft}
-        onChange={event => { setDraft(event.target.value); setStatus('') }}
-        placeholder={stored ? 'A key is saved for this browser' : 'Paste your Gemini API key'}
-        autoComplete="off"
-        spellCheck={false}
-        style={{
-          width: '100%', border: `1.5px solid ${T.line}`, background: '#fff',
-          color: T.ink, borderRadius: 12, padding: '11px 12px', boxSizing: 'border-box',
-          fontFamily: 'ui-monospace, monospace', fontSize: 13, outline: 'none',
-        }}
-      />
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={save} style={{
-          background: T.green, color: '#fff', border: 'none', borderRadius: 2,
-          padding: '10px 16px', fontFamily: 'inherit', fontWeight: 600, fontSize: 13,
-          cursor: 'pointer',
-        }}>Save key</button>
-        {stored && (
-          <button onClick={remove} style={{
-            background: T.bg, color: T.sub, border: `1px solid ${T.line}`, borderRadius: 2,
-            padding: '10px 16px', fontFamily: 'inherit', fontWeight: 600, fontSize: 13,
-            cursor: 'pointer',
-          }}>Remove</button>
-        )}
-      </div>
-      {status && (
-        <div style={{ fontSize: 12, color: T.faint }}>{status}</div>
-      )}
-    </div>
   )
 }
 
@@ -230,11 +155,6 @@ export default function Preferences() {
               ))}
             </select>
           </div>
-        </div>
-
-        <div style={{ marginTop: 28 }}>
-          <SectionLabel>AI assistant</SectionLabel>
-          <ApiKeySection />
         </div>
       </div>
 

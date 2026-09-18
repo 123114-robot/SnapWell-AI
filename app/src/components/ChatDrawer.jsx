@@ -1,9 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { useAppState } from '../state/useAppState.js'
-import { buildChatContext } from '../chat/chatContext.js'
+import { buildChatContext, packRecipe } from '../chat/chatContext.js'
 import { askChat, CHAT_ERRORS } from '../chat/chatService.js'
 import { verifyChatAnswer } from '../chat/chatGuard.js'
+import {
+  AI_GENERATED_NOTE,
+  ALLOW_GENERAL_FOOD_KNOWLEDGE,
+  APP_ANSWER_NOTE,
+  detectHealthTopic,
+  HEALTH_REFUSAL,
+  shouldShowAiNote,
+} from '../chat/chatPolicy.js'
+import { CHAT_STAGES, STAGE_COPY, suggestionsFor } from '../chat/chatStages.js'
+import { createChatToolbox, TOOL_LABELS, TOOL_NAMES, visibleRecipes } from '../chat/chatTools.js'
 
 const T = {
   bg: '#FFFFFF', ink: '#0A0A0A', sub: '#6E6E73', faint: '#86868B',
@@ -12,48 +21,65 @@ const T = {
 }
 
 const ERROR_TEXT = {
+  [CHAT_ERRORS.NO_KEY]: 'The online service is not available right now. Please try again later.',
   [CHAT_ERRORS.TIMEOUT]: 'The assistant took too long to answer. Please try again.',
   [CHAT_ERRORS.NETWORK]: 'Could not reach the online service. Check your connection and try again.',
   [CHAT_ERRORS.BAD_RESPONSE]: 'The assistant returned something the app could not read. Please try again.',
 }
 
-const SUGGESTIONS = [
-  'Why was this recipe suggested?',
-  'What can I cook without shopping?',
-  'How do I make this one?',
-]
-
 /**
- * Per-serving figures for a recipe the assistant cited, read from the context
- * pack the app built from AUSNUT data. The model is told never to state a
- * number; these are what the user sees instead, so the figure on screen is
- * always the app's own, never the model's.
+ * The nutrition cards for one answer, taken from that turn's nutrition tool
+ * results. A card appears only when the question actually led to a nutrition
+ * lookup, and it keeps the figures from that moment: a later recommendation
+ * list — even a regenerated recipe reusing the same id — never changes an
+ * answer already on screen.
  */
-function NutritionStrip({ context, recipeIds }) {
-  const recipes = (context?.candidate_recipes ?? []).filter(
-    (recipe) => recipeIds.includes(recipe.recipe_id) && recipe.nutrition_available,
-  )
-  if (recipes.length === 0) return null
+function nutritionCards(toolCalls, citedRecipeIds) {
+  const cards = new Map()
+  for (const call of toolCalls) {
+    const result = call?.result
+    if (call?.name !== TOOL_NAMES.GET_RECIPE_NUTRITION || !result?.available || !result.per_serving) continue
+    if (cards.has(result.recipe_id)) continue
+    cards.set(result.recipe_id, {
+      recipeId: result.recipe_id,
+      name: result.name,
+      perServing: result.per_serving,
+      unresolved: (Array.isArray(result.unresolved_ingredients) ? result.unresolved_ingredients : [])
+        .map((label) => String(label).replace(/_/g, ' ')),
+      estimated: Boolean(result.note),
+    })
+  }
+  const all = [...cards.values()]
+  const cited = all.filter((card) => citedRecipeIds.includes(card.recipeId))
+  return cited.length > 0 ? cited : all
+}
+
+function NutritionStrip({ cards }) {
+  if (!cards?.length) return null
 
   return (
     <div style={{ marginTop: 10, display: 'grid', gap: 8 }}>
-      {recipes.map((recipe) => {
-        const n = recipe.nutrition_per_serving
+      {cards.map((card) => {
+        const n = card.perServing
         const cells = [
           ['kcal', Math.round(n.kcal)],
-          ['protein', `${n.protein_g.toFixed(1)} g`],
-          ['carbs', `${n.carbs_g.toFixed(1)} g`],
-          ['fat', `${n.fat_g.toFixed(1)} g`],
+          ['protein', `${Number(n.protein_g).toFixed(1)} g`],
+          ['carbs', `${Number(n.carbs_g).toFixed(1)} g`],
+          ['fat', `${Number(n.fat_g).toFixed(1)} g`],
         ]
+        const notes = [
+          card.estimated && 'Estimated from your list quantities',
+          card.unresolved.length > 0 && `${card.unresolved.join(', ')} not counted`,
+        ].filter(Boolean)
         return (
-          <div key={recipe.recipe_id} style={{
+          <div key={card.recipeId} style={{
             border: `1px solid ${T.line}`, borderRadius: 2, padding: '8px 10px', background: T.bg,
           }}>
             <div style={{
               fontSize: 10, color: T.faint, textTransform: 'uppercase',
               letterSpacing: 0.5, marginBottom: 6,
             }}>
-              {recipe.name} · per serving · AUSNUT
+              {card.name} · per serving · AUSNUT
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               {cells.map(([label, value]) => (
@@ -66,6 +92,11 @@ function NutritionStrip({ context, recipeIds }) {
                 </div>
               ))}
             </div>
+            {notes.length > 0 && (
+              <div style={{ marginTop: 6, fontSize: 10.5, color: T.faint, lineHeight: 1.4 }}>
+                {notes.join(' · ')}
+              </div>
+            )}
           </div>
         )
       })}
@@ -73,7 +104,94 @@ function NutritionStrip({ context, recipeIds }) {
   )
 }
 
-function Bubble({ message, context }) {
+/**
+ * Which of the app's own functions backed this answer. It makes the tool layer
+ * visible: the user sees that a figure or an allergy check came from SnapWell,
+ * not from the model's memory.
+ */
+function ToolTrail({ toolsUsed, verifiedNumbers }) {
+  if (!toolsUsed?.length) return null
+  const labels = [...new Set(toolsUsed.map((name) => TOOL_LABELS[name] ?? name))]
+  return (
+    <div style={{
+      marginTop: 6, display: 'flex', alignItems: 'flex-start', gap: 5,
+      fontSize: 11, color: T.faint, lineHeight: 1.4,
+    }}>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={T.green}
+        strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+        style={{ flexShrink: 0, marginTop: 1 }}>
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+      <span>
+        Checked with {labels.join(', ')}
+        {verifiedNumbers > 0 && ` · ${verifiedNumbers} figure${verifiedNumbers === 1 ? '' : 's'} verified`}
+      </span>
+    </div>
+  )
+}
+
+/**
+ * Where an answer came from, when that is not SnapWell's verified data: the
+ * model's own knowledge, or the app answering in the model's place.
+ */
+function SourceNote({ text }) {
+  return (
+    <div style={{
+      marginTop: 6, display: 'flex', alignItems: 'flex-start', gap: 5,
+      fontSize: 11, color: T.faint, lineHeight: 1.4,
+    }}>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+        style={{ flexShrink: 0, marginTop: 1 }}>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 16v-4" />
+        <path d="M12 8h.01" />
+      </svg>
+      <span>{text}</span>
+    </div>
+  )
+}
+
+/** Marks where the conversation moved to another part of the app. */
+function StageDivider({ stage }) {
+  const rule = <span style={{ flex: 1, height: 1, background: T.line }} />
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8,
+      fontSize: 10.5, color: T.faint, textTransform: 'uppercase', letterSpacing: 0.5,
+    }}>
+      {rule}
+      Now helping with {STAGE_COPY[stage]?.label ?? 'this screen'}
+      {rule}
+    </div>
+  )
+}
+
+/**
+ * The page's starter questions, one tap from being sent. They stay above the
+ * input for the whole conversation, so a user arriving on a new screen mid-chat
+ * still sees what can be asked there.
+ */
+function SuggestionRow({ suggestions, disabled, onPick }) {
+  if (suggestions.length === 0) return null
+  return (
+    <div role="group" aria-label="Suggested questions" style={{
+      display: 'flex', gap: 8, overflowX: 'auto', padding: '10px 12px 0',
+      scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch',
+    }}>
+      {suggestions.map((text) => (
+        <button key={text} type="button" disabled={disabled} onClick={() => onPick(text)} style={{
+          flex: '0 0 auto', whiteSpace: 'nowrap',
+          background: T.bg, border: `1px solid ${T.line}`, borderRadius: 2,
+          padding: '7px 10px', fontFamily: 'inherit', fontSize: 12.5,
+          color: disabled ? T.faint : T.ink, cursor: disabled ? 'default' : 'pointer',
+        }}>{text}</button>
+      ))}
+    </div>
+  )
+}
+
+function Bubble({ message }) {
   if (message.role === 'user') {
     return (
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -87,15 +205,18 @@ function Bubble({ message, context }) {
     )
   }
 
-  // A withheld reply says why it was withheld. The user is told which rule
-  // fired, and in a demo the verification layer is visible rather than implied.
+  // A withheld reply says why it was withheld, so the verification layer is
+  // visible rather than implied. A failed request is a different thing — the
+  // guard never saw a reply — and is labelled as such.
   if (message.kind === 'blocked' || message.kind === 'error') {
     return (
       <div style={{
         background: T.warnFill, border: `1px solid ${T.tomato}`, borderRadius: 2,
         padding: '10px 12px', fontSize: 13, lineHeight: 1.5, color: T.tomato, maxWidth: '92%',
       }}>
-        <strong style={{ display: 'block', marginBottom: 2 }}>Withheld</strong>
+        <strong style={{ display: 'block', marginBottom: 2 }}>
+          {message.kind === 'error' ? 'Could not answer' : 'Withheld'}
+        </strong>
         {message.text}
       </div>
     )
@@ -109,43 +230,38 @@ function Bubble({ message, context }) {
       }}>
         {message.text}
       </div>
-      <NutritionStrip context={context} recipeIds={message.citedRecipeIds ?? []} />
+      <ToolTrail toolsUsed={message.toolsUsed} verifiedNumbers={message.verifiedNumbers} />
+      {message.aiGenerated && <SourceNote text={AI_GENERATED_NOTE} />}
+      {message.answeredByApp && <SourceNote text={APP_ANSWER_NOTE} />}
+      <NutritionStrip cards={message.nutritionCards} />
     </div>
   )
 }
 
-function MissingKeyNotice({ onGoToSettings }) {
-  return (
-    <div style={{
-      background: T.fill, border: `1px solid ${T.amber}`, borderRadius: 2,
-      padding: '12px 14px', fontSize: 13, lineHeight: 1.55, color: T.ink,
-    }}>
-      <strong style={{ display: 'block', marginBottom: 4 }}>Add your Gemini API key</strong>
-      SnapWell does not ship an API key of its own. Add your own key in Settings and it
-      stays in this browser only.
-      <div style={{ marginTop: 10 }}>
-        <button type="button" onClick={onGoToSettings} style={{
-          background: T.green, color: '#fff', border: 'none', borderRadius: 2,
-          padding: '8px 14px', cursor: 'pointer', fontFamily: 'inherit',
-          fontWeight: 600, fontSize: 13,
-        }}>Open Settings</button>
-      </div>
-    </div>
-  )
-}
-
-export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
-  const navigate = useNavigate()
-  const { ingredients, preferences, recommendationResult } = useAppState()
-  const [messages, setMessages] = useState([])
+export default function ChatDrawer({
+  open,
+  onClose,
+  stage = CHAT_STAGES.RECIPES,
+  page = null,
+  focusedRecipeId = null,
+}) {
+  const {
+    ingredients,
+    preferences,
+    recommendationResult,
+    selectedRecipe,
+    chatMessages: messages,
+    setChatMessages: setMessages,
+  } = useAppState()
   const [draft, setDraft] = useState('')
   const [pending, setPending] = useState(false)
   const abortRef = useRef(null)
   const listRef = useRef(null)
+  const copy = STAGE_COPY[stage] ?? STAGE_COPY[CHAT_STAGES.RECIPES]
 
-  // Closing the drawer should not leave a request running against the user's
-  // own API quota. The component itself stays mounted, so the conversation is
-  // still here when they reopen it.
+  // Closing the drawer should not leave a request running against the app's
+  // API quota. The conversation itself lives in app state, so it is still here
+  // when the drawer reopens — on this screen or another.
   useEffect(() => {
     if (!open && abortRef.current) {
       abortRef.current.abort()
@@ -167,29 +283,53 @@ export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
     if (!question || pending) return
 
     setDraft('')
-    setMessages((prev) => [...prev, { role: 'user', text: question }])
+    setMessages((prev) => [...prev, { role: 'user', text: question, stage }])
+
+    // A health question never reaches the model: the app answers it itself,
+    // without spending a request on a reply that could only be refused
+    if (detectHealthTopic(question)) {
+      setMessages((prev) => [...prev, {
+        role: 'assistant',
+        kind: 'answer',
+        stage,
+        text: HEALTH_REFUSAL,
+        answeredByApp: true,
+      }])
+      return
+    }
+
     setPending(true)
 
     const controller = new AbortController()
     abortRef.current = controller
 
     const context = buildChatContext({
+      stage,
       ingredients,
       preferences,
       recommendationResult,
       focusedRecipeId,
     })
+    const toolbox = createChatToolbox({ stage, recommendationResult, preferences, ingredients })
 
-    const history = messages.map((m) => ({ role: m.role, text: m.text }))
-    const result = await askChat({ question, context, history, signal: controller.signal })
+    // Withheld replies, errors and the app's own answers are not the assistant
+    // talking, so they stay out of what the model is told it said
+    const history = messages
+      .filter((m) => m.role === 'user' || (m.kind === 'answer' && !m.answeredByApp))
+      .map((m) => ({ role: m.role, text: m.text }))
+    const result = await askChat({ question, context, history, toolbox, signal: controller.signal })
 
     if (controller.signal.aborted) return
     abortRef.current = null
 
     if (!result.success) {
+      // Meaningless in the chat, but kept in the console so an unreadable
+      // reply can be traced to what the model actually sent
+      if (result.detail) console.warn('[SnapWell assistant] unusable reply', result.errorKind, result.detail)
       setMessages((prev) => [...prev, {
         role: 'assistant',
-        kind: result.errorKind === CHAT_ERRORS.NO_KEY ? 'no_key' : 'error',
+        kind: 'error',
+        stage,
         text: ERROR_TEXT[result.errorKind] ?? ERROR_TEXT[CHAT_ERRORS.NETWORK],
       }])
       setPending(false)
@@ -197,19 +337,38 @@ export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
     }
 
     // Nothing the model returned reaches the screen before this runs.
-    const verdict = verifyChatAnswer({ answer: result.answer, context })
+    const toolCalls = result.toolCalls ?? []
+    const verdict = verifyChatAnswer({
+      answer: result.answer,
+      context,
+      allowedRecipeIds: toolbox.allowedRecipeIds(),
+      recipeNames: toolbox.recipeNames(),
+      toolCalls,
+    })
 
     setMessages((prev) => [...prev, verdict.status === 'ok'
       ? {
         role: 'assistant',
         kind: 'answer',
+        stage,
         text: verdict.text,
         citedRecipeIds: verdict.citedRecipeIds,
         redactedNumbers: verdict.redactedNumbers,
+        verifiedNumbers: verdict.verifiedNumbers,
+        toolsUsed: toolCalls.map((call) => call.name),
+        nutritionCards: nutritionCards(toolCalls, verdict.citedRecipeIds),
+        answeredByApp: Boolean(verdict.answeredByApp),
+        aiGenerated: shouldShowAiNote({
+          generalKnowledge: verdict.generalKnowledge,
+          declined: verdict.declined,
+          answeredByApp: verdict.answeredByApp,
+          toolCallCount: toolCalls.length,
+        }),
       }
       : {
         role: 'assistant',
         kind: 'blocked',
+        stage,
         text: verdict.message,
         reason: verdict.reason,
       }])
@@ -218,13 +377,14 @@ export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
 
   if (!open) return null
 
-  const context = buildChatContext({
-    ingredients,
-    preferences,
-    recommendationResult,
-    focusedRecipeId,
-  })
-  const needsKey = messages.some((m) => m.kind === 'no_key')
+  const listRecipes = visibleRecipes(recommendationResult).map(packRecipe)
+  const introCount = stage === CHAT_STAGES.INGREDIENTS ? ingredients.length : listRecipes.length
+  const lastStage = messages.at(-1)?.stage
+  const focusedName = focusedRecipeId
+    ? (listRecipes.find((recipe) => recipe.recipe_id === String(focusedRecipeId))?.name
+      ?? (String(selectedRecipe?.id) === String(focusedRecipeId) ? selectedRecipe?.name : null))
+    : null
+  const suggestions = suggestionsFor(page, focusedName)
 
   return (
     <>
@@ -248,10 +408,10 @@ export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 17, fontWeight: 700, color: T.ink, letterSpacing: -0.3 }}>
-                Recipe assistant
+                SnapWell assistant
               </div>
               <div style={{ fontSize: 11, color: T.faint, marginTop: 3 }}>
-                Chat uses online AI · your photos stay on this device
+                {copy.subtitle} · your photos stay on this device
               </div>
             </div>
             <button type="button" onClick={onClose} aria-label="Close" style={{
@@ -272,66 +432,70 @@ export default function ChatDrawer({ open, onClose, focusedRecipeId = null }) {
           gap: 12, alignContent: 'start',
         }}>
           {messages.length === 0 && (
-            <div style={{ display: 'grid', gap: 8 }}>
-              <div style={{ fontSize: 13, color: T.sub, lineHeight: 1.55 }}>
-                Ask about the {context.candidate_recipes.length} recipe
-                {context.candidate_recipes.length === 1 ? '' : 's'} on your list. The
-                assistant only answers within them.
-              </div>
-              {SUGGESTIONS.map((text) => (
-                <button key={text} type="button" onClick={() => send(text)} style={{
-                  textAlign: 'left', background: T.bg, border: `1px solid ${T.line}`,
-                  borderRadius: 2, padding: '9px 11px', cursor: 'pointer',
-                  fontFamily: 'inherit', fontSize: 13, color: T.ink,
-                }}>{text}</button>
-              ))}
+            <div style={{ fontSize: 13, color: T.sub, lineHeight: 1.55 }}>
+              {copy.intro(introCount)}
+              {ALLOW_GENERAL_FOOD_KNOWLEDGE
+                && ' You can also ask general cooking questions — those answers come from AI, so please double-check them.'}
             </div>
           )}
 
-          {messages.map((message, index) => (
-            message.kind === 'no_key'
-              ? <MissingKeyNotice key={index} onGoToSettings={() => navigate('/preferences')} />
-              : <Bubble key={index} message={message} context={context} />
-          ))}
+          {messages.map((message, index) => {
+            const previous = messages[index - 1]
+            const moved = message.role === 'user' && previous?.stage && message.stage !== previous.stage
+            return (
+              <Fragment key={index}>
+                {moved && <StageDivider stage={message.stage} />}
+                <Bubble message={message} />
+              </Fragment>
+            )
+          })}
+
+          {messages.length > 0 && lastStage && lastStage !== stage && !pending && (
+            <StageDivider stage={stage} />
+          )}
 
           {pending && (
             <div style={{ fontSize: 13, color: T.faint }}>Thinking…</div>
           )}
         </div>
 
-        <div style={{
-          borderTop: `1px solid ${T.line}`, padding: '10px 12px',
-          paddingBottom: 'calc(10px + env(safe-area-inset-bottom, 0px))',
-          display: 'flex', gap: 8, flexShrink: 0,
-        }}>
-          <input
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault()
-                send(draft)
-              }
-            }}
-            placeholder={needsKey ? 'Add your API key in Settings first' : 'Ask about these recipes…'}
-            style={{
-              flex: 1, border: `1px solid ${T.line}`, borderRadius: 2,
-              padding: '10px 12px', fontSize: 14, fontFamily: 'inherit',
-              color: T.ink, outline: 'none', minWidth: 0,
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => send(draft)}
-            disabled={pending || !draft.trim()}
-            style={{
-              background: pending || !draft.trim() ? T.line : T.green,
-              color: pending || !draft.trim() ? T.faint : '#fff',
-              border: 'none', borderRadius: 2, padding: '10px 16px',
-              cursor: pending || !draft.trim() ? 'default' : 'pointer',
-              fontFamily: 'inherit', fontWeight: 600, fontSize: 14, flexShrink: 0,
-            }}
-          >Send</button>
+        <div style={{ borderTop: `1px solid ${T.line}`, flexShrink: 0 }}>
+          <SuggestionRow suggestions={suggestions} disabled={pending} onPick={send} />
+
+          <div style={{
+            padding: '10px 12px',
+            paddingBottom: 'calc(10px + env(safe-area-inset-bottom, 0px))',
+            display: 'flex', gap: 8,
+          }}>
+            <input
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault()
+                  send(draft)
+                }
+              }}
+              placeholder={copy.placeholder}
+              style={{
+                flex: 1, border: `1px solid ${T.line}`, borderRadius: 2,
+                padding: '10px 12px', fontSize: 14, fontFamily: 'inherit',
+                color: T.ink, outline: 'none', minWidth: 0,
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => send(draft)}
+              disabled={pending || !draft.trim()}
+              style={{
+                background: pending || !draft.trim() ? T.line : T.green,
+                color: pending || !draft.trim() ? T.faint : '#fff',
+                border: 'none', borderRadius: 2, padding: '10px 16px',
+                cursor: pending || !draft.trim() ? 'default' : 'pointer',
+                fontFamily: 'inherit', fontWeight: 600, fontSize: 14, flexShrink: 0,
+              }}
+            >Send</button>
+          </div>
         </div>
       </div>
     </>
