@@ -33,6 +33,12 @@ export const DEFAULT_MIN_SCORE = 0.72
  */
 /** How far apart the words of a multi-word keyword may drift in the text. */
 const SPAN_SLACK = 3
+/**
+ * Words that describe how a food is packed or processed, never which food it
+ * is. Two labels leading with "canned" (canned tomatoes, canned tuna) would
+ * otherwise make it a genus, and CANNED CHICKPEAS would offer both.
+ */
+const FORM_WORDS = new Set(['canned', 'tinned', 'instant', 'frozen', 'dried', 'fresh'])
 
 function normaliseToken(raw) {
   const t = String(raw).toLowerCase()
@@ -83,14 +89,26 @@ export function displayName(label) {
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
+/** Split a comma-separated keyword field into token lists. */
+function phraseTokens(raw) {
+  return String(raw || '')
+    .split(',')
+    .map(tokenise)
+    .filter((tokens) => tokens.length)
+}
+
 /**
  * Flatten ingredient-map-v1.json into a searchable keyword index.
  * Each entry is one keyword (an alias or an OCR keyword) belonging to one label.
+ *
+ * An entry's optional `ocr_exclude` lists phrases that contain its keyword but
+ * name a different food: "cream" must not fire on ICE CREAM or SOUR CREAM.
  */
 export function buildKeywordIndex(map) {
   const index = []
   const push = (entry, source, rawKeywords) => {
     const seen = new Set()
+    const excludes = phraseTokens(entry.ocr_exclude)
     for (const keyword of String(rawKeywords || '').split(',')) {
       const tokens = tokenise(keyword)
       if (!tokens.length) continue
@@ -104,6 +122,7 @@ export function buildKeywordIndex(map) {
         ausnutName: entry.ausnut_food_name,
         keyword: keyword.trim(),
         tokens,
+        excludes,
       })
     }
     // The label itself is always a valid keyword ("olive_oil" → "olive oil").
@@ -117,6 +136,7 @@ export function buildKeywordIndex(map) {
         ausnutName: entry.ausnut_food_name,
         keyword: String(entry.label).replace(/_/g, ' '),
         tokens: selfTokens,
+        excludes,
       })
     }
   }
@@ -140,6 +160,17 @@ function tokenSimilarity(kwToken, textToken, isMultiWord) {
   return 1 - distance / Math.max(kwToken.length, textToken.length)
 }
 
+/** True when the text word at `at` sits inside one of the entry's excluded phrases. */
+function insideExcludedPhrase(excludes, textTokens, at) {
+  return excludes.some((phrase) => {
+    for (let start = at - phrase.length + 1; start <= at; start += 1) {
+      if (start < 0) continue
+      if (phrase.every((token, k) => textTokens[start + k] === token)) return true
+    }
+    return false
+  })
+}
+
 /**
  * Score one keyword against the tokenised text.
  * Returns null when the keyword is not present well enough to be believable.
@@ -150,6 +181,7 @@ function scoreKeyword(entry, textTokens) {
   for (const kwToken of entry.tokens) {
     let best = { sim: 0, at: -1 }
     for (let i = 0; i < textTokens.length; i += 1) {
+      if (entry.excludes?.length && insideExcludedPhrase(entry.excludes, textTokens, i)) continue
       const sim = tokenSimilarity(kwToken, textTokens[i], isMultiWord)
       if (sim > best.sim) best = { sim, at: i }
     }
@@ -195,6 +227,8 @@ const genusCache = new WeakMap()
  *   names the material ("chicken breast", "chicken thigh"); a shared trailing
  *   one names the form, and those are not the same food — "sauce" is common
  *   to pasta sauce and soy sauce, which no one wants offered together.
+ * - The word must not be a form word (FORM_WORDS). "canned" leads both canned
+ *   tomatoes and canned tuna, yet it names the packing, not the food.
  */
 function genusTerms(index) {
   const cached = genusCache.get(index)
@@ -216,6 +250,7 @@ function genusTerms(index) {
 
   const terms = new Map()
   for (const [token, entries] of leads) {
+    if (FORM_WORDS.has(token)) continue
     if (standalone.has(token) || disqualified.has(token) || entries.size < 2) continue
     terms.set(token, [...entries.values()])
   }

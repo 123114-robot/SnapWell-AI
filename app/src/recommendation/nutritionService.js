@@ -129,7 +129,7 @@ function unavailable(reason, { unmatched = [], unestimated = [] } = {}) {
  * `allowPartial` separates the two callers. A curated local recipe that cannot
  * resolve an ingredient has a data bug, so it reports nothing rather than a
  * total that silently omits food. An AI recipe will regularly name something
- * outside the 49 mapped ingredients, so it reports what it can and names what
+ * outside the 51 mapped ingredients, so it reports what it can and names what
  * it left out, which the Nutrition screen shows next to the numbers.
  */
 function summariseNutrition({ resolved, unmatched = [], unestimated = [], servings, allowPartial = false }) {

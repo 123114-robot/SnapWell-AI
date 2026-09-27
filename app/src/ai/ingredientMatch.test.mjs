@@ -81,6 +81,12 @@ check('ranks both products in one block of text',
 check('prefers the packaged entry over the fresh one',
   topFor('DICED TOMATOES 400g'), 'canned_tomatoes')
 
+check('reads a canned tuna label',
+  topFor('JOHN WEST TUNA IN SPRINGWATER 95g'), 'canned_tuna')
+
+check('reads a cream label',
+  topFor('BULLA THICKENED CREAM 300ml'), 'cream')
+
 // ------------------------------------------------------------ should NOT match
 
 check('a different product that merely contains the word',
@@ -90,6 +96,15 @@ check('a different product that merely contains the word',
 // must match exactly. Seen for real: "Read selected text locally" → "bread".
 check('a single-word keyword does not fuzzy-match a common word',
   labelsFor('Read selected text locally').includes('bread'), false)
+
+// "cream" is a single word inside the names of several other foods. Its
+// ocr_exclude phrases keep those packs from suggesting it.
+check('a product named after cream is not cream',
+  ['ICE CREAM VANILLA 2L', 'SOUR CREAM 300g', 'PHILADELPHIA CREAM CHEESE']
+    .filter((text) => labelsFor(text).includes('cream')), [])
+
+check('an excluded phrase does not hide a real match elsewhere',
+  labelsFor('SERVE WITH ICE CREAM OR THICKENED CREAM').includes('cream'), true)
 
 check('unrelated label text matches nothing',
   labelsFor('KEEP REFRIGERATED BELOW 4 DEGREES\nBEST BEFORE END'), [])
@@ -128,6 +143,11 @@ check('a named cut beats the genus',
 check('an allergen declaration is not a suggestion',
   labelsFor('CONTAINS SOY. MAY CONTAIN PEANUTS.').sort(), [])
 
+// "canned" leads both canned tomatoes and canned tuna, but it names the
+// packing, so a can of anything else must not offer both.
+check('a packing word is not a genus',
+  labelsFor('CANNED CHICKPEAS 400g'), [])
+
 check('a shared form word is not a genus',
   labelsFor('STIR THROUGH COOKED PASTA. Simmer sauce gently.').includes('soy_sauce'),
   false)
@@ -138,7 +158,7 @@ check('index covers both channels',
   new Set(index.map((e) => e.source)).size, 2)
 
 check('every mapped label is offered in the fallback list',
-  allLabels(index).length, 49)
+  allLabels(index).length, 51)
 
 check('every index entry carries an AUSNUT key',
   index.every((e) => Boolean(e.ausnutKey)), true)

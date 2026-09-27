@@ -1,7 +1,7 @@
 {
   "version": "v1",
   "description": "Australian-localised multicultural recipe dataset for SnapWell AI Step 4.",
-  "recipe_count": 100,
+  "recipe_count": 106,
   "recipes": [
     {
       "recipe_id": "R001",
@@ -2232,6 +2232,140 @@
       ],
       "missing_allowed": false,
       "notes": "Light cafe-style meal"
+    },
+    {
+      "recipe_id": "R101",
+      "recipe_name": "Tuna pasta bake",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "pasta",
+        "canned_tuna",
+        "cream",
+        "corn",
+        "cheese"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Mix pasta with tuna corn and cream",
+        "Top with cheese and bake"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Family-style pantry bake"
+    },
+    {
+      "recipe_id": "R102",
+      "recipe_name": "Tuna rice bowl",
+      "meal_type": "lunch",
+      "cuisine_style": "Asian-inspired",
+      "ingredients": [
+        "rice",
+        "canned_tuna",
+        "cucumber",
+        "avocado",
+        "soy_sauce"
+      ],
+      "steps": [
+        "Cook rice",
+        "Top rice with tuna cucumber and avocado",
+        "Drizzle with soy sauce"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Quick pantry rice bowl"
+    },
+    {
+      "recipe_id": "R103",
+      "recipe_name": "Tuna salad wrap",
+      "meal_type": "lunch",
+      "cuisine_style": "Australian cafe",
+      "ingredients": [
+        "tortilla",
+        "canned_tuna",
+        "lettuce",
+        "tomato",
+        "lemon"
+      ],
+      "steps": [
+        "Mix tuna with lemon juice",
+        "Fill tortilla with tuna lettuce and tomato",
+        "Roll and serve"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Cafe-style lunch wrap"
+    },
+    {
+      "recipe_id": "R104",
+      "recipe_name": "Creamy garlic mushroom chicken",
+      "meal_type": "dinner",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "chicken_breast",
+        "mushroom",
+        "garlic",
+        "cream",
+        "spinach"
+      ],
+      "steps": [
+        "Pan-fry chicken breast",
+        "Cook mushroom and garlic",
+        "Add cream and spinach and simmer"
+      ],
+      "dietary_tags": [
+        "high-protein"
+      ],
+      "missing_allowed": false,
+      "notes": "Common weeknight pan dinner"
+    },
+    {
+      "recipe_id": "R105",
+      "recipe_name": "Creamy mushroom pasta",
+      "meal_type": "dinner",
+      "cuisine_style": "Italian-inspired",
+      "ingredients": [
+        "pasta",
+        "mushroom",
+        "garlic",
+        "cream",
+        "cheese"
+      ],
+      "steps": [
+        "Cook pasta",
+        "Cook mushroom and garlic",
+        "Stir through cream and cheese"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Simple vegetarian pasta"
+    },
+    {
+      "recipe_id": "R106",
+      "recipe_name": "Strawberries and cream",
+      "meal_type": "snack",
+      "cuisine_style": "Australian everyday",
+      "ingredients": [
+        "strawberry",
+        "cream"
+      ],
+      "steps": [
+        "Hull and halve strawberries",
+        "Serve with cream"
+      ],
+      "dietary_tags": [
+        "vegetarian"
+      ],
+      "missing_allowed": false,
+      "notes": "Classic summer dessert snack"
     }
   ]
 }

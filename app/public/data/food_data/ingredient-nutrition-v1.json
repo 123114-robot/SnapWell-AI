@@ -1062,6 +1062,57 @@
         "fibre_g": 5.8,
         "sodium_mg": 477.0
       }
+    },
+    {
+      "source": "ocr",
+      "label": "canned_tuna",
+      "ocr_keywords": [
+        "canned tuna",
+        "tuna",
+        "tuna in brine",
+        "tuna in springwater",
+        "tuna in spring water",
+        "tuna chunks",
+        "tuna slices"
+      ],
+      "ausnut_public_food_key": "F009285",
+      "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained",
+      "match_type": "packaged",
+      "notes": "OCR channel",
+      "nutrition": {
+        "energy_kj": 540.0,
+        "energy_kcal": 129.1,
+        "protein_g": 26.1,
+        "fat_g": 2.6,
+        "carbs_g": 0.0,
+        "sugars_g": 0.0,
+        "fibre_g": 0.0,
+        "sodium_mg": 400.0
+      }
+    },
+    {
+      "source": "ocr",
+      "label": "cream",
+      "ocr_keywords": [
+        "cream",
+        "thickened cream",
+        "pure cream",
+        "cooking cream"
+      ],
+      "ausnut_public_food_key": "F003270",
+      "ausnut_food_name": "Cream, thickened",
+      "match_type": "packaged",
+      "notes": "OCR channel",
+      "nutrition": {
+        "energy_kj": 1422.0,
+        "energy_kcal": 339.9,
+        "protein_g": 2.0,
+        "fat_g": 36.5,
+        "carbs_g": 2.4,
+        "sugars_g": 2.4,
+        "fibre_g": 0.0,
+        "sodium_mg": 27.0
+      }
     }
   ]
 }

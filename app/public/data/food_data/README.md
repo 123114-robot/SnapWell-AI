@@ -14,7 +14,7 @@ This folder contains the data layer for SnapWell AI. It connects detected ingred
 | `recipes-v1.json` | Australian-localised multicultural recipe dataset for recommendation logic. |
 | `recipe-ingredient-map-v1.json` | Maps each recipe ingredient to an AUSNUT public food key. |
 | `ingredient-portions-v1.json` | Standard unit-to-gram conversions for estimated nutrition. |
-| `recipe-portions-v1.json` | Two-serving standard ingredient quantities for the 100 recipes. |
+| `recipe-portions-v1.json` | Two-serving standard ingredient quantities for the 106 recipes. |
 | `missing-ingredient-links-v1.json` | Rules for generating Coles and Woolworths search links for missing ingredients. |
 | `attribution-v1.json` | AUSNUT source and CC BY attribution information. |
 
@@ -33,12 +33,12 @@ This folder contains the data layer for SnapWell AI. It connects detected ingred
 | Area | Count |
 |---|---:|
 | Vision ingredient labels | 39 |
-| OCR/package ingredient labels | 10 |
-| Total mapped ingredient labels | 49 |
-| Recipe entries | 100 |
-| Recipe ingredient references | 434 |
+| OCR/package ingredient labels | 12 |
+| Total mapped ingredient labels | 51 |
+| Recipe entries | 106 |
+| Recipe ingredient references | 461 |
 
-The recipe dataset uses all 49 mapped ingredient labels and contains no unmapped ingredient labels.
+The recipe dataset uses all 51 mapped ingredient labels and contains no unmapped ingredient labels.
 
 ## Recommendation Logic
 
@@ -83,11 +83,13 @@ The ingredient labels come from two SnapWell channels:
 | Vision detection | Labels from the app's visual ingredient detector. |
 | OCR/package detection | Labels for packaged or pantry ingredients detected from product text. |
 
+An OCR entry may also carry `ocr_exclude`: phrases that contain one of its keywords but name a different food. `cream` excludes phrases such as `ice cream`, `sour cream` and `cream cheese`, so those packages do not suggest cream.
+
 The mapping links each SnapWell label to one AUSNUT public food key. The selected AUSNUT item is intended to be a practical representative item for app-level nutrition calculation and recipe recommendation.
 
 ## Recipe Dataset
 
-`recipes-v1.json` contains 100 Australian-localised recipe entries. The dataset is designed for Australian everyday use and includes multiple common local food patterns and cuisines:
+`recipes-v1.json` contains 106 Australian-localised recipe entries. The dataset is designed for Australian everyday use and includes multiple common local food patterns and cuisines:
 
 - Australian cafe meals
 - Australian everyday breakfasts, lunches, dinners, and snacks

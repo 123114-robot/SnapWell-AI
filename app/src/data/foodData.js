@@ -9,14 +9,14 @@ import { useEffect, useState } from 'react'
  *
  * What the dataset does and does not contain matters, and the UI must not
  * paper over the gap:
- *   - 100 recipes, each a list of SnapWell ingredient labels plus steps.
- *   - Real per-100 g AUSNUT nutrition for all 49 mapped ingredient labels.
+ *   - 106 recipes, each a list of SnapWell ingredient labels plus steps.
+ *   - Real per-100 g AUSNUT nutrition for all 51 mapped ingredient labels.
  *   - NO per-ingredient quantities, NO cooking times, NO recipe images.
  * Because there are no quantities, a per-serving recipe total cannot be
  * calculated from this data. Nutrition is therefore reported per ingredient,
  * per 100 g, exactly as AUSNUT states it — never summed into a made-up total.
  *
- * `recipe-ingredient-map-v1.json` is deliberately not fetched: its 434 rows
+ * `recipe-ingredient-map-v1.json` is deliberately not fetched: its 461 rows
  * were verified to agree with `ingredient-nutrition-v1.json` on every AUSNUT
  * key, so it is derivable and would cost 70 KB to no benefit.
  */
@@ -28,7 +28,7 @@ const ATTRIBUTION_URL = '/data/food_data/attribution-v1.json'
 
 /**
  * Preferences the recipe dataset can answer from its own `dietary_tags`.
- * Only these three tags exist across all 100 recipes.
+ * Only these three tags exist across all 106 recipes.
  */
 const REQUIRED_TAG = {
   Vegetarian: 'vegetarian',
@@ -42,21 +42,22 @@ const REQUIRED_TAG = {
  * reviewable here instead of being buried in a screen.
  */
 const ANIMAL_PRODUCTS = [
-  'bacon', 'beef_mince', 'butter', 'cheese', 'chicken_breast', 'chicken_thigh',
-  'egg', 'milk', 'pork', 'prawn', 'salmon', 'sausage', 'yoghurt',
+  'bacon', 'beef_mince', 'butter', 'canned_tuna', 'cheese', 'chicken_breast',
+  'chicken_thigh', 'cream', 'egg', 'milk', 'pork', 'prawn', 'salmon', 'sausage',
+  'yoghurt',
 ]
 const EXCLUDED_LABELS = {
   Vegan: ANIMAL_PRODUCTS,
   'Gluten-free': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
-  'Dairy-free': ['milk', 'cheese', 'butter', 'yoghurt'],
+  'Dairy-free': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
   'No shellfish': ['prawn'],
   'No nuts': ['peanut_butter'],
   'No eggs': ['egg'],
   'No soy': ['tofu', 'soy_sauce'],
-  'No milk': ['milk', 'cheese', 'butter', 'yoghurt'],
+  'No milk': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
   'No wheat': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
   'No sesame': [],
-  'No fish': ['salmon'],
+  'No fish': ['salmon', 'canned_tuna'],
   'No lupin': [],
   'No sulphites': [],
 }
@@ -87,6 +88,7 @@ const INGREDIENT_EMOJI = {
   oats: '🥣', flour: '🌾', noodles: '🍜', tortilla: '🌯',
   canned_tomatoes: '🥫', coconut_milk: '🥥', soy_sauce: '🍶',
   olive_oil: '🫒', pasta_sauce: '🥫', peanut_butter: '🥜',
+  canned_tuna: '🐟', cream: '🥛',
 }
 
 export const emojiForIngredient = (label) => INGREDIENT_EMOJI[String(label).toLowerCase()] || '🥗'
