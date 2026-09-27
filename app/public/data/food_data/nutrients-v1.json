@@ -589,6 +589,30 @@
       "sugars_g_per_100g": "2.2",
       "fibre_g_per_100g": "1.0",
       "sodium_mg_per_100g": "0"
+    },
+    {
+      "ausnut_public_food_key": "F009285",
+      "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained",
+      "energy_kj_per_100g": "540",
+      "energy_kcal_per_100g": "129.1",
+      "protein_g_per_100g": "26.1",
+      "fat_g_per_100g": "2.6",
+      "carbs_g_per_100g": "0.0",
+      "sugars_g_per_100g": "0.0",
+      "fibre_g_per_100g": "0.0",
+      "sodium_mg_per_100g": "400"
+    },
+    {
+      "ausnut_public_food_key": "F003270",
+      "ausnut_food_name": "Cream, thickened",
+      "energy_kj_per_100g": "1422",
+      "energy_kcal_per_100g": "339.9",
+      "protein_g_per_100g": "2.0",
+      "fat_g_per_100g": "36.5",
+      "carbs_g_per_100g": "2.4",
+      "sugars_g_per_100g": "2.4",
+      "fibre_g_per_100g": "0.0",
+      "sodium_mg_per_100g": "27"
     }
   ]
 }

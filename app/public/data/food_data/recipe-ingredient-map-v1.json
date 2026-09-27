@@ -1,8 +1,8 @@
 {
   "version": "v1",
   "description": "Recipe ingredient to AUSNUT food ID mapping for SnapWell AI.",
-  "recipe_count": 100,
-  "recipe_ingredient_rows": 434,
+  "recipe_count": 106,
+  "recipe_ingredient_rows": 461,
   "recipes": {
     "R001": [
       {
@@ -2372,6 +2372,153 @@
         "ingredient_label": "lemon",
         "ausnut_public_food_key": "F005174",
         "ausnut_food_name": "Lemon, peeled, raw"
+      }
+    ],
+    "R101": [
+      {
+        "ingredient_label": "canned_tuna",
+        "ausnut_public_food_key": "F009285",
+        "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained"
+      },
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "corn",
+        "ausnut_public_food_key": "F003209",
+        "ausnut_food_name": "Corn, raw"
+      },
+      {
+        "ingredient_label": "cream",
+        "ausnut_public_food_key": "F003270",
+        "ausnut_food_name": "Cream, thickened"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      }
+    ],
+    "R102": [
+      {
+        "ingredient_label": "avocado",
+        "ausnut_public_food_key": "F000162",
+        "ausnut_food_name": "Avocado, raw"
+      },
+      {
+        "ingredient_label": "canned_tuna",
+        "ausnut_public_food_key": "F009285",
+        "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained"
+      },
+      {
+        "ingredient_label": "cucumber",
+        "ausnut_public_food_key": "F003323",
+        "ausnut_food_name": "Cucumber, raw"
+      },
+      {
+        "ingredient_label": "rice",
+        "ausnut_public_food_key": "F007682",
+        "ausnut_food_name": "Rice, white, uncooked"
+      },
+      {
+        "ingredient_label": "soy_sauce",
+        "ausnut_public_food_key": "F008065",
+        "ausnut_food_name": "Sauce, soy, commercial"
+      }
+    ],
+    "R103": [
+      {
+        "ingredient_label": "canned_tuna",
+        "ausnut_public_food_key": "F009285",
+        "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained"
+      },
+      {
+        "ingredient_label": "lemon",
+        "ausnut_public_food_key": "F005174",
+        "ausnut_food_name": "Lemon, peeled, raw"
+      },
+      {
+        "ingredient_label": "lettuce",
+        "ausnut_public_food_key": "F005194",
+        "ausnut_food_name": "Lettuce, raw"
+      },
+      {
+        "ingredient_label": "tomato",
+        "ausnut_public_food_key": "F009210",
+        "ausnut_food_name": "Tomato, raw, not further defined"
+      },
+      {
+        "ingredient_label": "tortilla",
+        "ausnut_public_food_key": "F001418",
+        "ausnut_food_name": "Bread, flat wrap or tortilla, commercial, not further defined"
+      }
+    ],
+    "R104": [
+      {
+        "ingredient_label": "chicken_breast",
+        "ausnut_public_food_key": "F002594",
+        "ausnut_food_name": "Chicken, breast, lean, raw"
+      },
+      {
+        "ingredient_label": "cream",
+        "ausnut_public_food_key": "F003270",
+        "ausnut_food_name": "Cream, thickened"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "spinach",
+        "ausnut_public_food_key": "F008749",
+        "ausnut_food_name": "Spinach, baby, fresh, raw"
+      }
+    ],
+    "R105": [
+      {
+        "ingredient_label": "cheese",
+        "ausnut_public_food_key": "F002414",
+        "ausnut_food_name": "Cheese, cheddar, natural, plain"
+      },
+      {
+        "ingredient_label": "cream",
+        "ausnut_public_food_key": "F003270",
+        "ausnut_food_name": "Cream, thickened"
+      },
+      {
+        "ingredient_label": "garlic",
+        "ausnut_public_food_key": "F004193",
+        "ausnut_food_name": "Garlic, peeled, raw"
+      },
+      {
+        "ingredient_label": "mushroom",
+        "ausnut_public_food_key": "F005946",
+        "ausnut_food_name": "Mushroom, common, raw"
+      },
+      {
+        "ingredient_label": "pasta",
+        "ausnut_public_food_key": "F006458",
+        "ausnut_food_name": "Pasta, white, plain, dry, uncooked"
+      }
+    ],
+    "R106": [
+      {
+        "ingredient_label": "cream",
+        "ausnut_public_food_key": "F003270",
+        "ausnut_food_name": "Cream, thickened"
+      },
+      {
+        "ingredient_label": "strawberry",
+        "ausnut_public_food_key": "F008952",
+        "ausnut_food_name": "Strawberry, raw"
       }
     ]
   }

@@ -35,7 +35,7 @@ function check(name, actual, expected) {
 
 // ------------------------------------------------------------ dataset integrity
 
-check('all 100 recipes are loaded', recipes.length, 100)
+check('all 106 recipes are loaded', recipes.length, 106)
 
 check('every recipe ingredient has AUSNUT nutrition',
   recipes.flatMap((r) => r.ingredients).filter((i) => !nutritionByLabel.has(i)), [])
@@ -45,7 +45,7 @@ check('every recipe has at least one step',
 
 // A wrong tag here would recommend meat to a vegetarian, so verify the data
 // rather than trusting it.
-const MEAT = ['bacon', 'beef_mince', 'chicken_breast', 'chicken_thigh', 'pork', 'prawn', 'salmon', 'sausage']
+const MEAT = ['bacon', 'beef_mince', 'canned_tuna', 'chicken_breast', 'chicken_thigh', 'pork', 'prawn', 'salmon', 'sausage']
 check('no recipe tagged vegetarian contains meat or seafood',
   recipes
     .filter((r) => r.dietary_tags.includes('vegetarian'))
@@ -84,7 +84,7 @@ check('vegetarian keeps only tagged recipes',
 const vegan = applyPreferences(recipes, { diets: ['Vegan'] }).kept
 check('vegan excludes every animal product',
   vegan.filter((r) => r.ingredients.some((i) =>
-    ['milk', 'egg', 'cheese', 'butter', 'yoghurt', ...MEAT].includes(i))).length, 0)
+    ['milk', 'egg', 'cheese', 'butter', 'yoghurt', 'cream', ...MEAT].includes(i))).length, 0)
 
 const glutenFree = applyPreferences(recipes, { diets: ['Gluten-free'] }).kept
 check('gluten-free excludes wheat staples',
@@ -94,6 +94,14 @@ check('gluten-free excludes wheat staples',
 const noEggs = applyPreferences(recipes, { allergies: ['No eggs'] }).kept
 check('an allergy removes every recipe using it',
   noEggs.filter((r) => r.ingredients.includes('egg')).length, 0)
+
+check('dairy-free excludes cream',
+  applyPreferences(recipes, { diets: ['Dairy-free'] }).kept
+    .filter((r) => r.ingredients.includes('cream')).length, 0)
+
+check('a fish allergy excludes canned tuna',
+  applyPreferences(recipes, { allergies: ['No fish'] }).kept
+    .filter((r) => r.ingredients.includes('canned_tuna')).length, 0)
 
 check('preferences combine as AND, never widening the result',
   applyPreferences(recipes, { diets: ['Vegan', 'Gluten-free'] }).kept.length <= vegan.length, true)

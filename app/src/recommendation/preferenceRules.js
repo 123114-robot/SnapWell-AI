@@ -20,6 +20,7 @@ export const MEAL_TYPE_OPTIONS = Object.freeze([
 const MEAT_AND_SEAFOOD = new Set([
   'bacon',
   'beef_mince',
+  'canned_tuna',
   'chicken_breast',
   'chicken_thigh',
   'pork',
@@ -28,7 +29,7 @@ const MEAT_AND_SEAFOOD = new Set([
   'sausage',
 ])
 
-const DAIRY = new Set(['butter', 'cheese', 'milk', 'yoghurt'])
+const DAIRY = new Set(['butter', 'cheese', 'cream', 'milk', 'yoghurt'])
 const EGGS = new Set(['egg'])
 const GLUTEN = new Set(['bread', 'flour', 'noodles', 'pasta', 'tortilla', 'soy_sauce'])
 const NUTS = new Set(['peanut_butter'])

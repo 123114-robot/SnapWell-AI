@@ -338,6 +338,20 @@ test('Vegan excludes meat, seafood, egg and dairy recipes', () => {
   assert.deepEqual(results.map(result => result.recipe.recipe_id), ['PLANT'])
 })
 
+test('Vegetarian excludes canned_tuna and Dairy-free excludes cream', () => {
+  const recipes = [
+    recipe({ id: 'TUNA', ingredients: ['canned_tuna', 'rice'] }),
+    recipe({ id: 'CREAM', ingredients: ['cream', 'rice'] }),
+    recipe({ id: 'PLAIN', ingredients: ['tomato', 'rice'] }),
+  ]
+
+  const vegetarian = match(recipes, [ingredient('rice')], { diets: ['Vegetarian'] })
+  const dairyFree = match(recipes, [ingredient('rice')], { diets: ['Dairy-free'] })
+
+  assert.deepEqual(vegetarian.map(result => result.recipe.recipe_id).sort(), ['CREAM', 'PLAIN'])
+  assert.deepEqual(dairyFree.map(result => result.recipe.recipe_id).sort(), ['PLAIN', 'TUNA'])
+})
+
 test('No nuts excludes peanut_butter recipes', () => {
   const recipes = [
     recipe({ id: 'NUT', ingredients: ['peanut_butter', 'bread'] }),

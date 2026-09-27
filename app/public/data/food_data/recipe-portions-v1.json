@@ -2672,7 +2672,171 @@
           "unit": "piece"
         }
       ]
+    },
+    "R101": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "canned_tuna",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "cream",
+          "quantity": 6,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "corn",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R102": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "rice",
+          "quantity": 1,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "canned_tuna",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "cucumber",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "avocado",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "soy_sauce",
+          "quantity": 1,
+          "unit": "tbsp"
+        }
+      ]
+    },
+    "R103": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "tortilla",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "canned_tuna",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "lettuce",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "tomato",
+          "quantity": 1,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "lemon",
+          "quantity": 1,
+          "unit": "piece"
+        }
+      ]
+    },
+    "R104": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "chicken_breast",
+          "quantity": 2,
+          "unit": "piece"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "cream",
+          "quantity": 6,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "spinach",
+          "quantity": 2,
+          "unit": "cup"
+        }
+      ]
+    },
+    "R105": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "pasta",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "ingredient_label": "mushroom",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "garlic",
+          "quantity": 2,
+          "unit": "clove"
+        },
+        {
+          "ingredient_label": "cream",
+          "quantity": 6,
+          "unit": "tbsp"
+        },
+        {
+          "ingredient_label": "cheese",
+          "quantity": 2,
+          "unit": "slice"
+        }
+      ]
+    },
+    "R106": {
+      "servings": 2,
+      "ingredients": [
+        {
+          "ingredient_label": "strawberry",
+          "quantity": 2,
+          "unit": "cup"
+        },
+        {
+          "ingredient_label": "cream",
+          "quantity": 4,
+          "unit": "tbsp"
+        }
+      ]
     }
   }
 }
-

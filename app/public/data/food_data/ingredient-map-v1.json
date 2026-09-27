@@ -443,6 +443,25 @@
       "ausnut_food_name": "Peanut butter, added sugar & salt",
       "match_type": "packaged",
       "notes": "OCR channel"
+    },
+    {
+      "source": "ocr",
+      "label": "canned_tuna",
+      "ocr_keywords": "canned tuna, tuna, tuna in brine, tuna in springwater, tuna in spring water, tuna chunks, tuna slices",
+      "ausnut_public_food_key": "F009285",
+      "ausnut_food_name": "Tuna, unflavoured, canned in brine, drained",
+      "match_type": "packaged",
+      "notes": "OCR channel"
+    },
+    {
+      "source": "ocr",
+      "label": "cream",
+      "ocr_keywords": "cream, thickened cream, pure cream, cooking cream",
+      "ocr_exclude": "ice cream, sour cream, cream cheese, cream of tartar, cream of chicken, cream of mushroom",
+      "ausnut_public_food_key": "F003270",
+      "ausnut_food_name": "Cream, thickened",
+      "match_type": "packaged",
+      "notes": "OCR channel"
     }
   ]
 }
