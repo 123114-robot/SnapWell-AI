@@ -1,0 +1,116 @@
+.splash-screen {
+  position: fixed;
+
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      rgba(18, 65, 45, 0.18),
+      rgba(18, 65, 45, 0.38)
+    ),
+    url('/splash-bg.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+.splash-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.08),
+      rgba(0, 0, 0, 0.25)
+    );
+}
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: white;
+  text-align: center;
+
+  animation: splashContentIn 0.8s ease-out;
+}
+
+.splash-logo {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(48px, 12vw, 76px);
+  font-weight: 800;
+  letter-spacing: -2px;
+
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.25);
+}
+
+.splash-subtitle {
+  margin-top: 4px;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 2px;
+
+  opacity: 0.92;
+}
+
+.splash-loader {
+  width: 28px;
+  height: 28px;
+
+  margin-top: 38px;
+
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+
+  animation: splashSpin 0.8s linear infinite;
+}
+
+@keyframes splashSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes splashContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splashFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom'
+import SplashScreen from './components/SplashScreen.jsx'
 import { ModelProvider } from './ai/ModelContext.jsx'
 import { useModel } from './ai/useModel.js'
 import { AppStateProvider } from './state/AppState.jsx'
@@ -105,6 +107,20 @@ function TopBar() {
 }
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (showSplash) {
+    return <SplashScreen />
+  }
+
   return (
     <ModelProvider>
       <AppStateProvider>

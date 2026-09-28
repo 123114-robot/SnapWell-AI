@@ -5,6 +5,7 @@ import { isOnlineMode } from '../state/appMode.js'
 import recommendationEngine from '../recommendation/recommendationEngine.js'
 import { adaptRecommendationResult, displayIngredientLabel } from '../recommendation/recommendationAdapter.js'
 import { getRecipeImage } from '../data/recipeImages.js'
+import RecipePhoto from '../components/RecipePhoto.jsx'
 
 // 冷静专业配色：纯白底 + 中性灰 + 深绿点睛（近直角）
 const T = {
@@ -19,7 +20,7 @@ const emptyCard = {
 }
 
 function RecipeCard({ r, onOpen }) {
-  const img = getRecipeImage(r.name)
+  const img = getRecipeImage(r)
   return (
     <button onClick={() => onOpen(r)} style={{
       textAlign: 'left', background: T.bg, border: `1px solid ${T.line}`,
@@ -30,11 +31,10 @@ function RecipeCard({ r, onOpen }) {
       <div style={{
         height: 160, position: 'relative',
         display: 'flex', alignItems: 'flex-end', padding: 16,
-        background: img
-          ? `linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 100%), url(${img})`
-          : T.green,
+        background: T.green,
         backgroundSize: 'cover', backgroundPosition: 'center',
       }}>
+        <RecipePhoto src={img} name={r.name} />
         <span style={{
           position: 'absolute', top: 12, left: 12,
           background: 'rgba(255,255,255,0.95)', color: T.ink, fontWeight: 600,
@@ -52,7 +52,7 @@ function RecipeCard({ r, onOpen }) {
           {r.displayCoverageScore}%
         </span>
         <div style={{
-          color: '#fff', fontSize: 21, fontWeight: 700, lineHeight: 1.15,
+          position: 'relative', color: '#fff', fontSize: 21, fontWeight: 700, lineHeight: 1.15,
           letterSpacing: -0.3, maxWidth: '92%',
         }}>
           {r.name}
