@@ -75,9 +75,14 @@ function selectedValues(preferences, key) {
     : []
 }
 
-export function recipePassesHardFilters(recipe, preferences = {}) {
-  const recipeIngredients = Array.isArray(recipe?.ingredients)
-    ? recipe.ingredients.map(normaliseIngredient)
+/**
+ * The allergy and diet half of the hard filters, on a bare ingredient list.
+ * Generated recipes are checked with this: they answer no meal-type request,
+ * but a prawn in one is as dangerous as a prawn in a local recipe.
+ */
+export function ingredientsPassRestrictions(ingredients, preferences = {}) {
+  const recipeIngredients = Array.isArray(ingredients)
+    ? ingredients.map(normaliseIngredient)
     : []
   const diets = new Set(selectedValues(preferences, 'diets'))
   const allergies = new Set(selectedValues(preferences, 'allergies'))
@@ -91,6 +96,12 @@ export function recipePassesHardFilters(recipe, preferences = {}) {
   if (allergies.has('no_shellfish') && hasAnyIngredient(recipeIngredients, SHELLFISH)) return false
   if (allergies.has('no_eggs') && hasAnyIngredient(recipeIngredients, EGGS)) return false
   if (allergies.has('no_soy') && hasAnyIngredient(recipeIngredients, SOY)) return false
+
+  return true
+}
+
+export function recipePassesHardFilters(recipe, preferences = {}) {
+  if (!ingredientsPassRestrictions(recipe?.ingredients, preferences)) return false
 
   const requestedMealType = normalisePreference(preferences?.mealType)
   if (requestedMealType && normalisePreference(recipe?.meal_type) !== requestedMealType) return false

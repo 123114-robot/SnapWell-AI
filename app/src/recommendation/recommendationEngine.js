@@ -12,6 +12,7 @@ import {
   generateOnlineRecommendations,
   ONLINE_SERVICE_ERROR_MESSAGE,
 } from './geminiService.js'
+import { ALLERGEN_GROUPS, DIET_EXCLUSIONS, ingredientsPassRestrictions } from './preferenceRules.js'
 
 export const LOCAL_MATCH_THRESHOLD = 70
 
@@ -119,6 +120,72 @@ function onlineRecipeIngredients(onlineRecipe, confirmedIngredients, aliasMap = 
   })
 
   return { entries, quantitiesFromRecipe: entries.length > 0 && estimated === 0 }
+}
+
+/** Every label some allergy or diet rule excludes, with its words for matching in prose. */
+const RESTRICTED_LABELS = [...new Set([
+  ...Object.values(ALLERGEN_GROUPS).flatMap(group => [...group]),
+  ...Object.values(DIET_EXCLUSIONS).flatMap(group => [...group]),
+])].map(label => ({
+  label,
+  pattern: new RegExp(`\\b${label.split('_').join('[\\s_-]+')}(?:e?s)?\\b`, 'i'),
+}))
+
+/**
+ * Every ingredient a generated recipe names, the ones marked optional included:
+ * an optional handful of peanuts is still peanuts.
+ *
+ * A name that resolves to one of SnapWell's ingredients is judged as that
+ * ingredient alone, so "coconut milk" is coconut milk, not milk. A name the
+ * app does not know is searched for restricted labels instead, so "tiger
+ * prawns" counts as prawn; where one match sits inside a longer one, only the
+ * longer counts, so "crunchy peanut butter" is peanut butter and not butter.
+ */
+function onlineRecipeLabels(onlineRecipe, aliasMap = null) {
+  const names = []
+  const collect = item => {
+    if (typeof item === 'string') names.push(item)
+    else if (item && typeof item === 'object') {
+      if (item.label) names.push(item.label)
+      if (item.display_name) names.push(item.display_name)
+    }
+  }
+  ;(Array.isArray(onlineRecipe?.used_ingredients) ? onlineRecipe.used_ingredients : []).forEach(collect)
+  ;(Array.isArray(onlineRecipe?.missing_ingredients) ? onlineRecipe.missing_ingredients : []).forEach(collect)
+  ;(Array.isArray(onlineRecipe?.ingredient_quantities) ? onlineRecipe.ingredient_quantities : []).forEach(collect)
+
+  const known = new Set(aliasMap ? aliasMap.values() : [])
+  const labels = new Set()
+  for (const name of names) {
+    const label = canonicalIngredientLabel(name, aliasMap)
+    if (!label) continue
+    labels.add(label)
+    if (known.has(label)) continue
+
+    const prose = String(name).replace(/_/g, ' ')
+    const hits = RESTRICTED_LABELS
+      .map(restricted => ({ label: restricted.label, match: prose.match(restricted.pattern) }))
+      .filter(hit => hit.match)
+      .map(hit => ({ label: hit.label, start: hit.match.index, end: hit.match.index + hit.match[0].length }))
+    for (const hit of hits) {
+      const inside = hits.some(other => other !== hit
+        && other.end - other.start > hit.end - hit.start
+        && other.start <= hit.start && other.end >= hit.end)
+      if (!inside) labels.add(hit.label)
+    }
+  }
+  return [...labels]
+}
+
+/**
+ * Generated recipes are asked in the prompt to respect the user's allergies and
+ * diet, but a prompt is a request, not a guarantee. Each one is therefore put
+ * through the same rules that filter the local recipe book before it is shown.
+ */
+export function filterOnlineRecipes(onlineRecipes, preferences = {}, aliasMap = null) {
+  const recipes = Array.isArray(onlineRecipes) ? onlineRecipes : []
+  const permitted = recipes.filter(recipe => ingredientsPassRestrictions(onlineRecipeLabels(recipe, aliasMap), preferences))
+  return { permitted, removedCount: recipes.length - permitted.length }
 }
 
 function safePreferences(preferences) {
@@ -234,11 +301,15 @@ export async function recommendationEngine(input = {}, dataOverride = null, opti
         // onlineResult remains null so execution flows into the local fallback block
       }
 
-    if (onlineResult?.success) {
+    const screened = onlineResult?.success
+      ? filterOnlineRecipes(onlineResult.data.recommendations, preferences, aliasMap)
+      : null
+
+    if (screened && screened.permitted.length > 0) {
       // The AI is told never to invent nutrition values, so an AI recipe arrives
       // with ingredient labels and a serving count and nothing else. Costing it
       // here against AUSNUT is what makes its Nutrition screen real.
-      const onlineRecommendations = onlineResult.data.recommendations.map(onlineItem =>
+      const onlineRecommendations = screened.permitted.map(onlineItem =>
         adaptOnlineRecommendation(
           { ...onlineItem, nutrition: onlineRecipeNutrition(onlineItem) },
           linkData,
@@ -271,11 +342,37 @@ export async function recommendationEngine(input = {}, dataOverride = null, opti
         diagnostics: {
           eligibleRecipeCount: onlineRecommendations.length + localTopUp.length,
           onlineRecipeCount: onlineRecommendations.length,
+          removedOnlineRecipeCount: screened.removedCount,
           localTopUpCount: localTopUp.length,
           confirmedIngredientCount: confirmedIngredientLabels.length,
           onlineRecommendationStatus: 'success',
           localRecommendations,
           assumptions: onlineResult.data.summary?.assumptions ?? [],
+        },
+      }
+    }
+
+    // Every generated recipe conflicted with the user's settings. The local
+    // list is shown instead, and the diagnostics say why rather than "failed".
+    if (screened) {
+      return {
+        mode: 'local',
+        source: 'local',
+        threshold: LOCAL_MATCH_THRESHOLD,
+        fallbackRequired,
+        topCoverageScore,
+        recommendations: localRecommendations,
+        inputContext: {
+          ingredients,
+          preferences,
+          confirmedIngredientLabels,
+        },
+        diagnostics: {
+          eligibleRecipeCount: localRecommendations.length,
+          confirmedIngredientCount: confirmedIngredientLabels.length,
+          onlineRecommendationStatus: 'filtered',
+          removedOnlineRecipeCount: screened.removedCount,
+          localRecommendations,
         },
       }
     }
