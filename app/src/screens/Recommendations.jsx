@@ -149,6 +149,8 @@ export default function Recommendations() {
   const visibleRecipes = ranked.filter((r) => r.coverageScore > 0 || r.source === 'online')
   const noConfirmedIngredients = (recommendationResult?.diagnostics?.confirmedIngredientCount ?? 0) === 0
   const onlineStatus = recommendationResult?.diagnostics?.onlineRecommendationStatus ?? null
+  // Generated recipes the engine removed for conflicting with the user's settings
+  const removedOnline = recommendationResult?.diagnostics?.removedOnlineRecipeCount ?? 0
   const activePreferences = [...(preferences.diets || []), ...(preferences.allergies || [])]
 
   function openRecipe(recipe) {
@@ -231,6 +233,21 @@ export default function Recommendations() {
           }}>
             <strong style={{ color: T.green }}>Online recommendation.</strong>{' '}
             Recipes generated dynamically for your confirmed ingredients.
+            {removedOnline > 0 && (
+              <> {removedOnline === 1 ? 'One generated recipe was' : `${removedOnline} generated recipes were`} hidden
+              because {removedOnline === 1 ? 'it conflicts' : 'they conflict'} with your allergy or diet settings.</>
+            )}
+          </div>
+        )}
+
+        {status === 'ready' && !noConfirmedIngredients && onlineStatus === 'filtered' && (
+          <div style={{
+            background: T.fill, border: `1px solid ${T.line}`, borderRadius: 2,
+            padding: '12px 14px', fontSize: 12.5, color: T.sub, lineHeight: 1.5,
+          }}>
+            <strong style={{ color: T.ink }}>Generated recipes hidden.</strong>{' '}
+            Every recipe generated for your list conflicted with your allergy or diet settings, so
+            local recipe matches are shown instead.
           </div>
         )}
 

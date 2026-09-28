@@ -508,3 +508,103 @@ test('Breakfast meal type keeps breakfast recipes and excludes dinner recipes', 
 
   assert.deepEqual(results.map(result => result.recipe.recipe_id), ['BREAKFAST'])
 })
+
+// Generated recipes are asked to respect allergies in the prompt only, so the
+// engine checks them with the same rules as the local recipe book.
+function generatorReturning(recommendations) {
+  return async () => ({
+    success: true,
+    data: { recommendations, summary: { total_recommendations: recommendations.length, assumptions: [] } },
+  })
+}
+
+function generated(id, used, missing = []) {
+  return {
+    recipe_id: id,
+    recipe_name: `Generated ${id}`,
+    meal_type: 'dinner',
+    cuisine_style: 'Asian-inspired',
+    used_ingredients: used,
+    missing_ingredients: missing,
+    steps: ['Cook', 'Serve'],
+    dietary_tags: [],
+  }
+}
+
+const BELOW_THRESHOLD_BOOK = [recipe({ id: 'R001', ingredients: ['chicken_breast', 'rice', 'broccoli', 'garlic', 'onion'] })]
+const CHICKEN_AND_RICE = [ingredient('chicken_breast'), ingredient('rice')]
+
+test('a generated recipe that conflicts with an allergy is removed', async () => {
+  const result = await runEngine(
+    BELOW_THRESHOLD_BOOK,
+    CHICKEN_AND_RICE,
+    { allergies: ['No nuts'] },
+    {
+      generateOnlineRecommendations: generatorReturning([
+        generated('AI_SATAY', ['chicken_breast', 'rice'], [{ label: 'peanut_butter', optional: false }]),
+        generated('AI_FRIED_RICE', ['chicken_breast', 'rice'], [{ label: 'egg', optional: false }]),
+      ]),
+      localTopUpCount: 0,
+    },
+  )
+
+  assert.equal(result.mode, 'online')
+  assert.deepEqual(result.recommendations.map(item => item.id), ['AI_FRIED_RICE'])
+  assert.equal(result.diagnostics.removedOnlineRecipeCount, 1)
+})
+
+test('an optional ingredient and a free-text name still count against a rule', async () => {
+  const result = await runEngine(
+    BELOW_THRESHOLD_BOOK,
+    CHICKEN_AND_RICE,
+    { allergies: ['No nuts', 'No shellfish'] },
+    {
+      generateOnlineRecommendations: generatorReturning([
+        generated('AI_TOPPED', ['chicken_breast', 'rice'], [{ label: 'crunchy peanut butter', optional: true }]),
+        generated('AI_SURF', ['rice'], [{ label: 'tiger prawns', optional: false }]),
+        generated('AI_PLAIN', ['chicken_breast', 'rice']),
+      ]),
+      localTopUpCount: 0,
+    },
+  )
+
+  assert.deepEqual(result.recommendations.map(item => item.id), ['AI_PLAIN'])
+  assert.equal(result.diagnostics.removedOnlineRecipeCount, 2)
+})
+
+test('a known ingredient is judged as itself, so coconut milk is not milk', async () => {
+  const result = await recommendationEngine(
+    { ingredients: CHICKEN_AND_RICE, preferences: { diets: ['Dairy-free'] } },
+    {
+      recipes: BELOW_THRESHOLD_BOOK,
+      ingredientNutrition: { items: [{ label: 'chicken_breast' }, { label: 'rice' }, { label: 'coconut_milk' }] },
+    },
+    {
+      generateOnlineRecommendations: generatorReturning([
+        generated('AI_CURRY', ['chicken_breast', 'rice'], [{ label: 'coconut_milk', optional: false }]),
+      ]),
+      localTopUpCount: 0,
+    },
+  )
+
+  assert.deepEqual(result.recommendations.map(item => item.id), ['AI_CURRY'])
+  assert.equal(result.diagnostics.removedOnlineRecipeCount, 0)
+})
+
+test('when every generated recipe conflicts, the local list is shown and says why', async () => {
+  const result = await runEngine(
+    BELOW_THRESHOLD_BOOK,
+    CHICKEN_AND_RICE,
+    { diets: ['Vegetarian'] },
+    {
+      generateOnlineRecommendations: generatorReturning([
+        generated('AI_CHICKEN', ['chicken_breast', 'rice']),
+      ]),
+    },
+  )
+
+  assert.equal(result.mode, 'local')
+  assert.equal(result.diagnostics.onlineRecommendationStatus, 'filtered')
+  assert.equal(result.diagnostics.removedOnlineRecipeCount, 1)
+  assert.ok(result.recommendations.every(item => item.source === 'local'))
+})
