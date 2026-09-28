@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { isPlaceholderBarcode, normaliseBarcode } from '../product/productData.js'
+import { isPlaceholderBarcode, isRestrictedCirculationBarcode, normaliseBarcode } from '../product/productData.js'
 
 const T = {
   paper: '#FAF7F0', ink: '#12261C', green: '#1B4332', greenSoft: '#E7EFE9',
@@ -109,6 +109,14 @@ export default function ScanBarcode() {
     const code = normaliseBarcode(rawCode)
     if (!code) {
       setError('That does not look like a valid retail barcode. Check the digits and try again.')
+      return
+    }
+    // A deli or in-store label: its number is the shop's own, so a lookup
+    // would return an unrelated product. Reading the label is the way in.
+    if (isRestrictedCirculationBarcode(code)) {
+      stopCamera()
+      setMode('idle')
+      setError('This is a store label barcode, which only the shop itself can look up. Read the ingredients and nutrition label instead.')
       return
     }
     if (handledRef.current) return

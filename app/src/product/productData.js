@@ -1,5 +1,7 @@
 const API_ROOT = 'https://world.openfoodfacts.org/api/v3/product'
-const CACHE_PREFIX = 'snapwell-product-v3:'
+// v4: completeness now needs ingredient evidence, so a v3 entry cached as
+// "not found" on an empty record must not be reused
+const CACHE_PREFIX = 'snapwell-product-v4:'
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
 // GS1 documentation uses this valid-checksum GTIN as a barcode illustration.
@@ -8,11 +10,22 @@ const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 // community record even though the decoder did its job correctly.
 const PLACEHOLDER_BARCODES = new Set(['9312345678907'])
 
+/**
+ * GS1 prefixes that retailers assign themselves: in-store and variable-weight
+ * items (deli meat, cheese cut to order, 200-299 and UPC 2), company-internal
+ * codes (UPC 4), and coupons and refund receipts (UPC 5, 98, 99).
+ * The same number means a different product in every store, so a public
+ * lookup returns whatever unrelated product happens to share it: a Coles deli
+ * bacon label decoded to 28140139, which Open Food Facts lists as a chai
+ * latte. Prefixes are read on the GTIN-13 form.
+ */
+const RESTRICTED_GTIN13_PREFIXES = /^(?:0[245]|2|98|99)/
+
 const PRODUCT_FIELDS = [
   'code', 'product_name', 'brands', 'quantity', 'categories_tags',
   'ingredients_text', 'allergens_tags', 'traces_tags', 'additives_tags',
   'ingredients_analysis_tags', 'labels_tags', 'nutriments', 'nutrient_levels',
-  'nutrition_data_per', 'serving_size', 'last_modified_t',
+  'nutrition_data_per', 'serving_size', 'last_modified_t', 'states_tags',
 ]
 
 const ALLERGY_GROUPS = {
@@ -61,6 +74,20 @@ export function normaliseBarcode(value) {
 
 export function isPlaceholderBarcode(value) {
   return PLACEHOLDER_BARCODES.has(String(value || '').replace(/[^0-9]/g, ''))
+}
+
+/**
+ * Whether a valid barcode is a store-assigned number rather than a product
+ * identifier. An 8-digit code starting with 2 is a restricted-circulation
+ * GTIN-8; UPC-E, the other 8-digit format, only starts with 0 or 1, so it is
+ * never caught here. Longer codes are compared on their GTIN-13 form.
+ */
+export function isRestrictedCirculationBarcode(value) {
+  const code = normaliseBarcode(value)
+  if (!code) return false
+  if (code.length === 8) return code.startsWith('2')
+  const gtin13 = code.length === 14 ? code.slice(1) : code.padStart(13, '0')
+  return RESTRICTED_GTIN13_PREFIXES.test(gtin13)
 }
 
 function tagName(tag) {
@@ -344,9 +371,26 @@ export function parseNutritionPanel(text) {
   }
 }
 
+/**
+ * Whether a record's allergen fields reflect the product's label at all.
+ *
+ * Open Food Facts returns an empty allergens_tags array both when a product
+ * declares no allergens and when nobody has entered its ingredients yet, so
+ * the array on its own proves nothing. A John West tuna record with no
+ * ingredients and allergens_tags [] would otherwise report fish as "not
+ * found". The declaration counts only when the ingredients were transcribed,
+ * or when it names an allergen outright.
+ */
+function declared(tagsValue, ingredientsKnown) {
+  if (!Array.isArray(tagsValue)) return false
+  return tagsValue.length > 0 || ingredientsKnown
+}
+
 export function normaliseProduct(raw, barcode) {
   const nutriments = raw?.nutriments || {}
   const nutrientLevels = raw?.nutrient_levels || {}
+  const ingredientsKnown = Boolean(String(raw?.ingredients_text || '').trim())
+    || tags(raw?.states_tags).includes('ingredients-completed')
   return {
     barcode: String(raw?.code || barcode || ''),
     name: String(raw?.product_name || '').trim() || 'Unknown packaged food',
@@ -381,8 +425,8 @@ export function normaliseProduct(raw, barcode) {
     },
     completeness: {
       ingredients: Boolean(raw?.ingredients_text),
-      allergens: Array.isArray(raw?.allergens_tags),
-      traces: Array.isArray(raw?.traces_tags),
+      allergens: declared(raw?.allergens_tags, ingredientsKnown),
+      traces: declared(raw?.traces_tags, ingredientsKnown),
       nutrition: ['sugars_100g', 'sodium_100g', 'saturated-fat_100g']
         .every((key) => numberOrNull(nutriments[key]) != null),
     },
@@ -422,6 +466,9 @@ export async function lookupProduct(barcode, { refresh = false } = {}) {
   if (!code) throw new Error('Enter a valid EAN or UPC barcode.')
   if (isPlaceholderBarcode(code)) {
     throw new Error('This is a known example barcode, not a reliable product identifier. Enter the digits printed below the bars.')
+  }
+  if (isRestrictedCirculationBarcode(code)) {
+    throw new Error('This is a store label barcode, which only the shop itself can look up. Scan the package label instead.')
   }
   if (!refresh) {
     const cached = readCachedProduct(code)

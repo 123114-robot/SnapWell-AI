@@ -3,7 +3,8 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import {
   addOcrEvidence, assessProductSafety, dietaryStatus, normaliseBarcode,
-  normaliseProduct, isPlaceholderBarcode, parseAllergenStatements, parseNutritionPanel,
+  normaliseProduct, isPlaceholderBarcode, isRestrictedCirculationBarcode,
+  parseAllergenStatements, parseNutritionPanel,
 } from './productData.js'
 
 test('validates common retail barcodes', () => {
@@ -13,6 +14,57 @@ test('validates common retail barcodes', () => {
   assert.equal(normaliseBarcode('abc'), '')
   assert.equal(isPlaceholderBarcode('9312345678907'), true)
   assert.equal(isPlaceholderBarcode('9310052122539'), false)
+})
+
+// Codes decoded from the team's supermarket photos. The deli bacon label read
+// 28140139, which Open Food Facts lists as an unrelated chai latte.
+test('rejects store-assigned barcodes and keeps product barcodes', () => {
+  assert.equal(isRestrictedCirculationBarcode('28140139'), true)
+  assert.equal(isRestrictedCirculationBarcode('2212345678907'), true)
+  assert.equal(isRestrictedCirculationBarcode('212345678909'), true)
+  assert.equal(isRestrictedCirculationBarcode('512345678900'), true)
+  // 500-509 is the United Kingdom, not a coupon range
+  assert.equal(isRestrictedCirculationBarcode('5023456789010'), false)
+  assert.equal(isRestrictedCirculationBarcode('9300462348575'), false)
+  assert.equal(isRestrictedCirculationBarcode('9310645421957'), false)
+  assert.equal(isRestrictedCirculationBarcode('81234561'), false)
+  // UPC-E is also eight digits, but only ever starts with 0 or 1
+  assert.equal(isRestrictedCirculationBarcode('01234565'), false)
+  assert.equal(isRestrictedCirculationBarcode('not a barcode'), false)
+})
+
+// The record as Open Food Facts returned it for John West tuna, 9300462344690:
+// no ingredients yet, yet both allergen arrays present and empty.
+test('an empty allergen list without ingredients is not a declaration', () => {
+  const tuna = normaliseProduct({
+    code: '9300462344690', product_name: 'John west tuna',
+    ingredients_text: '', allergens_tags: [], traces_tags: [],
+    states_tags: ['en:to-be-completed', 'en:ingredients-to-be-completed'],
+    nutriments: {},
+  })
+  assert.equal(assessProductSafety(tuna, { allergies: ['No fish'] })[0].status, 'unknown')
+
+  const transcribed = normaliseProduct({
+    code: '9300601173839', allergens_tags: [], traces_tags: [],
+    ingredients_text: 'Tomato (99%), Basil, Oregano, Salt, Food Acid (Citric Acid).',
+    nutriments: {},
+  })
+  assert.equal(assessProductSafety(transcribed, { allergies: ['No fish'] })[0].status, 'clear')
+
+  const completedWithoutText = normaliseProduct({
+    code: '9300601173839', allergens_tags: [], traces_tags: [],
+    states_tags: ['en:ingredients-completed'], nutriments: {},
+  })
+  assert.equal(
+    assessProductSafety(completedWithoutText, { allergies: ['No fish'] })[0].status, 'clear',
+  )
+
+  // A named allergen is evidence on its own, with or without ingredients
+  const declaredOnly = normaliseProduct({
+    code: '9310645181233', allergens_tags: ['en:soybeans'], traces_tags: [],
+    ingredients_text: '', nutriments: {},
+  })
+  assert.equal(assessProductSafety(declaredOnly, { allergies: ['No soy'] })[0].status, 'conflict')
 })
 
 test('only confirms gluten-free and dairy-free with positive evidence', () => {
