@@ -41,3 +41,206 @@ body {
 p {
   margin: 0;
 }
+/* =========================================================
+   SnapWell Design System
+   ========================================================= */
+
+:root {
+  --sw-green: #174D38;
+  --sw-green-dark: #103D2C;
+  --sw-green-light: #E5F1E8;
+  --sw-green-soft: #F0F6F1;
+
+  --sw-bg: #F7F4EC;
+  --sw-surface: #FFFFFF;
+  --sw-surface-warm: #FCFAF5;
+
+  --sw-text: #172019;
+  --sw-text-secondary: #6E756F;
+  --sw-text-muted: #929892;
+
+  --sw-border: #E7E5DF;
+
+  --sw-radius-sm: 12px;
+  --sw-radius-md: 16px;
+  --sw-radius-lg: 22px;
+  --sw-radius-xl: 28px;
+
+  --sw-shadow-sm:
+    0 2px 8px rgba(24, 48, 36, 0.05);
+
+  --sw-shadow-md:
+    0 8px 24px rgba(24, 48, 36, 0.08);
+
+  --sw-shadow-lg:
+    0 16px 40px rgba(24, 48, 36, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--sw-bg);
+  color: var(--sw-text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Standard mobile page */
+.sw-page {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--sw-surface-warm);
+  padding: 20px 20px 110px;
+}
+
+/* Header */
+.sw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.sw-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sw-brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--sw-green);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.sw-brand-name {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+/* Typography */
+.sw-title {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -1.2px;
+  font-weight: 800;
+}
+
+.sw-subtitle {
+  margin: 10px 0 0;
+  color: var(--sw-text-secondary);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.sw-section-title {
+  margin: 28px 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sw-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Cards */
+.sw-card {
+  background: var(--sw-surface);
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-md);
+  box-shadow: var(--sw-shadow-sm);
+}
+
+.sw-card-elevated {
+  background: var(--sw-surface);
+  border-radius: var(--sw-radius-lg);
+  box-shadow: var(--sw-shadow-md);
+}
+
+/* Main green button */
+.sw-primary-button {
+  width: 100%;
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 0;
+  border-radius: 15px;
+
+  background: var(--sw-green);
+  color: white;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  box-shadow: 0 8px 20px rgba(23, 77, 56, 0.18);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.sw-primary-button:hover {
+  background: var(--sw-green-dark);
+  box-shadow: 0 10px 26px rgba(23, 77, 56, 0.24);
+}
+
+.sw-primary-button:active {
+  transform: scale(0.98);
+}
+
+/* Pills / Tags */
+.sw-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: var(--sw-green-light);
+  color: var(--sw-green);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Two-column layout */
+.sw-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
