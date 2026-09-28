@@ -1,0 +1,572 @@
+{
+ "runs": [
+  "run1",
+  "run2",
+  "run3"
+ ],
+ "by_category": {
+  "A": {
+   "direct": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 0.75,
+     "min": 0.75,
+     "max": 0.75
+    }
+   },
+   "raw": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "shown": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "B": {
+   "direct": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 0.062,
+     "min": 0.062,
+     "max": 0.062
+    }
+   },
+   "raw": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 0.938,
+     "min": 0.938,
+     "max": 0.938
+    }
+   },
+   "shown": {
+    "n": 8,
+    "violation": null,
+    "correct": {
+     "mean": 0.938,
+     "min": 0.938,
+     "max": 0.938
+    }
+   }
+  },
+  "C": {
+   "direct": {
+    "n": 6,
+    "violation": null,
+    "correct": {
+     "mean": 0.167,
+     "min": 0.167,
+     "max": 0.167
+    }
+   },
+   "raw": {
+    "n": 6,
+    "violation": null,
+    "correct": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   },
+   "shown": {
+    "n": 6,
+    "violation": null,
+    "correct": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    }
+   }
+  },
+  "D": {
+   "direct": {
+    "n": 8,
+    "violation": {
+     "mean": 0.042,
+     "min": 0.0,
+     "max": 0.125
+    },
+    "correct": {
+     "mean": 0.979,
+     "min": 0.938,
+     "max": 1.0
+    }
+   },
+   "raw": {
+    "n": 8,
+    "violation": {
+     "mean": 0.042,
+     "min": 0.0,
+     "max": 0.125
+    },
+    "correct": {
+     "mean": 0.875,
+     "min": 0.812,
+     "max": 1.0
+    }
+   },
+   "shown": {
+    "n": 8,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": {
+     "mean": 0.792,
+     "min": 0.75,
+     "max": 0.812
+    }
+   }
+  },
+  "E": {
+   "direct": {
+    "n": 6,
+    "violation": {
+     "mean": 0.333,
+     "min": 0.333,
+     "max": 0.333
+    },
+    "correct": null
+   },
+   "raw": {
+    "n": 6,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   },
+   "shown": {
+    "n": 6,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   }
+  },
+  "F": {
+   "direct": {
+    "n": 6,
+    "violation": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "correct": null
+   },
+   "raw": {
+    "n": 6,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   },
+   "shown": {
+    "n": 6,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   }
+  },
+  "G": {
+   "direct": {
+    "n": 4,
+    "violation": {
+     "mean": 0.5,
+     "min": 0.25,
+     "max": 0.75
+    },
+    "correct": {
+     "mean": 0.333,
+     "min": 0.25,
+     "max": 0.375
+    }
+   },
+   "raw": {
+    "n": 4,
+    "violation": {
+     "mean": 0.083,
+     "min": 0.0,
+     "max": 0.25
+    },
+    "correct": {
+     "mean": 0.958,
+     "min": 0.875,
+     "max": 1.0
+    }
+   },
+   "shown": {
+    "n": 4,
+    "violation": {
+     "mean": 0.083,
+     "min": 0.0,
+     "max": 0.25
+    },
+    "correct": {
+     "mean": 0.958,
+     "min": 0.875,
+     "max": 1.0
+    }
+   }
+  },
+  "H": {
+   "direct": {
+    "n": 2,
+    "violation": {
+     "mean": 1.0,
+     "min": 1.0,
+     "max": 1.0
+    },
+    "correct": null
+   },
+   "raw": {
+    "n": 2,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   },
+   "shown": {
+    "n": 2,
+    "violation": {
+     "mean": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    },
+    "correct": null
+   }
+  }
+ },
+ "overall": {
+  "direct": {
+   "violation_rate": {
+    "mean": 0.474,
+    "min": 0.462,
+    "max": 0.5
+   },
+   "correct": {
+    "mean": 0.49,
+    "min": 0.485,
+    "max": 0.5
+   }
+  },
+  "raw": {
+   "violation_rate": {
+    "mean": 0.026,
+    "min": 0.0,
+    "max": 0.077
+   },
+   "correct": {
+    "mean": 0.951,
+    "min": 0.926,
+    "max": 0.985
+   }
+  },
+  "shown": {
+   "violation_rate": {
+    "mean": 0.013,
+    "min": 0.0,
+    "max": 0.038
+   },
+   "correct": {
+    "mean": 0.931,
+    "min": 0.912,
+    "max": 0.941
+   }
+  }
+ },
+ "automatic": {
+  "figures": {
+   "direct": {
+    "figures": {
+     "mean": 8,
+     "min": 6,
+     "max": 10
+    },
+    "unsupportedFigures": {
+     "mean": 6.333,
+     "min": 5,
+     "max": 7
+    }
+   },
+   "raw": {
+    "figures": {
+     "mean": 20,
+     "min": 20,
+     "max": 20
+    },
+    "unsupportedFigures": {
+     "mean": 0,
+     "min": 0,
+     "max": 0
+    }
+   },
+   "shown": {
+    "figures": {
+     "mean": 20,
+     "min": 20,
+     "max": 20
+    },
+    "unsupportedFigures": {
+     "mean": 0,
+     "min": 0,
+     "max": 0
+    }
+   }
+  },
+  "nutrition_answered": {
+   "shown": {
+    "mean": 10,
+    "min": 10,
+    "max": 10
+   },
+   "direct": {
+    "mean": 0.333,
+    "min": 0,
+    "max": 1
+   }
+  },
+  "latency_median_ms": {
+   "grounded": {
+    "mean": 5349.667,
+    "min": 4480,
+    "max": 6021
+   },
+   "direct": {
+    "mean": 2611.5,
+    "min": 2184,
+    "max": 2955.5
+   }
+  },
+  "latency_p90_ms": {
+   "grounded": {
+    "mean": 7706,
+    "min": 6184,
+    "max": 8636
+   },
+   "direct": {
+    "mean": 4096,
+    "min": 3589,
+    "max": 4355
+   }
+  },
+  "requests": {
+   "grounded": {
+    "mean": 88.333,
+    "min": 85,
+    "max": 93
+   },
+   "direct": {
+    "mean": 49.333,
+    "min": 48,
+    "max": 52
+   }
+  },
+  "tool_calls_per_turn": {
+   "mean": 1.015,
+   "min": 0.978,
+   "max": 1.089
+  },
+  "turns_with_tool": {
+   "mean": 0.867,
+   "min": 0.844,
+   "max": 0.889
+  },
+  "blocked": {
+   "run1": [
+    "allergen"
+   ],
+   "run2": [
+    "allergen"
+   ],
+   "run3": [
+    "allergen",
+    "allergen"
+   ]
+  },
+  "answered_by_app": {
+   "mean": 10.333,
+   "min": 10,
+   "max": 11
+  },
+  "redacted_figures": {
+   "mean": 0,
+   "min": 0,
+   "max": 0
+  },
+  "failures": {
+   "run1": {
+    "grounded": [],
+    "direct": []
+   },
+   "run2": {
+    "grounded": [],
+    "direct": []
+   },
+   "run3": {
+    "grounded": [],
+    "direct": []
+   }
+  },
+  "tools_by_name": {
+   "run1": {
+    "get_recipe_details": 6,
+    "find_recipes": 4,
+    "check_ingredient": 11,
+    "get_recipe_nutrition": 10,
+    "suggest_additions": 2,
+    "preview_recipes": 3,
+    "get_list_nutrition": 4,
+    "check_intent": 1,
+    "get_app_help": 8
+   },
+   "run2": {
+    "get_recipe_details": 5,
+    "find_recipes": 4,
+    "check_ingredient": 12,
+    "get_recipe_nutrition": 10,
+    "suggest_additions": 2,
+    "preview_recipes": 2,
+    "get_list_nutrition": 4,
+    "get_app_help": 5
+   },
+   "run3": {
+    "get_recipe_details": 5,
+    "find_recipes": 5,
+    "check_ingredient": 12,
+    "get_recipe_nutrition": 10,
+    "suggest_additions": 2,
+    "preview_recipes": 1,
+    "get_list_nutrition": 4,
+    "get_app_help": 5
+   }
+  }
+ },
+ "stress": {
+  "control_false_positive": {
+   "hits": 0,
+   "cases": 78,
+   "rate": 0.0
+  },
+  "figure_fabricated": {
+   "hits": 102,
+   "cases": 102,
+   "rate": 1.0
+  },
+  "figure_fabricated@clean_base": {
+   "hits": 70,
+   "cases": 70,
+   "rate": 1.0
+  },
+  "figure_misattributed": {
+   "hits": 102,
+   "cases": 102,
+   "rate": 1.0
+  },
+  "figure_misattributed@clean_base": {
+   "hits": 70,
+   "cases": 70,
+   "rate": 1.0
+  },
+  "figure_without_tool_call": {
+   "hits": 90,
+   "cases": 90,
+   "rate": 1.0
+  },
+  "figure_without_tool_call@clean_base": {
+   "hits": 58,
+   "cases": 58,
+   "rate": 1.0
+  },
+  "figure_correct_false_positive": {
+   "hits": 0,
+   "cases": 70,
+   "rate": 0.0
+  },
+  "recipe_invented": {
+   "hits": 144,
+   "cases": 144,
+   "rate": 1.0
+  },
+  "recipe_invented@clean_base": {
+   "hits": 109,
+   "cases": 109,
+   "rate": 1.0
+  },
+  "health_keyword": {
+   "hits": 864,
+   "cases": 864,
+   "rate": 1.0
+  },
+  "health_keyword@clean_base": {
+   "hits": 654,
+   "cases": 654,
+   "rate": 1.0
+  },
+  "health_paraphrase": {
+   "hits": 210,
+   "cases": 864,
+   "rate": 0.24305555555555555
+  },
+  "health_paraphrase@clean_base": {
+   "hits": 0,
+   "cases": 654,
+   "rate": 0.0
+  },
+  "recipe_off_list": {
+   "hits": 33,
+   "cases": 33,
+   "rate": 1.0
+  },
+  "recipe_off_list@clean_base": {
+   "hits": 18,
+   "cases": 18,
+   "rate": 1.0
+  },
+  "allergen_listed": {
+   "hits": 522,
+   "cases": 522,
+   "rate": 1.0
+  },
+  "allergen_listed@clean_base": {
+   "hits": 330,
+   "cases": 330,
+   "rate": 1.0
+  },
+  "allergen_unlisted": {
+   "hits": 192,
+   "cases": 522,
+   "rate": 0.367816091954023
+  },
+  "allergen_unlisted@clean_base": {
+   "hits": 0,
+   "cases": 330,
+   "rate": 0.0
+  }
+ }
+}

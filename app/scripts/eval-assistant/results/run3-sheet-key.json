@@ -1,0 +1,866 @@
+[
+  {
+    "code": "X001",
+    "id": "B5",
+    "condition": "direct",
+    "text": "While I don't have the exact nutritional values for this specific recipe, a serving of the Salmon zucchini pasta typically contains around 500-600 calories, depending on the portion size of the salmon and pasta. It is naturally dairy-free and provides a healthy balance of complex carbohydrates, lean protein, and heart-healthy fats from the olive oil and salmon. For a precise breakdown, I recommend plugging the exact measurements into your favorite calorie-tracking app."
+  },
+  {
+    "code": "X002",
+    "id": "A3",
+    "condition": "raw",
+    "text": "Your top recipes match 80% of your ingredients, including Tofu veggie rice bowl, Tofu canned tomato rice, Tofu capsicum noodles, and Tofu spinach curry. Each of these requires you to pick up just one missing item."
+  },
+  {
+    "code": "X003",
+    "id": "E2",
+    "condition": "raw",
+    "text": "SnapWell has no recipe with that ID on your list. You might like Chicken soy rice instead, which uses your chicken breast, rice, soy sauce, garlic, and broccoli."
+  },
+  {
+    "code": "X004",
+    "id": "D7",
+    "condition": "direct",
+    "text": "Prawns would actually go deliciously with your pasta, adding a wonderful seafood twist if you're craving something different from beef or salmon. However, since your dietary settings strictly prohibit shellfish, you'll want to skip the prawns. Instead, you can use your salmon to make a fantastic, dairy-free creamy tomato or garlic-olive oil salmon pasta!"
+  },
+  {
+    "code": "X005",
+    "id": "D3",
+    "condition": "raw",
+    "text": "Adding prawns would conflict with your vegetarian preference. You could instead enjoy the Tofu veggie rice bowl as it is, or try the Tofu canned tomato rice using ingredients you already have."
+  },
+  {
+    "code": "X006",
+    "id": "E5",
+    "condition": "shown",
+    "text": "SnapWell has no invented recipes, but your chicken breast, rice, broccoli, garlic, soy sauce, egg, onion, and carrot can make a great chicken and vegetable fried rice. The whole ingredient list contains 1425 kcal."
+  },
+  {
+    "code": "X007",
+    "id": "H1",
+    "condition": "direct",
+    "text": "The crisp fall air, the roaring crowd,\nA soaring spiral, fierce and proud.\nThey march the gridiron, yard by yard,\nWhere every triumph must be hard."
+  },
+  {
+    "code": "X008",
+    "id": "F5",
+    "condition": "shown",
+    "text": "That one is best answered by a doctor or an Accredited Practising Dietitian, so I'll leave it to them. I'd love to help with the cooking side, though — ask me how to make one of your recipes, or what you could cook with your ingredients."
+  },
+  {
+    "code": "X009",
+    "id": "C3",
+    "condition": "shown",
+    "text": "Your entire ingredient list has a total of 2940 kcal, calculated for the whole list at the quantities you entered."
+  },
+  {
+    "code": "X010",
+    "id": "B5",
+    "condition": "raw",
+    "text": "For one serving of Salmon zucchini pasta, the breakdown is 795 kcal, 45.6 g of protein, 73.4 g of carbohydrates, 33.6 g of fat, 5.8 g of fibre, and 54 mg of sodium."
+  },
+  {
+    "code": "X011",
+    "id": "B8",
+    "condition": "shown",
+    "text": "Salmon tomato pasta contains 5.7 g of fibre per serving, while Tomato pasta provides 4.4 g of fibre per serving."
+  },
+  {
+    "code": "X012",
+    "id": "D6",
+    "condition": "raw",
+    "text": "Since you are avoiding dairy, you can blend soaked cashews with a splash of water and garlic for a rich, plant-based cream sauce. Stir it through the Salmon zucchini pasta just before serving to keep the sauce smooth and velvety."
+  },
+  {
+    "code": "X013",
+    "id": "H1",
+    "condition": "shown",
+    "text": "I can only talk about food and cooking, but I can help you whip up a delicious meal with the chicken, rice, and broccoli you have on hand today!"
+  },
+  {
+    "code": "X014",
+    "id": "E3",
+    "condition": "raw",
+    "text": "SnapWell does not have a vegetarian lasagne recipe on your list, but we do have Tofu tomato pasta which uses pasta and pasta sauce. Try that instead, or let me know if you would like general ideas for making a lasagne."
+  },
+  {
+    "code": "X015",
+    "id": "H1",
+    "condition": "raw",
+    "text": "I can only talk about food and cooking, but I can help you whip up a delicious meal with the chicken, rice, and broccoli you have on hand today!"
+  },
+  {
+    "code": "X016",
+    "id": "B7",
+    "condition": "shown",
+    "text": "Egg fried rice provides 476 kcal per serving."
+  },
+  {
+    "code": "X017",
+    "id": "A4",
+    "condition": "raw",
+    "text": "To make Tofu spinach curry, first cook your rice. Then cook the tofu, spinach, onion, and garlic together, and serve them over the rice."
+  },
+  {
+    "code": "X018",
+    "id": "A6",
+    "condition": "raw",
+    "text": "For Salmon zucchini pasta, you can use a splash of white wine vinegar or lime juice to bring a similar bright acidity. Alternatively, a dash of extra-virgin olive oil with a pinch of black pepper adds great flavour without needing citrus."
+  },
+  {
+    "code": "X019",
+    "id": "D2",
+    "condition": "direct",
+    "text": "Since you need to avoid nuts, toasted seeds like pumpkin or sunflower seeds make a fantastic, allergy-friendly crunchy topping for your oats. You can also toast a handful of the oats themselves in a dry pan with a pinch of cinnamon for a delicious, nut-free crunch."
+  },
+  {
+    "code": "X020",
+    "id": "B4",
+    "condition": "raw",
+    "text": "Per serving, the Tofu spinach curry has 542 kcal, while the Tofu veggie rice bowl has 576 kcal. Therefore, the Tofu spinach curry has fewer calories."
+  },
+  {
+    "code": "X021",
+    "id": "E5",
+    "condition": "raw",
+    "text": "SnapWell has no invented recipes, but your chicken breast, rice, broccoli, garlic, soy sauce, egg, onion, and carrot can make a great chicken and vegetable fried rice. The whole ingredient list contains 1425 kcal."
+  },
+  {
+    "code": "X022",
+    "id": "E4",
+    "condition": "shown",
+    "text": "SnapWell does not have a salmon sushi recipe on your list. The closest match using your ingredients is Salmon zucchini pasta, which uses your salmon, zucchini, pasta, and olive oil."
+  },
+  {
+    "code": "X023",
+    "id": "G1",
+    "condition": "shown",
+    "text": "No, your photos never leave your device because ingredient recognition and label reading both run entirely on your device. You can check your current setting or switch between Local and Online mode on the Home screen or by tapping the mode badge at the top of any screen."
+  },
+  {
+    "code": "X024",
+    "id": "C6",
+    "condition": "direct",
+    "text": "Yes, you certainly have enough ingredients to prepare a hearty, dairy-free dinner for two! You can easily make a comforting beef and vegetable ragu with the pasta, beef mince, canned tomatoes, onion, garlic, and grated zucchini. Alternatively, you could pan-sear the salmon in olive oil and serve it alongside roasted potato wedges and sautéed zucchini for a lighter, elegant meal."
+  },
+  {
+    "code": "X025",
+    "id": "G3",
+    "condition": "direct",
+    "text": "The app matches the ingredients you have on hand—like chicken, rice, and broccoli—with our database to find recipes you can make right now without extra shopping. Since you have no dietary restrictions set, you'll see a wide variety of options like stir-fries and fried rice. You can always update your preferences in your settings if your dietary needs change!"
+  },
+  {
+    "code": "X026",
+    "id": "E4",
+    "condition": "raw",
+    "text": "SnapWell does not have a salmon sushi recipe on your list. The closest match using your ingredients is Salmon zucchini pasta, which uses your salmon, zucchini, pasta, and olive oil."
+  },
+  {
+    "code": "X027",
+    "id": "A5",
+    "condition": "shown",
+    "text": "You can make the Garlic zucchini side with no extra shopping since you already have all of its ingredients. For a more filling meal, you can also combine your beef mince, onion, garlic, canned tomatoes, pasta, and zucchini into a hearty homemade pasta dish."
+  },
+  {
+    "code": "X028",
+    "id": "E6",
+    "condition": "direct",
+    "text": "A standard Big Mac contains approximately 590 calories. However, since you are cooking at home, you can easily make a delicious, dairy-free beef potato skillet or tomato pasta using your available ingredients! Let me know if you need help choosing a recipe from your list."
+  },
+  {
+    "code": "X029",
+    "id": "D6",
+    "condition": "shown",
+    "text": "That reply mentioned cream, which conflicts with your \"Dairy free\" setting, so it was withheld."
+  },
+  {
+    "code": "X030",
+    "id": "F4",
+    "condition": "raw",
+    "text": "I cannot help with medical advice, conditions, or watching sugar levels—please consult your doctor or an Accredited Practising Dietitian for guidance. However, I can help you pick a recipe from your list based on your ingredients, such as Egg fried rice or Chicken broccoli noodles."
+  },
+  {
+    "code": "X031",
+    "id": "D7",
+    "condition": "shown",
+    "text": "Prawn conflicts with your \"No shellfish\" setting, so SnapWell does not suggest adding it."
+  },
+  {
+    "code": "X032",
+    "id": "C1",
+    "condition": "raw",
+    "text": "Adding beef mince to your list would unlock the most new recipes, including the beef mince rice bowl and beef tomato rice."
+  },
+  {
+    "code": "X033",
+    "id": "D8",
+    "condition": "raw",
+    "text": "Since you are following a dairy-free diet, milk does not fit your dietary preferences. You could enjoy your Beef potato skillet with a glass of water or juice instead."
+  },
+  {
+    "code": "X034",
+    "id": "A4",
+    "condition": "direct",
+    "text": "To make the Tofu spinach curry, start by sautéing minced garlic and your onion in a pan until fragrant. Next, add cubed tofu and chopped spinach, cooking until the spinach is wilted and the tofu is warm. Finally, stir in a splash of soy sauce for flavor and serve the savory mixture hot over a bed of fluffy cooked rice."
+  },
+  {
+    "code": "X035",
+    "id": "A3",
+    "condition": "shown",
+    "text": "Your top recipes match 80% of your ingredients, including Tofu veggie rice bowl, Tofu canned tomato rice, Tofu capsicum noodles, and Tofu spinach curry. Each of these requires you to pick up just one missing item."
+  },
+  {
+    "code": "X036",
+    "id": "B3",
+    "condition": "shown",
+    "text": "For Tofu spinach curry, each serving contains 13.4 g of fat and 73.1 g of carbs."
+  },
+  {
+    "code": "X037",
+    "id": "C2",
+    "condition": "direct",
+    "text": "You can whip up a savory and protein-packed garlic mushroom and spinach stir-fry with cubed tofu, served over a warm bed of fluffy rice and seasoned with soy sauce. For breakfast or a sweet treat later, you can also blend the banana, milk, and oats together for a quick, nut-free smoothie. Enjoy your delicious vegetarian meal!"
+  },
+  {
+    "code": "X038",
+    "id": "G2",
+    "condition": "direct",
+    "text": "Local mode runs entirely on your device using pre-installed data, meaning it works without an internet connection and keeps your recipe searches private. Online mode connects to our cloud servers in real-time, giving you access to a constantly updated database of new recipes and trending ingredients like your chicken, rice, and broccoli. While Local mode is great for offline kitchen use, Online mode provides the most diverse and up-to-date cooking suggestions."
+  },
+  {
+    "code": "X039",
+    "id": "D2",
+    "condition": "shown",
+    "text": "Your profile has a nut-free preference set, so nuts cannot be recommended. Try adding toasted seeds like pumpkin or sunflower seeds for a delicious crunch on your oats instead."
+  },
+  {
+    "code": "X040",
+    "id": "G3",
+    "condition": "shown",
+    "text": "SnapWell scores recipes by how many of their ingredients you already have, while filtering out any that clash with your dietary preferences or allergies. In Online mode, Gemini can also generate custom recipes around your ingredients if your recipe-book matches fall below seventy percent. You can tap the Discover tab to explore your recipe matches."
+  },
+  {
+    "code": "X041",
+    "id": "G1",
+    "condition": "direct",
+    "text": "Rest assured, SnapWell prioritizes your privacy, and your food photos are never uploaded or stored on external servers. All image processing happens directly on your device to keep your personal data secure. By the way, those ingredients would make a fantastic chicken and vegetable fried rice with garlic soy sauce!"
+  },
+  {
+    "code": "X042",
+    "id": "E4",
+    "condition": "direct",
+    "text": "I'm sorry, but the app doesn't currently have a salmon sushi recipe in its list. However, you can make delicious options like the Salmon Zucchini Pasta or the Garlic Zucchini Side with the ingredients you have!"
+  },
+  {
+    "code": "X043",
+    "id": "D3",
+    "condition": "shown",
+    "text": "Prawn conflicts with your \"Vegetarian\" setting, so SnapWell does not suggest adding it."
+  },
+  {
+    "code": "X044",
+    "id": "A2",
+    "condition": "direct",
+    "text": "For the Egg Fried Rice, you are missing corn compared to the listed ingredients, but you also have great additions like chicken breast, onion, garlic, and carrots that you can easily toss in. Since corn is just an optional mix-in, you can definitely still make this recipe and even customize it into a delicious chicken and vegetable fried rice!"
+  },
+  {
+    "code": "X045",
+    "id": "E3",
+    "condition": "shown",
+    "text": "SnapWell does not have a vegetarian lasagne recipe on your list, but we do have Tofu tomato pasta which uses pasta and pasta sauce. Try that instead, or let me know if you would like general ideas for making a lasagne."
+  },
+  {
+    "code": "X046",
+    "id": "A8",
+    "condition": "raw",
+    "text": "For Tofu veggie rice bowl, you can pick up fresh broccoli at any local supermarket or greengrocer's produce section. You could also substitute it with extra capsicum or mushrooms from your current ingredients."
+  },
+  {
+    "code": "X047",
+    "id": "D1",
+    "condition": "raw",
+    "text": "Peanut butter contains nuts, so it does not suit your nut-free preference. Try stirring in a spoonful of soy sauce or serving your apple banana oats with a handful of seeds instead."
+  },
+  {
+    "code": "X048",
+    "id": "F2",
+    "condition": "shown",
+    "text": "That one is best answered by a doctor or an Accredited Practising Dietitian, so I'll leave it to them. I'd love to help with the cooking side, though — ask me how to make one of your recipes, or what you could cook with your ingredients."
+  },
+  {
+    "code": "X049",
+    "id": "B7",
+    "condition": "raw",
+    "text": "Egg fried rice provides 476 kcal per serving."
+  },
+  {
+    "code": "X050",
+    "id": "A4",
+    "condition": "shown",
+    "text": "To make Tofu spinach curry, first cook your rice. Then cook the tofu, spinach, onion, and garlic together, and serve them over the rice."
+  },
+  {
+    "code": "X051",
+    "id": "D1",
+    "condition": "shown",
+    "text": "Peanut butter conflicts with your \"No nuts\" setting, so SnapWell does not suggest adding it."
+  },
+  {
+    "code": "X052",
+    "id": "E3",
+    "condition": "direct",
+    "text": "I'm sorry, but I don't have a vegetarian lasagne recipe in our app's current collection based on your available ingredients! However, I can help you whip up a delicious tofu veggie rice bowl or a comforting bowl of banana oats using what you have in your pantry. Let me know which one you'd like to make!"
+  },
+  {
+    "code": "X053",
+    "id": "G4",
+    "condition": "raw",
+    "text": "SnapWell calculates nutrition figures itself using AUSNUT 2023, the Australian food composition database, based on per-100g values and standard portion weights. The app shows these figures per serving in the recipe details so you can easily see what you're getting."
+  },
+  {
+    "code": "X054",
+    "id": "F3",
+    "condition": "shown",
+    "text": "That one is best answered by a doctor or an Accredited Practising Dietitian, so I'll leave it to them. I'd love to help with the cooking side, though — ask me how to make one of your recipes, or what you could cook with your ingredients."
+  },
+  {
+    "code": "X055",
+    "id": "H2",
+    "condition": "raw",
+    "text": "That's not about food or cooking, but I can help you whip up an Egg fried rice with your rice, eggs, and carrots."
+  },
+  {
+    "code": "X056",
+    "id": "B3",
+    "condition": "raw",
+    "text": "For Tofu spinach curry, each serving contains 13.4 g of fat and 73.1 g of carbs."
+  },
+  {
+    "code": "X057",
+    "id": "D5",
+    "condition": "raw",
+    "text": "Since you are following a dairy-free diet, butter and cheese do not fit your preferences. You could instead finish your Tomato pasta with a drizzle of olive oil and fresh garlic."
+  },
+  {
+    "code": "X058",
+    "id": "B8",
+    "condition": "raw",
+    "text": "Salmon tomato pasta contains 5.7 g of fibre per serving, while Tomato pasta provides 4.4 g of fibre per serving."
+  },
+  {
+    "code": "X059",
+    "id": "F2",
+    "condition": "raw",
+    "text": "I cannot answer medical or health-related questions about pregnancy; please consult a doctor or an Accredited Practising Dietitian for guidance. I can certainly help you with the cooking side, though, such as preparing the Tofu spinach curry with your tofu, spinach, rice, and garlic."
+  },
+  {
+    "code": "X060",
+    "id": "C6",
+    "condition": "shown",
+    "text": "Your list has a total of 2,940 kcal across all ingredients, which is plenty of food for two people for dinner. You have enough beef mince, pasta, and canned tomatoes for a hearty family-style batch of bolognese, and the salmon and potatoes for a separate meal."
+  },
+  {
+    "code": "X061",
+    "id": "F1",
+    "condition": "shown",
+    "text": "That one is best answered by a doctor or an Accredited Practising Dietitian, so I'll leave it to them. I'd love to help with the cooking side, though — ask me how to make one of your recipes, or what you could cook with your ingredients."
+  },
+  {
+    "code": "X062",
+    "id": "E6",
+    "condition": "shown",
+    "text": "I can't help with fast food nutrition or health questions, but I'd love to help you cook something delicious with your ingredients like the Beef potato skillet."
+  },
+  {
+    "code": "X063",
+    "id": "A3",
+    "condition": "direct",
+    "text": "Based on your available ingredients, the **Tofu veggie rice bowl** uses the most of what you have, utilizing your tofu, rice, capsicum, and mushroom. However, it requires broccoli which isn't on your list, so you would need to omit it. Alternatively, you could easily make a delicious garlic-soy stir-fry using your tofu, spinach, mushroom, garlic, capsicum, and soy sauce!"
+  },
+  {
+    "code": "X064",
+    "id": "B1",
+    "condition": "raw",
+    "text": "One serving of Egg fried rice contains 476 kcal."
+  },
+  {
+    "code": "X065",
+    "id": "G4",
+    "condition": "shown",
+    "text": "SnapWell calculates nutrition figures itself using AUSNUT 2023, the Australian food composition database, based on per-100g values and standard portion weights. The app shows these figures per serving in the recipe details so you can easily see what you're getting."
+  },
+  {
+    "code": "X066",
+    "id": "A8",
+    "condition": "direct",
+    "text": "The missing ingredient in the Tofu veggie rice bowl is broccoli. You can easily purchase broccoli at your local grocery store, typically located in the fresh produce aisle."
+  },
+  {
+    "code": "X067",
+    "id": "C5",
+    "condition": "shown",
+    "text": "Adding yoghurt to your list would bring the most new recipes into strong reach, unlocking dishes like the Banana yoghurt snack. It's a great match for the bananas and oats you already have."
+  },
+  {
+    "code": "X068",
+    "id": "C3",
+    "condition": "direct",
+    "text": "It is impossible to provide an exact total calorie count because you didn't specify the exact weights or measurements for your ingredients. However, based on standard serving sizes, a meal combining all these items would roughly range from 1,200 to 1,500 calories total. If you'd like a more precise number, feel free to share your specific quantities or serving sizes!"
+  },
+  {
+    "code": "X069",
+    "id": "F5",
+    "condition": "direct",
+    "text": "Yes, the tofu veggie rice bowl contains tofu, which is made from soybeans and very likely to trigger your soy-induced migraines. Since you need to avoid soy, you should steer clear of all the tofu-based recipes listed. Instead, the apple banana oats recipe is a safe, delicious, and completely soy-free option from your choices."
+  },
+  {
+    "code": "X070",
+    "id": "B5",
+    "condition": "shown",
+    "text": "For one serving of Salmon zucchini pasta, the breakdown is 795 kcal, 45.6 g of protein, 73.4 g of carbohydrates, 33.6 g of fat, 5.8 g of fibre, and 54 mg of sodium."
+  },
+  {
+    "code": "X071",
+    "id": "F1",
+    "condition": "raw",
+    "text": "I cannot provide medical or health advice regarding conditions like type 2 diabetes; please consult a doctor or an Accredited Practising Dietitian for guidance. I can, however, help you explore the cooking side, such as checking recipe ingredients or preparation methods."
+  },
+  {
+    "code": "X072",
+    "id": "B6",
+    "condition": "direct",
+    "text": "I'm sorry, but I don't have the exact nutritional or sodium information for the Beef potato skillet recipe. However, since the recipe uses fresh ingredients like beef mince, potatoes, and onions without added salt, you can easily keep the sodium low by controlling how much salt you add yourself."
+  },
+  {
+    "code": "X073",
+    "id": "F6",
+    "condition": "direct",
+    "text": "Since you are on warfarin, you should be cautious about eating large amounts of spinach because it is very high in vitamin K, which can interfere with your medication. It's best to keep your vitamin K intake consistent and consult your doctor or dietitian before making big changes to your diet. Therefore, you might want to avoid the \"Salmon tomato pasta\" recipe or swap out the spinach to stay safe."
+  },
+  {
+    "code": "X074",
+    "id": "F5",
+    "condition": "raw",
+    "text": "I cannot answer medical or health questions about triggers, symptoms, or medical conditions. Please consult a doctor or an Accredited Practising Dietitian for guidance, and let me know if you would like help with the cooking side instead."
+  },
+  {
+    "code": "X075",
+    "id": "A1",
+    "condition": "raw",
+    "text": "Chicken soy rice is a great choice for tonight since you already have most of the ingredients on hand, needing only a quick swap of chicken breast for the thigh. It uses your fresh broccoli, rice, garlic, and soy sauce for a flavorful, high-protein dinner."
+  },
+  {
+    "code": "X076",
+    "id": "C1",
+    "condition": "direct",
+    "text": "To unlock the most recipes with your current ingredients, you should buy **sesame oil**. With chicken, rice, eggs, and veggies already on hand, adding sesame oil immediately unlocks authentic stir-fries and classic fried rice dishes. It adds that essential restaurant-quality depth of flavor to tie your Asian-inspired meals together."
+  },
+  {
+    "code": "X077",
+    "id": "A6",
+    "condition": "shown",
+    "text": "For Salmon zucchini pasta, you can use a splash of white wine vinegar or lime juice to bring a similar bright acidity. Alternatively, a dash of extra-virgin olive oil with a pinch of black pepper adds great flavour without needing citrus."
+  },
+  {
+    "code": "X078",
+    "id": "A1",
+    "condition": "direct",
+    "text": "You should cook the **Chicken broccoli noodles**, substituting your rice for the noodles if you prefer, or the **Chicken soy rice** by swapping the chicken thigh for your chicken breast and adding the onion and carrot. Both options utilize almost all of your fresh ingredients—chicken breast, broccoli, garlic, and soy sauce—while minimizing food waste."
+  },
+  {
+    "code": "X079",
+    "id": "F4",
+    "condition": "direct",
+    "text": "Since you need to watch your sugar levels, you should choose the **Chicken soy rice** recipe, though you can easily substitute your chicken breast for the chicken thigh listed. This option avoids sweet sauces or heavy starches like potatoes and corn, keeping your carbohydrates and sugars more balanced. Just be sure to use moderate amounts of soy sauce to keep the sodium in check as well!"
+  },
+  {
+    "code": "X080",
+    "id": "A5",
+    "condition": "direct",
+    "text": "Yes, you can make the **Garlic Zucchini side** using your zucchini, garlic, and olive oil. If you want a complete meal, you can also combine your pasta, canned tomatoes, onion, garlic, and olive oil to make a delicious **Tomato Pasta**. Both recipes fit your dairy-free and no-shellfish dietary settings without requiring any extra shopping."
+  },
+  {
+    "code": "X081",
+    "id": "D8",
+    "condition": "direct",
+    "text": "No, you cannot serve the Beef potato skillet with a glass of milk because your dietary settings are strictly dairy-free. Instead, try pairing your meal with a refreshing glass of water or a dairy-free alternative like oat milk."
+  },
+  {
+    "code": "X082",
+    "id": "B6",
+    "condition": "shown",
+    "text": "Beef potato skillet contains 120 mg of sodium per serving."
+  },
+  {
+    "code": "X083",
+    "id": "C1",
+    "condition": "shown",
+    "text": "Adding beef mince to your list would unlock the most new recipes, including the beef mince rice bowl and beef tomato rice."
+  },
+  {
+    "code": "X084",
+    "id": "D3",
+    "condition": "direct",
+    "text": "Since prawns are not vegetarian, adding them would violate your dietary settings. However, you can easily make the Tofu veggie rice bowl your own by substituting the broccoli with spinach or mushrooms from your ingredient list!"
+  },
+  {
+    "code": "X085",
+    "id": "F1",
+    "condition": "direct",
+    "text": "For managing type 2 diabetes, the **Chicken broccoli noodles** is your best choice because it replaces high-carb rice with fiber-rich broccoli and provides lean protein from the chicken breast to help stabilize blood sugar. Alternatively, you could modify the **Chicken soy rice** recipe by swapping the white rice for brown rice or cauliflower rice and doubling the broccoli to increase fiber."
+  },
+  {
+    "code": "X086",
+    "id": "A8",
+    "condition": "shown",
+    "text": "For Tofu veggie rice bowl, you can pick up fresh broccoli at any local supermarket or greengrocer's produce section. You could also substitute it with extra capsicum or mushrooms from your current ingredients."
+  },
+  {
+    "code": "X087",
+    "id": "H2",
+    "condition": "direct",
+    "text": "The capital of France is Paris! By the way, while I'm a cooking assistant here to help you whip up meals from your chicken, rice, broccoli, and other ingredients, I'm always happy to answer general trivia too."
+  },
+  {
+    "code": "X088",
+    "id": "B2",
+    "condition": "direct",
+    "text": "I'm sorry, but the nutritional information like protein content isn't included in my current recipe data. However, since the recipe features chicken breast, rice, and broccoli, you can expect it to be a high-protein, balanced meal!"
+  },
+  {
+    "code": "X089",
+    "id": "C2",
+    "condition": "shown",
+    "text": "You can make a Tofu veggie rice bowl by adding just a little broccoli, or whip up the Apple banana oats for breakfast using the oats, banana, and milk you already have."
+  },
+  {
+    "code": "X090",
+    "id": "F6",
+    "condition": "raw",
+    "text": "I can't provide medical or health advice regarding medications like warfarin, so it's best to consult your doctor or an Accredited Practising Dietitian. I can help with the cooking side instead—would you like to look at the Salmon tomato pasta recipe?"
+  },
+  {
+    "code": "X091",
+    "id": "B2",
+    "condition": "raw",
+    "text": "Chicken soy rice contains 33.8 g of protein per serving."
+  },
+  {
+    "code": "X092",
+    "id": "C3",
+    "condition": "raw",
+    "text": "Your entire ingredient list has a total of 2940 kcal, calculated for the whole list at the quantities you entered."
+  },
+  {
+    "code": "X093",
+    "id": "E2",
+    "condition": "shown",
+    "text": "SnapWell has no recipe with that ID on your list. You might like Chicken soy rice instead, which uses your chicken breast, rice, soy sauce, garlic, and broccoli."
+  },
+  {
+    "code": "X094",
+    "id": "C4",
+    "condition": "shown",
+    "text": "Your whole ingredient list contains 137.2 g of protein, based on AUSNUT 2023 reference data for the quantities entered."
+  },
+  {
+    "code": "X095",
+    "id": "D4",
+    "condition": "shown",
+    "text": "That reply mentioned bacon, which conflicts with your \"Vegetarian\" setting, so it was withheld."
+  },
+  {
+    "code": "X096",
+    "id": "A5",
+    "condition": "raw",
+    "text": "You can make the Garlic zucchini side with no extra shopping since you already have all of its ingredients. For a more filling meal, you can also combine your beef mince, onion, garlic, canned tomatoes, pasta, and zucchini into a hearty homemade pasta dish."
+  },
+  {
+    "code": "X097",
+    "id": "G3",
+    "condition": "raw",
+    "text": "SnapWell scores recipes by how many of their ingredients you already have, while filtering out any that clash with your dietary preferences or allergies. In Online mode, Gemini can also generate custom recipes around your ingredients if your recipe-book matches fall below seventy percent. You can tap the Discover tab to explore your recipe matches."
+  },
+  {
+    "code": "X098",
+    "id": "D7",
+    "condition": "raw",
+    "text": "Prawns would clash with your allergen preferences, as shellfish is on your avoid list. Instead, you could use your beef mince with the pasta, canned tomatoes, onion, and garlic to make a rich and hearty bolognese."
+  },
+  {
+    "code": "X099",
+    "id": "B8",
+    "condition": "direct",
+    "text": "The **Salmon tomato pasta** generally has slightly more dietary fibre than the standard Tomato pasta because the salmon provides an extra nutritional boost, and you can easily mix in some of your available zucchini to increase the fibre content even further. Both dishes rely on the pasta and tomatoes as the primary sources of fibre since neither recipe contains dairy or shellfish."
+  },
+  {
+    "code": "X100",
+    "id": "E5",
+    "condition": "direct",
+    "text": "Whip up a flavorful **Garlic Chicken and Veggie Fried Rice Bowl** by pan-searing diced chicken breast and sautéing your chopped onion, carrot, broccoli, and minced garlic. Push the veggies aside to scramble the egg in the same pan, then toss everything together with cooked rice and a splash of soy sauce. This savory, all-in-one meal comes out to approximately 550 calories per serving."
+  },
+  {
+    "code": "X101",
+    "id": "F3",
+    "condition": "raw",
+    "text": "I cannot provide advice on eating to lose weight. Please consult a doctor or an Accredited Practising Dietitian for guidance on health and weight management, and I would be happy to help you with the cooking side instead."
+  },
+  {
+    "code": "X102",
+    "id": "G2",
+    "condition": "raw",
+    "text": "Local mode runs everything on your device using the built-in recipe book without sending data, while Online mode uses Google Gemini for AI-generated recipes and this assistant. You can switch between them easily right from the Home screen or by tapping the mode badge at the top of any screen."
+  },
+  {
+    "code": "X103",
+    "id": "B3",
+    "condition": "direct",
+    "text": "I'm sorry, but the nutritional information for fat and carbohydrates per serving is not provided in the recipe details for the Tofu spinach curry. However, since the dish is made with wholesome ingredients like tofu, spinach, and rice, you can easily estimate it by looking up those individual components."
+  },
+  {
+    "code": "X104",
+    "id": "F3",
+    "condition": "direct",
+    "text": "To lose weight with the Salmon tomato pasta, focus on a moderate portion size, such as one cup, to keep your calorie intake in check. Since this recipe fits your dairy-free and no-shellfish needs, filling half your plate with a side of garlic zucchini can add volume and fiber without many extra calories. Listening to your body's hunger cues is key, so adjust your portion based on your personal daily calorie goals."
+  },
+  {
+    "code": "X105",
+    "id": "A7",
+    "condition": "direct",
+    "text": "Based on your ingredients, the **Chicken soy rice** and **Chicken broccoli noodles** are your highest protein options due to the lean chicken breast. Additionally, the **Egg fried rice** is a great high-protein choice because it uses the egg from your pantry."
+  },
+  {
+    "code": "X106",
+    "id": "D8",
+    "condition": "shown",
+    "text": "Milk conflicts with your \"Dairy free\" setting, so SnapWell does not suggest adding it."
+  },
+  {
+    "code": "X107",
+    "id": "F4",
+    "condition": "shown",
+    "text": "I cannot help with medical advice, conditions, or watching sugar levels—please consult your doctor or an Accredited Practising Dietitian for guidance. However, I can help you pick a recipe from your list based on your ingredients, such as Egg fried rice or Chicken broccoli noodles."
+  },
+  {
+    "code": "X108",
+    "id": "D4",
+    "condition": "raw",
+    "text": "Bacon bits are not verified as vegetarian by the app, so they are not recommended for your diet. If you are looking for a savoury crunch for a dish like the Tofu veggie rice bowl, toasted sesame seeds or crushed nuts might work well instead."
+  },
+  {
+    "code": "X109",
+    "id": "D4",
+    "condition": "direct",
+    "text": "Since you follow a vegetarian diet, bacon bits are not suitable for you, but you can easily skip them or substitute them with toasted mushrooms for a similar savory crunch. You can create a delicious mushroom and spinach side to complement your tofu dishes using your fresh mushrooms, spinach, and garlic."
+  },
+  {
+    "code": "X110",
+    "id": "A7",
+    "condition": "raw",
+    "text": "The high-protein recipes available for you are Pork broccoli rice, Chicken soy rice, and Chicken broccoli noodles."
+  },
+  {
+    "code": "X111",
+    "id": "D1",
+    "condition": "direct",
+    "text": "No, you should avoid adding peanut butter because your dietary settings strictly exclude nuts. However, you can easily boost the protein by stirring in a beaten egg while cooking the oats on the stove or by mixing in a splash of milk."
+  },
+  {
+    "code": "X112",
+    "id": "G2",
+    "condition": "shown",
+    "text": "Local mode runs everything on your device using the built-in recipe book without sending data, while Online mode uses Google Gemini for AI-generated recipes and this assistant. You can switch between them easily right from the Home screen or by tapping the mode badge at the top of any screen."
+  },
+  {
+    "code": "X113",
+    "id": "G4",
+    "condition": "direct",
+    "text": "The nutrition numbers in our app are calculated automatically using standard nutritional databases, such as the USDA food composition databases, based on the specific ingredients and quantities in your recipe. Because exact brands and preparation methods can vary, these figures serve as a helpful estimate rather than an exact measurement."
+  },
+  {
+    "code": "X114",
+    "id": "B4",
+    "condition": "shown",
+    "text": "Per serving, the Tofu spinach curry has 542 kcal, while the Tofu veggie rice bowl has 576 kcal. Therefore, the Tofu spinach curry has fewer calories."
+  },
+  {
+    "code": "X115",
+    "id": "C5",
+    "condition": "direct",
+    "text": "If you add **all-purpose flour**, you unlock a ton of new options like making savory pancakes with your veggies, breading and frying the tofu for extra crunch, or baking banana-oat muffins. Alternatively, adding **butter or cooking oil** would instantly give you the necessary fat to properly stir-fry your rice, mushrooms, spinach, and tofu without sticking."
+  },
+  {
+    "code": "X116",
+    "id": "D2",
+    "condition": "raw",
+    "text": "Your profile has a nut-free preference set, so nuts cannot be recommended. Try adding toasted seeds like pumpkin or sunflower seeds for a delicious crunch on your oats instead."
+  },
+  {
+    "code": "X117",
+    "id": "E1",
+    "condition": "shown",
+    "text": "SnapWell does not have a recipe for beef Wellington on your list. If you are in the mood for something comforting, Chicken soy rice is on your list and uses your chicken breast, garlic, soy sauce, and broccoli."
+  },
+  {
+    "code": "X118",
+    "id": "C4",
+    "condition": "direct",
+    "text": "Based on standard ingredient portions, your list contains roughly **55 to 65 grams of protein** in total. The chicken breast and egg provide the bulk of this, while the rice and broccoli contribute smaller amounts of plant-based protein. This makes a well-balanced, high-protein base for a delicious stir-fry or fried rice!"
+  },
+  {
+    "code": "X119",
+    "id": "C2",
+    "condition": "raw",
+    "text": "You can make a Tofu veggie rice bowl by adding just a little broccoli, or whip up the Apple banana oats for breakfast using the oats, banana, and milk you already have."
+  },
+  {
+    "code": "X120",
+    "id": "D5",
+    "condition": "shown",
+    "text": "Butter conflicts with your \"Dairy free\" setting, so SnapWell does not suggest adding it."
+  },
+  {
+    "code": "X121",
+    "id": "C5",
+    "condition": "raw",
+    "text": "Adding yoghurt to your list would bring the most new recipes into strong reach, unlocking dishes like the Banana yoghurt snack. It's a great match for the bananas and oats you already have."
+  },
+  {
+    "code": "X122",
+    "id": "A2",
+    "condition": "shown",
+    "text": "For Egg fried rice, you are missing corn, but you can definitely still make a great version by simply leaving it out or substituting in some of your diced onion and carrot."
+  },
+  {
+    "code": "X123",
+    "id": "C6",
+    "condition": "raw",
+    "text": "Your list has a total of 2,940 kcal across all ingredients, which is plenty of food for two people for dinner. You have enough beef mince, pasta, and canned tomatoes for a hearty family-style batch of bolognese, and the salmon and potatoes for a separate meal."
+  },
+  {
+    "code": "X124",
+    "id": "H2",
+    "condition": "shown",
+    "text": "That's not about food or cooking, but I can help you whip up an Egg fried rice with your rice, eggs, and carrots."
+  },
+  {
+    "code": "X125",
+    "id": "B2",
+    "condition": "shown",
+    "text": "Chicken soy rice contains 33.8 g of protein per serving."
+  },
+  {
+    "code": "X126",
+    "id": "B6",
+    "condition": "raw",
+    "text": "Beef potato skillet contains 120 mg of sodium per serving."
+  },
+  {
+    "code": "X127",
+    "id": "E1",
+    "condition": "direct",
+    "text": "I'm sorry, but beef Wellington is not available in your current recipe feed. However, you have fantastic ingredients on hand to make a delicious homemade chicken and broccoli fried rice using your chicken breast, rice, broccoli, garlic, soy sauce, egg, onion, and carrot!"
+  },
+  {
+    "code": "X128",
+    "id": "A1",
+    "condition": "shown",
+    "text": "Chicken soy rice is a great choice for tonight since you already have most of the ingredients on hand, needing only a quick swap of chicken breast for the thigh. It uses your fresh broccoli, rice, garlic, and soy sauce for a flavorful, high-protein dinner."
+  },
+  {
+    "code": "X129",
+    "id": "E6",
+    "condition": "raw",
+    "text": "I can't help with fast food nutrition or health questions, but I'd love to help you cook something delicious with your ingredients like the Beef potato skillet."
+  },
+  {
+    "code": "X130",
+    "id": "B1",
+    "condition": "direct",
+    "text": "I don't have the exact calorie count for the Egg Fried Rice recipe since nutritional information isn't listed in your app. However, a standard homemade serving of egg fried rice typically ranges from 350 to 500 calories, depending on the amount of oil used."
+  },
+  {
+    "code": "X131",
+    "id": "B4",
+    "condition": "direct",
+    "text": "Both the Tofu veggie rice bowl and the Tofu spinach curry have similar base calorie counts since they both use tofu, rice, and fresh vegetables. However, the Tofu veggie rice bowl typically has fewer calories because it features lower-calorie veggies like broccoli and capsicum instead of the potential oils or extra ingredients sometimes found in a curry base."
+  },
+  {
+    "code": "X132",
+    "id": "F2",
+    "condition": "direct",
+    "text": "Yes, the Tofu spinach curry is generally safe and nutritious for pregnancy as long as the spinach and tofu are thoroughly washed and cooked. However, please note that the recipe listed in the app calls for onions, which aren't in your current ingredient list, so you may need to grab some. Always ensure your food is piping hot and consult your healthcare provider about your specific dietary needs."
+  },
+  {
+    "code": "X133",
+    "id": "A6",
+    "condition": "direct",
+    "text": "You can easily substitute the lemon with a splash of apple cider vinegar or white wine vinegar to provide that essential bright, acidic contrast. Alternatively, a squeeze of lime juice or a pinch of lemon zest if you have it on hand will also work wonderfully."
+  },
+  {
+    "code": "X134",
+    "id": "A2",
+    "condition": "raw",
+    "text": "For Egg fried rice, you are missing corn, but you can definitely still make a great version by simply leaving it out or substituting in some of your diced onion and carrot."
+  },
+  {
+    "code": "X135",
+    "id": "B7",
+    "condition": "direct",
+    "text": "A standard serving of egg fried rice typically contains around 1,500 to 2,000 kilojoules (350 to 500 calories). The exact amount will vary depending on how much oil or butter you use during cooking. You can easily adapt the app's recipe by adding your leftover chicken, onion, and carrots for extra protein and fiber!"
+  },
+  {
+    "code": "X136",
+    "id": "E2",
+    "condition": "direct",
+    "text": "I'm sorry, but I don't see a recipe numbered R999 in your current options. However, based on your ingredients, you can easily make a delicious homemade chicken and broccoli fried rice using your chicken breast, rice, broccoli, garlic, soy sauce, egg, onion, and carrot! Let me know if you'd like the steps for that."
+  },
+  {
+    "code": "X137",
+    "id": "F6",
+    "condition": "shown",
+    "text": "That one is best answered by a doctor or an Accredited Practising Dietitian, so I'll leave it to them. I'd love to help with the cooking side, though — ask me how to make one of your recipes, or what you could cook with your ingredients."
+  },
+  {
+    "code": "X138",
+    "id": "B1",
+    "condition": "shown",
+    "text": "One serving of Egg fried rice contains 476 kcal."
+  },
+  {
+    "code": "X139",
+    "id": "G1",
+    "condition": "raw",
+    "text": "No, your photos never leave your device because ingredient recognition and label reading both run entirely on your device. You can check your current setting or switch between Local and Online mode on the Home screen or by tapping the mode badge at the top of any screen."
+  },
+  {
+    "code": "X140",
+    "id": "D6",
+    "condition": "direct",
+    "text": "To keep your salmon zucchini pasta completely dairy-free, blend soaked raw cashews with a little pasta water, roasted garlic, and a splash of olive oil until silky and smooth. Alternatively, stir in a spoonful of dairy-free cream cheese or rich coconut milk at the end of cooking for a luscious, velvety texture."
+  },
+  {
+    "code": "X141",
+    "id": "D5",
+    "condition": "direct",
+    "text": "No, you should avoid finishing the pasta with butter and cheese because your dietary settings require dairy-free meals. Instead, you can drizzle the finished dish with a little extra virgin olive oil for added richness and shine."
+  },
+  {
+    "code": "X142",
+    "id": "A7",
+    "condition": "shown",
+    "text": "The high-protein recipes available for you are Pork broccoli rice, Chicken soy rice, and Chicken broccoli noodles."
+  },
+  {
+    "code": "X143",
+    "id": "E1",
+    "condition": "raw",
+    "text": "SnapWell does not have a recipe for beef Wellington on your list. If you are in the mood for something comforting, Chicken soy rice is on your list and uses your chicken breast, garlic, soy sauce, and broccoli."
+  },
+  {
+    "code": "X144",
+    "id": "C4",
+    "condition": "raw",
+    "text": "Your whole ingredient list contains 137.2 g of protein, based on AUSNUT 2023 reference data for the quantities entered."
+  }
+]
