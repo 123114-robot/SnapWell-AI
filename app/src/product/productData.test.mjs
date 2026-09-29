@@ -4,8 +4,33 @@ import test from 'node:test'
 import {
   addOcrEvidence, assessProductSafety, dietaryStatus, normaliseBarcode,
   normaliseProduct, isPlaceholderBarcode, isRestrictedCirculationBarcode,
-  parseAllergenStatements, parseNutritionPanel,
+  lookupProduct, parseAllergenStatements, parseNutritionPanel,
+  readCachedProduct, saveCachedProduct,
 } from './productData.js'
+
+function memoryStorage() {
+  const values = new Map()
+  return {
+    getItem: key => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+  }
+}
+
+async function withProductGlobals({ fetchFn, now }, callback) {
+  const originalFetch = globalThis.fetch
+  const originalStorage = globalThis.localStorage
+  const originalNow = Date.now
+  globalThis.localStorage = memoryStorage()
+  if (fetchFn) globalThis.fetch = fetchFn
+  if (now != null) Date.now = () => now
+  try {
+    return await callback()
+  } finally {
+    globalThis.fetch = originalFetch
+    globalThis.localStorage = originalStorage
+    Date.now = originalNow
+  }
+}
 
 test('validates common retail barcodes', () => {
   assert.equal(normaliseBarcode('3017620422003'), '3017620422003')
@@ -273,4 +298,104 @@ test('assesses the expanded common allergen preferences', () => {
   assert.deepEqual(result.map((item) => item.status), [
     'conflict', 'conflict', 'conflict', 'conflict', 'conflict', 'trace',
   ])
+})
+
+test('lookup rejects invalid and restricted barcodes before any network request', async () => {
+  let fetchCalls = 0
+  await withProductGlobals({ fetchFn: async () => { fetchCalls += 1 } }, async () => {
+    await assert.rejects(() => lookupProduct('3017620422004'), /valid EAN or UPC/)
+    await assert.rejects(() => lookupProduct('28140139'), /store label barcode/)
+  })
+  assert.equal(fetchCalls, 0)
+})
+
+test('lookup reports both HTTP and payload-level product-not-found responses', async () => {
+  await withProductGlobals({
+    fetchFn: async () => ({ status: 404, ok: false }),
+  }, async () => {
+    assert.deepEqual(await lookupProduct('3017620422003'), { product: null, cached: false })
+  })
+
+  await withProductGlobals({
+    fetchFn: async () => ({ status: 200, ok: true, json: async () => ({ status: 0 }) }),
+  }, async () => {
+    assert.deepEqual(await lookupProduct('3017620422003'), { product: null, cached: false })
+  })
+})
+
+test('lookup preserves incomplete Open Food Facts data as unknown, not safe', async () => {
+  await withProductGlobals({
+    fetchFn: async () => ({
+      status: 200,
+      ok: true,
+      json: async () => ({ status: 1, product: { code: '3017620422003', nutriments: {} } }),
+    }),
+  }, async () => {
+    const { product } = await lookupProduct('3017620422003')
+    assert.equal(product.ingredientsText, '')
+    assert.equal(product.completeness.ingredients, false)
+    assert.equal(product.completeness.allergens, false)
+    assert.equal(product.completeness.traces, false)
+    assert.equal(assessProductSafety(product, { allergies: ['No nuts'] })[0].status, 'unknown')
+  })
+})
+
+test('lookup surfaces API and network failures without treating them as not found', async () => {
+  await withProductGlobals({
+    fetchFn: async () => ({ status: 503, ok: false }),
+  }, async () => {
+    await assert.rejects(() => lookupProduct('3017620422003'), /Product lookup failed \(503\)/)
+  })
+
+  await withProductGlobals({
+    fetchFn: async () => { throw new TypeError('network unavailable') },
+  }, async () => {
+    await assert.rejects(() => lookupProduct('3017620422003'), /network unavailable/)
+  })
+})
+
+test('fresh cache entries bypass the API and expired entries are refreshed', async () => {
+  const now = 2_000_000_000_000
+  await withProductGlobals({ now }, async () => {
+    const cachedProduct = normaliseProduct({
+      code: '3017620422003', product_name: 'Cached product',
+      ingredients_text: 'Cocoa', allergens_tags: [], traces_tags: [], nutriments: {},
+    })
+    saveCachedProduct(cachedProduct)
+    let fetchCalls = 0
+    globalThis.fetch = async () => { fetchCalls += 1; throw new Error('should not fetch') }
+
+    const fresh = await lookupProduct('3017620422003')
+    assert.equal(fresh.cached, true)
+    assert.equal(fresh.product.name, 'Cached product')
+    assert.equal(fetchCalls, 0)
+
+    Date.now = () => now + (8 * 24 * 60 * 60 * 1000)
+    assert.equal(readCachedProduct('3017620422003'), null)
+    globalThis.fetch = async () => ({ status: 404, ok: false })
+    const expired = await lookupProduct('3017620422003')
+    assert.deepEqual(expired, { product: null, cached: false })
+  })
+})
+
+test('refresh bypasses an otherwise fresh cache entry', async () => {
+  await withProductGlobals({}, async () => {
+    saveCachedProduct(normaliseProduct({ code: '3017620422003', product_name: 'Old', nutriments: {} }))
+    let fetchCalls = 0
+    globalThis.fetch = async () => {
+      fetchCalls += 1
+      return {
+        status: 200,
+        ok: true,
+        json: async () => ({
+          status: 1,
+          product: { code: '3017620422003', product_name: 'Fresh', nutriments: {} },
+        }),
+      }
+    }
+    const result = await lookupProduct('3017620422003', { refresh: true })
+    assert.equal(fetchCalls, 1)
+    assert.equal(result.cached, false)
+    assert.equal(result.product.name, 'Fresh')
+  })
 })
