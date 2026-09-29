@@ -4,43 +4,43 @@ import { useEffect, useState } from 'react'
 
 /**
 
- * The SnapWell food data layer.
+ * The SnapWell food data layer.
 
- *
+ *
 
- * Loads the AUSNUT-backed dataset in public/data/food_data and turns it into
+ * Loads the AUSNUT-backed dataset in public/data/food_data and turns it into
 
- * the shapes the recommendation screens need. It replaced a hard-coded array
+ * the shapes the recommendation screens need. It replaced a hard-coded array
 
- * of six demo recipes with invented nutrition values.
+ * of six demo recipes with invented nutrition values.
 
- *
+ *
 
- * What the dataset does and does not contain matters, and the UI must not
+ * What the dataset does and does not contain matters, and the UI must not
 
- * paper over the gap:
+ * paper over the gap:
 
- *   - 106 recipes, each a list of SnapWell ingredient labels plus steps.
+ *   - 106 recipes, each a list of SnapWell ingredient labels plus steps.
 
- *   - Real per-100 g AUSNUT nutrition for all 51 mapped ingredient labels.
+ *   - Real per-100 g AUSNUT nutrition for all 51 mapped ingredient labels.
 
- *   - NO per-ingredient quantities, NO cooking times, NO recipe images.
+ *   - NO per-ingredient quantities, NO cooking times, NO recipe images.
 
- * Because there are no quantities, a per-serving recipe total cannot be
+ * Because there are no quantities, a per-serving recipe total cannot be
 
- * calculated from this data. Nutrition is therefore reported per ingredient,
+ * calculated from this data. Nutrition is therefore reported per ingredient,
 
- * per 100 g, exactly as AUSNUT states it — never summed into a made-up total.
+ * per 100 g, exactly as AUSNUT states it — never summed into a made-up total.
 
- *
+ *
 
- * `recipe-ingredient-map-v1.json` is deliberately not fetched: its 461 rows
+ * `recipe-ingredient-map-v1.json` is deliberately not fetched: its 461 rows
 
- * were verified to agree with `ingredient-nutrition-v1.json` on every AUSNUT
+ * were verified to agree with `ingredient-nutrition-v1.json` on every AUSNUT
 
- * key, so it is derivable and would cost 70 KB to no benefit.
+ * key, so it is derivable and would cost 70 KB to no benefit.
 
- */
+ */
 
 
 
@@ -56,19 +56,19 @@ const ATTRIBUTION_URL = '/data/food_data/attribution-v1.json'
 
 /**
 
- * Preferences the recipe dataset can answer from its own `dietary_tags`.
+ * Preferences the recipe dataset can answer from its own `dietary_tags`.
 
- * Only these three tags exist across all 106 recipes.
+ * Only these three tags exist across all 106 recipes.
 
- */
+ */
 
 const REQUIRED_TAG = {
 
-  Vegetarian: 'vegetarian',
+  Vegetarian: 'vegetarian',
 
-  'Low-calorie': 'low-calorie',
+  'Low-calorie': 'low-calorie',
 
-  'High-protein': 'high-protein',
+  'High-protein': 'high-protein',
 
 }
 
@@ -76,51 +76,51 @@ const REQUIRED_TAG = {
 
 /**
 
- * Preferences the dataset has no tag for. These are derived from the
+ * Preferences the dataset has no tag for. These are derived from the
 
- * ingredient labels a recipe uses, so the reasoning stays visible and
+ * ingredient labels a recipe uses, so the reasoning stays visible and
 
- * reviewable here instead of being buried in a screen.
+ * reviewable here instead of being buried in a screen.
 
- */
+ */
 
 const ANIMAL_PRODUCTS = [
 
-  'bacon', 'beef_mince', 'butter', 'canned_tuna', 'cheese', 'chicken_breast',
+  'bacon', 'beef_mince', 'butter', 'canned_tuna', 'cheese', 'chicken_breast',
 
-  'chicken_thigh', 'cream', 'egg', 'milk', 'pork', 'prawn', 'salmon', 'sausage',
+  'chicken_thigh', 'cream', 'egg', 'milk', 'pork', 'prawn', 'salmon', 'sausage',
 
-  'yoghurt',
+  'yoghurt',
 
 ]
 
 const EXCLUDED_LABELS = {
 
-  Vegan: ANIMAL_PRODUCTS,
+  Vegan: ANIMAL_PRODUCTS,
 
-  'Gluten-free': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
+  'Gluten-free': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
 
-  'Dairy-free': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
+  'Dairy-free': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
 
-  'No shellfish': ['prawn'],
+  'No shellfish': ['prawn'],
 
-  'No nuts': ['peanut_butter'],
+  'No nuts': ['peanut_butter'],
 
-  'No eggs': ['egg'],
+  'No eggs': ['egg'],
 
-  'No soy': ['tofu', 'soy_sauce'],
+  'No soy': ['tofu', 'soy_sauce'],
 
-  'No milk': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
+  'No milk': ['milk', 'cheese', 'butter', 'yoghurt', 'cream'],
 
-  'No wheat': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
+  'No wheat': ['bread', 'pasta', 'flour', 'noodles', 'tortilla'],
 
-  'No sesame': [],
+  'No sesame': [],
 
-  'No fish': ['salmon', 'canned_tuna'],
+  'No fish': ['salmon', 'canned_tuna'],
 
-  'No lupin': [],
+  'No lupin': [],
 
-  'No sulphites': [],
+  'No sulphites': [],
 
 }
 
@@ -128,17 +128,17 @@ const EXCLUDED_LABELS = {
 
 /**
 
- * Health goals nudge the order rather than removing recipes. A goal should not
+ * Health goals nudge the order rather than removing recipes. A goal should not
 
- * hide food the user can actually cook tonight.
+ * hide food the user can actually cook tonight.
 
- */
+ */
 
 const GOAL_PREFERRED_TAG = {
 
-  'Weight loss': 'low-calorie',
+  'Weight loss': 'low-calorie',
 
-  'Muscle gain': 'high-protein',
+  'Muscle gain': 'high-protein',
 
 }
 
@@ -148,7 +148,7 @@ const GOAL_BOOST = 0.15
 
 const MEAL_EMOJI = {
 
-  breakfast: '🍳', lunch: '🥪', dinner: '🍽️', snack: '🍎', side: '🥗',
+  breakfast: '🍳', lunch: '🥪', dinner: '🍽️', snack: '🍎', side: '🥗',
 
 }
 
@@ -156,273 +156,273 @@ const MEAL_EMOJI = {
 
 const INGREDIENT_EMOJI = {
 
-  // Fruit
+  // Fruit
 
-  apple: '🍎',
+  apple: '🍎',
 
-  'green apple': '🍏',
+  'green apple': '🍏',
 
-  banana: '🍌',
+  banana: '🍌',
 
-  orange: '🍊',
+  orange: '🍊',
 
-  mandarin: '🍊',
+  mandarin: '🍊',
 
-  tangerine: '🍊',
+  tangerine: '🍊',
 
-  lemon: '🍋',
+  lemon: '🍋',
 
-  lime: '🍋',
+  lime: '🍋',
 
-  pear: '🍐',
+  pear: '🍐',
 
-  peach: '🍑',
+  peach: '🍑',
 
-  cherry: '🍒',
+  cherry: '🍒',
 
-  cherries: '🍒',
+  cherries: '🍒',
 
-  strawberry: '🍓',
+  strawberry: '🍓',
 
-  strawberries: '🍓',
+  strawberries: '🍓',
 
-  blueberry: '🫐',
+  blueberry: '🫐',
 
-  blueberries: '🫐',
+  blueberries: '🫐',
 
-  grape: '🍇',
+  grape: '🍇',
 
-  grapes: '🍇',
+  grapes: '🍇',
 
-  watermelon: '🍉',
+  watermelon: '🍉',
 
-  melon: '🍈',
+  melon: '🍈',
 
-  pineapple: '🍍',
+  pineapple: '🍍',
 
-  mango: '🥭',
+  mango: '🥭',
 
-  kiwi: '🥝',
+  kiwi: '🥝',
 
-  coconut: '🥥',
+  coconut: '🥥',
 
-  avocado: '🥑',
+  avocado: '🥑',
 
 
 
-  // Vegetables
+  // Vegetables
 
-  tomato: '🍅',
+  tomato: '🍅',
 
-  tomatoes: '🍅',
+  tomatoes: '🍅',
 
-  carrot: '🥕',
+  carrot: '🥕',
 
-  carrots: '🥕',
+  carrots: '🥕',
 
-  broccoli: '🥦',
+  broccoli: '🥦',
 
-  lettuce: '🥬',
+  lettuce: '🥬',
 
-  spinach: '🥬',
+  spinach: '🥬',
 
-  cabbage: '🥬',
+  cabbage: '🥬',
 
-  kale: '🥬',
+  kale: '🥬',
 
-  bokchoy: '🥬',
+  bokchoy: '🥬',
 
-  'bok choy': '🥬',
+  'bok choy': '🥬',
 
-  cucumber: '🥒',
+  cucumber: '🥒',
 
-  zucchini: '🥒',
+  zucchini: '🥒',
 
-  courgette: '🥒',
+  courgette: '🥒',
 
-  capsicum: '🫑',
+  capsicum: '🫑',
 
-  pepper: '🫑',
+  pepper: '🫑',
 
-  'bell pepper': '🫑',
+  'bell pepper': '🫑',
 
-  chilli: '🌶️',
+  chilli: '🌶️',
 
-  chili: '🌶️',
+  chili: '🌶️',
 
-  eggplant: '🍆',
+  eggplant: '🍆',
 
-  aubergine: '🍆',
+  aubergine: '🍆',
 
-  corn: '🌽',
+  corn: '🌽',
 
-  'sweet corn': '🌽',
+  'sweet corn': '🌽',
 
-  potato: '🥔',
+  potato: '🥔',
 
-  potatoes: '🥔',
+  potatoes: '🥔',
 
-  'sweet potato': '🍠',
+  'sweet potato': '🍠',
 
-  onion: '🧅',
+  onion: '🧅',
 
-  onions: '🧅',
+  onions: '🧅',
 
-  garlic: '🧄',
+  garlic: '🧄',
 
-  mushroom: '🍄',
+  mushroom: '🍄',
 
-  mushrooms: '🍄',
+  mushrooms: '🍄',
 
-  peas: '🫛',
+  peas: '🫛',
 
-  beans: '🫘',
+  beans: '🫘',
 
-  'green beans': '🫛',
+  'green beans': '🫛',
 
 
 
-  // Protein
+  // Protein
 
-  egg: '🥚',
+  egg: '🥚',
 
-  eggs: '🥚',
+  eggs: '🥚',
 
-  chicken: '🍗',
+  chicken: '🍗',
 
-  'chicken breast': '🍗',
+  'chicken breast': '🍗',
 
-  'chicken thigh': '🍗',
+  'chicken thigh': '🍗',
 
-  beef: '🥩',
+  beef: '🥩',
 
-  steak: '🥩',
+  steak: '🥩',
 
-  pork: '🥩',
+  pork: '🥩',
 
-  lamb: '🥩',
+  lamb: '🥩',
 
-  bacon: '🥓',
+  bacon: '🥓',
 
-  sausage: '🌭',
+  sausage: '🌭',
 
-  sausages: '🌭',
+  sausages: '🌭',
 
-  fish: '🐟',
+  fish: '🐟',
 
-  salmon: '🐟',
+  salmon: '🐟',
 
-  tuna: '🐟',
+  tuna: '🐟',
 
-  prawn: '🦐',
+  prawn: '🦐',
 
-  prawns: '🦐',
+  prawns: '🦐',
 
-  shrimp: '🦐',
+  shrimp: '🦐',
 
-  crab: '🦀',
+  crab: '🦀',
 
-  lobster: '🦞',
+  lobster: '🦞',
 
 
 
-  // Dairy
+  // Dairy
 
-  milk: '🥛',
+  milk: '🥛',
 
-  cheese: '🧀',
+  cheese: '🧀',
 
-  butter: '🧈',
+  butter: '🧈',
 
-  yoghurt: '🥛',
+  yoghurt: '🥛',
 
-  yogurt: '🥛',
+  yogurt: '🥛',
 
-  cream: '🥛',
+  cream: '🥛',
 
 
 
-  // Grains / carbs
+  // Grains / carbs
 
-  bread: '🍞',
+  bread: '🍞',
 
-  toast: '🍞',
+  toast: '🍞',
 
-  baguette: '🥖',
+  baguette: '🥖',
 
-  rice: '🍚',
+  rice: '🍚',
 
-  pasta: '🍝',
+  pasta: '🍝',
 
-  spaghetti: '🍝',
+  spaghetti: '🍝',
 
-  noodles: '🍜',
+  noodles: '🍜',
 
-  noodle: '🍜',
+  noodle: '🍜',
 
-  ramen: '🍜',
+  ramen: '🍜',
 
-  flour: '🌾',
+  flour: '🌾',
 
-  oats: '🌾',
+  oats: '🌾',
 
-  cereal: '🥣',
+  cereal: '🥣',
 
 
 
-  // Pantry
+  // Pantry
 
-  honey: '🍯',
+  honey: '🍯',
 
-  salt: '🧂',
+  salt: '🧂',
 
-  sugar: '🧂',
+  sugar: '🧂',
 
-  olive: '🫒',
+  olive: '🫒',
 
-  olives: '🫒',
+  olives: '🫒',
 
-  'olive oil': '🫒',
+  'olive oil': '🫒',
 
-  oil: '🫗',
+  oil: '🫗',
 
 
 
-  // Nuts
+  // Nuts
 
-  peanut: '🥜',
+  peanut: '🥜',
 
-  peanuts: '🥜',
+  peanuts: '🥜',
 
-  almond: '🥜',
+  almond: '🥜',
 
-  almonds: '🥜',
+  almonds: '🥜',
 
-  cashew: '🥜',
+  cashew: '🥜',
 
-  cashews: '🥜',
+  cashews: '🥜',
 
-  walnut: '🥜',
+  walnut: '🥜',
 
-  walnuts: '🥜',
+  walnuts: '🥜',
 
 
 
-  // Prepared / common
+  // Prepared / common
 
-  pizza: '🍕',
+  pizza: '🍕',
 
-  sandwich: '🥪',
+  sandwich: '🥪',
 
-  burger: '🍔',
+  burger: '🍔',
 
-  taco: '🌮',
+  taco: '🌮',
 
-  soup: '🍲',
+  soup: '🍲',
 
-  curry: '🍛',
+  curry: '🍛',
 
-  salad: '🥗',
+  salad: '🥗',
 
 }
 
@@ -430,345 +430,345 @@ const INGREDIENT_EMOJI = {
 
 const CATEGORY_RULES = [
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'apple', 'banana', 'orange', 'lemon', 'lime',
+      'apple', 'banana', 'orange', 'lemon', 'lime',
 
-      'berry', 'grape', 'melon', 'mango', 'fruit',
+      'berry', 'grape', 'melon', 'mango', 'fruit',
 
-      'pear', 'peach', 'kiwi',
+      'pear', 'peach', 'kiwi',
 
-    ],
+    ],
 
-    emoji: '🍎',
+    emoji: '🍎',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'tomato', 'carrot', 'broccoli', 'lettuce',
+      'tomato', 'carrot', 'broccoli', 'lettuce',
 
-      'spinach', 'cabbage', 'vegetable', 'veggie',
+      'spinach', 'cabbage', 'vegetable', 'veggie',
 
-      'capsicum', 'cucumber', 'zucchini',
+      'capsicum', 'cucumber', 'zucchini',
 
-    ],
+    ],
 
-    emoji: '🥬',
+    emoji: '🥬',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'chicken', 'turkey', 'duck',
+      'chicken', 'turkey', 'duck',
 
-    ],
+    ],
 
-    emoji: '🍗',
+    emoji: '🍗',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'beef', 'steak', 'pork', 'lamb', 'meat',
+      'beef', 'steak', 'pork', 'lamb', 'meat',
 
-    ],
+    ],
 
-    emoji: '🥩',
+    emoji: '🥩',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'fish', 'salmon', 'tuna', 'cod',
+      'fish', 'salmon', 'tuna', 'cod',
 
-      'barramundi', 'seafood',
+      'barramundi', 'seafood',
 
-    ],
+    ],
 
-    emoji: '🐟',
+    emoji: '🐟',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'prawn', 'shrimp',
+      'prawn', 'shrimp',
 
-    ],
+    ],
 
-    emoji: '🦐',
+    emoji: '🦐',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'milk', 'cream', 'dairy',
+      'milk', 'cream', 'dairy',
 
-    ],
+    ],
 
-    emoji: '🥛',
+    emoji: '🥛',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'cheese', 'cheddar', 'mozzarella',
+      'cheese', 'cheddar', 'mozzarella',
 
-      'parmesan', 'feta',
+      'parmesan', 'feta',
 
-    ],
+    ],
 
-    emoji: '🧀',
+    emoji: '🧀',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'bread', 'bun', 'roll', 'baguette',
+      'bread', 'bun', 'roll', 'baguette',
 
-    ],
+    ],
 
-    emoji: '🍞',
+    emoji: '🍞',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'rice',
+      'rice',
 
-    ],
+    ],
 
-    emoji: '🍚',
+    emoji: '🍚',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'pasta', 'spaghetti', 'penne',
+      'pasta', 'spaghetti', 'penne',
 
-      'fettuccine', 'macaroni',
+      'fettuccine', 'macaroni',
 
-    ],
+    ],
 
-    emoji: '🍝',
+    emoji: '🍝',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'noodle', 'ramen', 'udon',
+      'noodle', 'ramen', 'udon',
 
-    ],
+    ],
 
-    emoji: '🍜',
+    emoji: '🍜',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'potato',
+      'potato',
 
-    ],
+    ],
 
-    emoji: '🥔',
+    emoji: '🥔',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'onion', 'shallot',
+      'onion', 'shallot',
 
-    ],
+    ],
 
-    emoji: '🧅',
+    emoji: '🧅',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'garlic',
+      'garlic',
 
-    ],
+    ],
 
-    emoji: '🧄',
+    emoji: '🧄',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'mushroom',
+      'mushroom',
 
-    ],
+    ],
 
-    emoji: '🍄',
+    emoji: '🍄',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'bean', 'lentil', 'chickpea',
+      'bean', 'lentil', 'chickpea',
 
-    ],
+    ],
 
-    emoji: '🫘',
+    emoji: '🫘',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'egg',
+      'egg',
 
-    ],
+    ],
 
-    emoji: '🥚',
+    emoji: '🥚',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'nut', 'peanut', 'almond',
+      'nut', 'peanut', 'almond',
 
-      'cashew', 'walnut',
+      'cashew', 'walnut',
 
-    ],
+    ],
 
-    emoji: '🥜',
+    emoji: '🥜',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'herb', 'basil', 'parsley',
+      'herb', 'basil', 'parsley',
 
-      'coriander', 'mint', 'rocket',
+      'coriander', 'mint', 'rocket',
 
-    ],
+    ],
 
-    emoji: '🌿',
+    emoji: '🌿',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'chilli', 'chili', 'spicy',
+      'chilli', 'chili', 'spicy',
 
-    ],
+    ],
 
-    emoji: '🌶️',
+    emoji: '🌶️',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'flour', 'grain', 'oat',
+      'flour', 'grain', 'oat',
 
-      'wheat',
+      'wheat',
 
-    ],
+    ],
 
-    emoji: '🌾',
+    emoji: '🌾',
 
-  },
+  },
 
 
 
-  {
+  {
 
-    words: [
+    words: [
 
-      'soup', 'broth',
+      'soup', 'broth',
 
-    ],
+    ],
 
-    emoji: '🍲',
+    emoji: '🍲',
 
-  },
+  },
 
 ]
 
@@ -776,101 +776,101 @@ const CATEGORY_RULES = [
 
 export function emojiForIngredient(label) {
 
-  if (!label) return '🛒'
+  if (!label) return '🛒'
 
 
 
-  const normalized = String(label)
+  const normalized = String(label)
 
-    .toLowerCase()
+    .toLowerCase()
 
-    .trim()
+    .trim()
 
-    .replace(/[_-]/g, ' ')
+    .replace(/[_-]/g, ' ')
 
-    .replace(/\s+/g, ' ')
-
-
-
-  // 1. Exact match
-
-  if (INGREDIENT_EMOJI[normalized]) {
-
-    return INGREDIENT_EMOJI[normalized]
-
-  }
+    .replace(/\s+/g, ' ')
 
 
 
-  // 2. Try singular form
+  // 1. Exact match
 
-  if (normalized.endsWith('s')) {
+  if (INGREDIENT_EMOJI[normalized]) {
 
-    const singular = normalized.slice(0, -1)
+    return INGREDIENT_EMOJI[normalized]
 
-
-
-    if (INGREDIENT_EMOJI[singular]) {
-
-      return INGREDIENT_EMOJI[singular]
-
-    }
-
-  }
+  }
 
 
 
-  // 3. Partial ingredient match
+  // 2. Try singular form
 
-  const directMatch = Object.entries(
+  if (normalized.endsWith('s')) {
 
-    INGREDIENT_EMOJI
-
-  ).find(([name]) =>
-
-    normalized.includes(name)
-
-  )
+    const singular = normalized.slice(0, -1)
 
 
 
-  if (directMatch) {
+    if (INGREDIENT_EMOJI[singular]) {
 
-    return directMatch[1]
+      return INGREDIENT_EMOJI[singular]
 
-  }
+    }
 
-
-
-  // 4. Category fallback
-
-  const category = CATEGORY_RULES.find(
-
-    ({ words }) =>
-
-      words.some((word) =>
-
-        normalized.includes(word)
-
-      )
-
-  )
+  }
 
 
 
-  if (category) {
+  // 3. Partial ingredient match
 
-    return category.emoji
+  const directMatch = Object.entries(
 
-  }
+    INGREDIENT_EMOJI
+
+  ).find(([name]) =>
+
+    normalized.includes(name)
+
+  )
 
 
 
-  // 5. Unknown food:
+  if (directMatch) {
 
-  // shopping basket is less misleading than salad
+    return directMatch[1]
 
-  return '🛒'
+  }
+
+
+
+  // 4. Category fallback
+
+  const category = CATEGORY_RULES.find(
+
+    ({ words }) =>
+
+      words.some((word) =>
+
+        normalized.includes(word)
+
+      )
+
+  )
+
+
+
+  if (category) {
+
+    return category.emoji
+
+  }
+
+
+
+  // 5. Unknown food:
+
+  // shopping basket is less misleading than salad
+
+  return '🛒'
 
 }
 
@@ -884,9 +884,9 @@ export const emojiForRecipe = (recipe) => MEAL_EMOJI[recipe?.meal_type] || '🍽
 
 export function displayName(label) {
 
-  const words = String(label).replace(/_/g, ' ').trim()
+  const words = String(label).replace(/_/g, ' ').trim()
 
-  return words.charAt(0).toUpperCase() + words.slice(1)
+  return words.charAt(0).toUpperCase() + words.slice(1)
 
 }
 
@@ -894,31 +894,31 @@ export function displayName(label) {
 
 /**
 
- * How much of a recipe the user already has.
+ * How much of a recipe the user already has.
 
- * `matchPercent` is purely coverage, so it stays truthful regardless of how
+ * `matchPercent` is purely coverage, so it stays truthful regardless of how
 
- * the list is later sorted.
+ * the list is later sorted.
 
- */
+ */
 
 export function scoreRecipe(recipe, ingredients) {
 
-  const have = new Set(ingredients.map((i) => String(i.label).toLowerCase()))
+  const have = new Set(ingredients.map((i) => String(i.label).toLowerCase()))
 
-  const hit = recipe.ingredients.filter((n) => have.has(n))
+  const hit = recipe.ingredients.filter((n) => have.has(n))
 
-  const missing = recipe.ingredients.filter((n) => !have.has(n))
+  const missing = recipe.ingredients.filter((n) => !have.has(n))
 
-  return {
+  return {
 
-    hit,
+    hit,
 
-    missing,
+    missing,
 
-    matchPercent: Math.round((hit.length / recipe.ingredients.length) * 100),
+    matchPercent: Math.round((hit.length / recipe.ingredients.length) * 100),
 
-  }
+  }
 
 }
 
@@ -926,55 +926,55 @@ export function scoreRecipe(recipe, ingredients) {
 
 /**
 
- * Split the recipe list by the user's hard preferences.
+ * Split the recipe list by the user's hard preferences.
 
- * Returns the recipes that survive plus the reasons others were removed, so
+ * Returns the recipes that survive plus the reasons others were removed, so
 
- * the UI can explain an empty result instead of just showing nothing.
+ * the UI can explain an empty result instead of just showing nothing.
 
- */
+ */
 
 export function applyPreferences(recipes, preferences = {}) {
 
-  const selected = [...(preferences.diets || []), ...(preferences.allergies || [])]
+  const selected = [...(preferences.diets || []), ...(preferences.allergies || [])]
 
-  const reasons = new Map()
+  const reasons = new Map()
 
-  if (!selected.length) return { kept: recipes, reasons }
+  if (!selected.length) return { kept: recipes, reasons }
 
 
 
-  const kept = recipes.filter((recipe) => {
+  const kept = recipes.filter((recipe) => {
 
-    for (const pref of selected) {
+    for (const pref of selected) {
 
-      const tag = REQUIRED_TAG[pref]
+      const tag = REQUIRED_TAG[pref]
 
-      if (tag && !recipe.dietary_tags.includes(tag)) {
+      if (tag && !recipe.dietary_tags.includes(tag)) {
 
-        reasons.set(pref, (reasons.get(pref) || 0) + 1)
+        reasons.set(pref, (reasons.get(pref) || 0) + 1)
 
-        return false
+        return false
 
-      }
+      }
 
-      const banned = EXCLUDED_LABELS[pref]
+      const banned = EXCLUDED_LABELS[pref]
 
-      if (banned && recipe.ingredients.some((i) => banned.includes(i))) {
+      if (banned && recipe.ingredients.some((i) => banned.includes(i))) {
 
-        reasons.set(pref, (reasons.get(pref) || 0) + 1)
+        reasons.set(pref, (reasons.get(pref) || 0) + 1)
 
-        return false
+        return false
 
-      }
+      }
 
-    }
+    }
 
-    return true
+    return true
 
-  })
+  })
 
-  return { kept, reasons }
+  return { kept, reasons }
 
 }
 
@@ -982,49 +982,49 @@ export function applyPreferences(recipes, preferences = {}) {
 
 /**
 
- * Rank recipes for the ingredients the user confirmed.
+ * Rank recipes for the ingredients the user confirmed.
 
- * Sort order blends coverage with any health-goal boost; the displayed
+ * Sort order blends coverage with any health-goal boost; the displayed
 
- * `matchPercent` is left untouched so it never reads above 100.
+ * `matchPercent` is left untouched so it never reads above 100.
 
- */
+ */
 
 export function rankRecipes(recipes, ingredients, preferences = {}) {
 
-  const { kept, reasons } = applyPreferences(recipes, preferences)
+  const { kept, reasons } = applyPreferences(recipes, preferences)
 
-  const goals = preferences.goals || []
+  const goals = preferences.goals || []
 
-  const preferredTags = goals.map((g) => GOAL_PREFERRED_TAG[g]).filter(Boolean)
-
-
-
-  const ranked = kept
-
-    .map((recipe) => {
-
-      const scored = scoreRecipe(recipe, ingredients)
-
-      const boost = preferredTags.some((t) => recipe.dietary_tags.includes(t)) ? GOAL_BOOST : 0
-
-      return { ...recipe, ...scored, sortKey: scored.matchPercent / 100 + boost }
-
-    })
-
-    .filter((r) => r.hit.length > 0)
-
-    .sort((a, b) =>
-
-      b.sortKey - a.sortKey ||
-
-      a.missing.length - b.missing.length ||
-
-      a.recipe_name.localeCompare(b.recipe_name))
+  const preferredTags = goals.map((g) => GOAL_PREFERRED_TAG[g]).filter(Boolean)
 
 
 
-  return { ranked, excludedBy: reasons, consideredCount: kept.length }
+  const ranked = kept
+
+    .map((recipe) => {
+
+      const scored = scoreRecipe(recipe, ingredients)
+
+      const boost = preferredTags.some((t) => recipe.dietary_tags.includes(t)) ? GOAL_BOOST : 0
+
+      return { ...recipe, ...scored, sortKey: scored.matchPercent / 100 + boost }
+
+    })
+
+    .filter((r) => r.hit.length > 0)
+
+    .sort((a, b) =>
+
+      b.sortKey - a.sortKey ||
+
+      a.missing.length - b.missing.length ||
+
+      a.recipe_name.localeCompare(b.recipe_name))
+
+
+
+  return { ranked, excludedBy: reasons, consideredCount: kept.length }
 
 }
 
@@ -1032,27 +1032,27 @@ export function rankRecipes(recipes, ingredients, preferences = {}) {
 
 /**
 
- * Build supermarket search links from the rules in
+ * Build supermarket search links from the rules in
 
- * missing-ingredient-links-v1.json: underscores to spaces, trim, URL encode.
+ * missing-ingredient-links-v1.json: underscores to spaces, trim, URL encode.
 
- */
+ */
 
 export function storeLinks(label, providers) {
 
-  if (!providers) return []
+  if (!providers) return []
 
-  const query = String(label).replace(/_/g, ' ').trim()
+  const query = String(label).replace(/_/g, ' ').trim()
 
-  return Object.entries(providers).map(([key, provider]) => ({
+  return Object.entries(providers).map(([key, provider]) => ({
 
-    key,
+    key,
 
-    name: provider.name,
+    name: provider.name,
 
-    url: provider.search_url_template.replace('{query}', encodeURIComponent(query)),
+    url: provider.search_url_template.replace('{query}', encodeURIComponent(query)),
 
-  }))
+  }))
 
 }
 
@@ -1060,11 +1060,11 @@ export function storeLinks(label, providers) {
 
 async function fetchJson(url) {
 
-  const res = await fetch(url)
+  const res = await fetch(url)
 
-  if (!res.ok) throw new Error(`${url} → ${res.status}`)
+  if (!res.ok) throw new Error(`${url} → ${res.status}`)
 
-  return res.json()
+  return res.json()
 
 }
 
@@ -1076,41 +1076,41 @@ let dataPromise
 
 export function loadFoodData() {
 
-  if (!dataPromise) {
+  if (!dataPromise) {
 
-    dataPromise = Promise.all([
+    dataPromise = Promise.all([
 
-      fetchJson(RECIPES_URL),
+      fetchJson(RECIPES_URL),
 
-      fetchJson(NUTRITION_URL),
+      fetchJson(NUTRITION_URL),
 
-      fetchJson(LINKS_URL),
+      fetchJson(LINKS_URL),
 
-      fetchJson(ATTRIBUTION_URL),
+      fetchJson(ATTRIBUTION_URL),
 
-    ])
+    ])
 
-      .then(([recipeFile, nutritionFile, linksFile, attribution]) => ({
+      .then(([recipeFile, nutritionFile, linksFile, attribution]) => ({
 
-        recipes: recipeFile.recipes,
+        recipes: recipeFile.recipes,
 
-        recipesById: new Map(recipeFile.recipes.map((r) => [r.recipe_id, r])),
+        recipesById: new Map(recipeFile.recipes.map((r) => [r.recipe_id, r])),
 
-        nutritionByLabel: new Map(nutritionFile.items.map((i) => [i.label, i])),
+        nutritionByLabel: new Map(nutritionFile.items.map((i) => [i.label, i])),
 
-        nutritionBasis: nutritionFile.unit_basis,
+        nutritionBasis: nutritionFile.unit_basis,
 
-        providers: linksFile.providers,
+        providers: linksFile.providers,
 
-        attribution,
+        attribution,
 
-      }))
+      }))
 
-      .catch((err) => { dataPromise = undefined; throw err })
+      .catch((err) => { dataPromise = undefined; throw err })
 
-  }
+  }
 
-  return dataPromise
+  return dataPromise
 
 }
 
@@ -1120,22 +1120,22 @@ export function loadFoodData() {
 
 export function useFoodData() {
 
-  const [state, setState] = useState({ data: null, error: null, loading: true })
+  const [state, setState] = useState({ data: null, error: null, loading: true })
 
-  useEffect(() => {
+  useEffect(() => {
 
-    let cancelled = false
+    let cancelled = false
 
-    loadFoodData()
+    loadFoodData()
 
-      .then((data) => { if (!cancelled) setState({ data, error: null, loading: false }) })
+      .then((data) => { if (!cancelled) setState({ data, error: null, loading: false }) })
 
-      .catch((error) => { if (!cancelled) setState({ data: null, error, loading: false }) })
+      .catch((error) => { if (!cancelled) setState({ data: null, error, loading: false }) })
 
-    return () => { cancelled = true }
+    return () => { cancelled = true }
 
-  }, [])
+  }, [])
 
-  return state
+  return state
 
 }
