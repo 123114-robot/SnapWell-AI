@@ -608,3 +608,90 @@ test('when every generated recipe conflicts, the local list is shown and says wh
   assert.equal(result.diagnostics.removedOnlineRecipeCount, 1)
   assert.ok(result.recommendations.every(item => item.source === 'local'))
 })
+
+test('vegetarian and peanut-allergy restrictions are enforced together', () => {
+  const results = match([
+    recipe({ id: 'MEAT', ingredients: ['chicken_breast', 'rice'] }),
+    recipe({ id: 'PEANUT', ingredients: ['peanut_butter', 'rice'] }),
+    recipe({ id: 'SAFE', ingredients: ['tofu', 'rice'] }),
+  ], [ingredient('rice')], {
+    diets: ['Vegetarian'],
+    allergies: ['No nuts'],
+  })
+
+  assert.deepEqual(results.map(result => result.recipe.recipe_id), ['SAFE'])
+})
+
+test('multiple dairy, gluten, egg and soy restrictions are intersected', () => {
+  const results = match([
+    recipe({ id: 'DAIRY', ingredients: ['milk', 'rice'] }),
+    recipe({ id: 'GLUTEN', ingredients: ['bread', 'rice'] }),
+    recipe({ id: 'EGG', ingredients: ['egg', 'rice'] }),
+    recipe({ id: 'SOY', ingredients: ['tofu', 'rice'] }),
+    recipe({ id: 'SAFE', ingredients: ['tomato', 'rice'] }),
+  ], [ingredient('rice')], {
+    diets: ['Dairy-free', 'Gluten-free'],
+    allergies: ['No eggs', 'No soy'],
+  })
+
+  assert.deepEqual(results.map(result => result.recipe.recipe_id), ['SAFE'])
+})
+
+test('hard exclusions win over health-goal ranking and can leave no matches', () => {
+  const recipes = [
+    recipe({ id: 'HIGH_PROTEIN_NUT', ingredients: ['peanut_butter', 'rice'], tags: ['high-protein'] }),
+    recipe({ id: 'SAFE', ingredients: ['tomato', 'rice'] }),
+  ]
+  const ranked = match(recipes, [ingredient('rice')], {
+    allergies: ['No nuts'],
+    goals: ['Muscle gain'],
+  })
+  assert.deepEqual(ranked.map(result => result.recipe.recipe_id), ['SAFE'])
+
+  const none = match([recipes[0]], [ingredient('rice')], {
+    allergies: ['No nuts'],
+    goals: ['Muscle gain'],
+  })
+  assert.deepEqual(none, [])
+})
+
+test('equivalent ingredient and preference inputs produce stable ranking', () => {
+  const recipes = [
+    recipe({ id: 'R10', ingredients: ['rice', 'tomato'] }),
+    recipe({ id: 'R2', ingredients: ['rice', 'apple'] }),
+  ]
+  const first = match(recipes, [ingredient('rice'), ingredient(' rice ')], {
+    diets: ['Vegetarian'], allergies: ['No nuts'],
+  })
+  const second = match([...recipes].reverse(), [ingredient('RICE')], {
+    allergies: ['No nuts'], diets: ['Vegetarian'],
+  })
+
+  assert.deepEqual(first.map(result => result.recipe.recipe_id), ['R2', 'R10'])
+  assert.deepEqual(second.map(result => result.recipe.recipe_id), ['R2', 'R10'])
+})
+
+test('generated recipes obey the same combined hard restrictions as local recipes', async () => {
+  const preferences = {
+    diets: ['Vegetarian', 'Dairy-free', 'Gluten-free'],
+    allergies: ['No nuts'],
+  }
+  const result = await runEngine(
+    [recipe({ id: 'LOCAL_SAFE', ingredients: ['rice', 'tomato', 'apple', 'onion'] })],
+    [ingredient('rice')],
+    preferences,
+    {
+      generateOnlineRecommendations: generatorReturning([
+        generated('AI_MEAT', ['rice'], [{ label: 'chicken_breast' }]),
+        generated('AI_DAIRY', ['rice'], [{ label: 'milk' }]),
+        generated('AI_GLUTEN', ['rice'], [{ label: 'bread' }]),
+        generated('AI_NUT', ['rice'], [{ label: 'peanut_butter' }]),
+        generated('AI_SAFE', ['rice'], [{ label: 'tomato' }]),
+      ]),
+      localTopUpCount: 0,
+    },
+  )
+
+  assert.deepEqual(result.recommendations.map(item => item.id), ['AI_SAFE'])
+  assert.equal(result.diagnostics.removedOnlineRecipeCount, 4)
+})
